@@ -38,7 +38,7 @@ class _OnBoardingState extends State<OnBoarding> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => MyWidget()),
+                          MaterialPageRoute(builder: (context) => Swipe()),
                         );
                       },
                       child: Text("Let's roll!"),

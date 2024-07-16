@@ -1,15 +1,32 @@
 import 'package:flutter/material.dart';
+import 'dart:async'; 
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
-import 'dart:async';
+import 'package:restaurant_picker/utils/colorSetting.dart';
+// https://pub.dev/packages/flutter_fortune_wheel/example
 
 
-class MyWidget extends StatefulWidget {
+
+class Spinner extends StatefulWidget {
   @override
-  _MyWidgetState createState() => _MyWidgetState();
+  _SpinnerState createState() => _SpinnerState();
 }
 
-class _MyWidgetState extends State<MyWidget> {
+class _SpinnerState extends State<Spinner> {
   late StreamController<int> controller;
+
+  FortuneItem foodItem(name){
+    return FortuneItem(
+      child: Container(
+        child: Column(
+          children: [
+            Image.asset('assets/food/$name.png'),
+            Text(name),
+          ],
+        ),
+      ),
+    );
+  }
+  
 
   @override
   void initState() {
@@ -26,11 +43,20 @@ class _MyWidgetState extends State<MyWidget> {
   @override
   Widget build(BuildContext context) {
     return FortuneBar(
+      height: 150.0,
+      fullWidth: true,
+      styleStrategy: UniformStyleStrategy(
+        color: appColors.onFourth, 
+        borderColor: appColors.onFifth,   
+        borderWidth: 10,
+      ),
       selected: controller.stream,
       items: [
-        FortuneItem(child: Text('Han Solo')),
-        FortuneItem(child: Text('Yoda')),
-        FortuneItem(child: Text('Obi-Wan Kenobi')),
+        foodItem('Ramen'),
+        foodItem('Sushi'),
+        foodItem('Pizza'),
+        foodItem('Hamburger'),
+        foodItem('Fried Chicken'),
       ],
     );
   }
