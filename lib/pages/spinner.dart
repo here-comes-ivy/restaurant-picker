@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'package:restaurant_picker/utils/colorSetting.dart';
 // https://pub.dev/packages/flutter_fortune_wheel/example
+import '/utils/responsiveSize.dart';
 
 
 
@@ -43,7 +44,7 @@ class _SpinnerState extends State<Spinner> {
   @override
   Widget build(BuildContext context) {
     return FortuneBar(
-      height: 150.0,
+      height: ResponsiveSize.dialogHeight(context),
       fullWidth: true,
       styleStrategy: UniformStyleStrategy(
         color: appColors.onFourth, 

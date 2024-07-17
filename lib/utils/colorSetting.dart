@@ -9,5 +9,4 @@ class appColors{
   static final Color onFourth = Color.fromRGBO(178, 174, 129, 1);
   static final Color onFifth = Color.fromRGBO(226, 169, 62, 1);
   static final Color onSixth = Color.fromRGBO(224, 220, 131, 1);
-  
 }

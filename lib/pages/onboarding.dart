@@ -1,9 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:restaurant_picker/utils/colorSetting.dart';
-import 'lunchDecider.dart';
-import 'swipecard.dart';
 import 'spinner.dart';
+import '/utils/responsiveSize.dart';
 
 class OnBoarding extends StatefulWidget {
   @override
@@ -11,6 +10,7 @@ class OnBoarding extends StatefulWidget {
 }
 
 class _OnBoardingState extends State<OnBoarding> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,9 +36,42 @@ class _OnBoardingState extends State<OnBoarding> {
                         foregroundColor:WidgetStatePropertyAll <Color>(Colors.white),
                       ),
                       onPressed: () {
-                        Navigator.push(
+                        /*Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Swipe()),
+                          MaterialPageRoute(builder: (context) => Spinner()),
+                         */
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext){ 
+                            return Dialog(
+                              child: Container(
+                                  width: ResponsiveSize.dialogWidth(context),
+                                  height: ResponsiveSize.dialogHeight(context),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text("Let\'s have ... "),
+                                      Expanded(
+                                        child: Spinner(),
+                                       ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          FloatingActionButton(
+                                            onPressed: (){},
+                                            child: Icon(Icons.refresh),
+                                          ),
+                                          FloatingActionButton(
+                                            onPressed: (){},
+                                            child: Icon(Icons.check),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                              ), 
+                            );
+                          },
                         );
                       },
                       child: Text("Let's roll!"),
