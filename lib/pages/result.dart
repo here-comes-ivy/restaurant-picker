@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import '/utils/colorSetting.dart';
 import '/utils/responsiveSize.dart';
-import 'googlemaps.dart';
-
-
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'googlemaps.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
 // https://pub.dev/packages/google_maps_flutter
 
 
@@ -71,7 +69,6 @@ class _resultPageState extends State<resultPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            MapSample(),
             Text('Your result is...'),
             SizedBox(height: 20),
             Text('Location: 123 Main St, City, State, Zip'),

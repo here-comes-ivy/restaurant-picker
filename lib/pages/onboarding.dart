@@ -18,7 +18,7 @@ class _OnBoardingState extends State<OnBoarding> {
           children: <Widget>[
             Container(decoration: BoxDecoration(
               image:DecorationImage(
-                image: AssetImage('assets/slide_1.jpg'),
+                image: AssetImage('assets/slide_2.jpg'),
                 fit: BoxFit.fill,
               )
             )),
