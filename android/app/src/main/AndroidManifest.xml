@@ -1,8 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="restaurant_picker"
+        android:label="google_maps_in_flutter"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <!-- TODO: Add your Google Maps API key here -->
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyA1s_Y3aQOLpynqLBTTG50s0d8QeERkKK4"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

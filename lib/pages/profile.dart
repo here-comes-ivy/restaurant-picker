@@ -1,24 +1,32 @@
 import 'package:flutter/material.dart';
-import '/utils/colorSetting.dart';
 import '/utils/responsiveSize.dart';
 // import 'googlemaps.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 // https://pub.dev/packages/google_maps_flutter
 
 
-class resultPage extends StatefulWidget {
-  const resultPage({super.key});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key}); 
 
   @override
-  State<resultPage> createState() => _resultPageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _resultPageState extends State<resultPage> {
+class _ProfilePageState extends State<ProfilePage> {
+
+  late GoogleMapController mapController;
+
+  final LatLng _center = const LatLng(45.521563, -122.677433);
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Result Page'),
+        title: Text('Profile Page'),
         leading: Builder(
         builder: (context) {
           return IconButton(
@@ -65,25 +73,7 @@ class _resultPageState extends State<resultPage> {
           ],
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Your result is...'),
-            SizedBox(height: 20),
-            Text('Location: 123 Main St, City, State, Zip'),
-            SizedBox(height: 20),
-            Text('Distance: 12.3 miles'),
-            SizedBox(height: 20),
-            Text('Duration: 2 hours and 30 minutes'),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.map),
-      ),
-      backgroundColor: Colors.white, // Set background color to white
+      body: Text('Profile Page'),
     );
   }
 }
