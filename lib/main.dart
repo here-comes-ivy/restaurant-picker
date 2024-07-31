@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'pages/landingpage.dart';
+import 'pages/landing_page.dart';
 
 
-void main() => runApp(myApp());
+void main() => runApp(const myApp());
 
 class myApp extends StatelessWidget {
+  const myApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,7 +17,7 @@ class myApp extends StatelessWidget {
           brightness: Brightness.dark, 
         ),
       ),
-      home: LandingPage(),
+      home: const LandingPage(),
     ); 
   }
 }
