@@ -36,10 +36,18 @@ class _MapPageState extends State<MapPage> {
           return Stack(
             children: [
               GoogleMap(
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
                 initialCameraPosition: CameraPosition(
                   target: mapCenter,
                   zoom: 15,
                 ),
+                markers: Set.of([
+                  Marker(
+                    markerId: MarkerId("CurrentLocation"),
+                    position: mapCenter,
+                  ),
+                ]),
               ),
               SafeArea(
                 child: Padding(
@@ -72,7 +80,6 @@ class _MapPageState extends State<MapPage> {
                   ),
                 ),
               ),
-              ShuffleCard(),
             ]
           );
         }
