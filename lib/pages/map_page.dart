@@ -3,9 +3,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../services/location.dart';
 import '../utils/constants.dart';
 import 'filter_page.dart';
-import '../components/shuffleCard.dart';
 
-// Known issue: currentLocation value not null but returning defaultLocation value ()
+// https://pub.dev/packages/modal_bottom_sheet
+
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
 
@@ -78,7 +78,9 @@ class _MapPageState extends State<MapPage> {
 
                     ],
                   ),
+               
                 ),
+               
               ),
             ]
           );
