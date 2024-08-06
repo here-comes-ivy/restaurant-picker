@@ -11,20 +11,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile Page'),
-        leading: Builder(
-        builder: (context) {
-          return IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-              },
-            );
-          },
-        ),
-      ),
+    return Scaffold(  
       drawer: Drawer(
         child: ListView(
           children: [
@@ -68,9 +55,9 @@ class _ProfilePageState extends State<ProfilePage> {
             snap: true, // 可選
             expandedHeight: 120.0,
             flexibleSpace: FlexibleSpaceBar(
-              title: Text('Scrollable AppBar'),
+              title: Text('Profile Page'),
               background: Image.asset(
-                'assets/slide_2.jpg',
+                'assets/slide_4.jpg',
                 fit: BoxFit.cover,
               ),
             ),

@@ -4,6 +4,8 @@ import '../services/location.dart';
 import '../utils/constants.dart';
 import 'filter_page.dart';
 
+
+
 // https://pub.dev/packages/modal_bottom_sheet
 
 class MapPage extends StatefulWidget {
@@ -67,10 +69,10 @@ class _MapPageState extends State<MapPage> {
                               color: Colors.black,
                             ),
                           decoration: kTextInputDecoration,
-                          onTap: () {
-                            Navigator.pushReplacement(
-                            context, 
-                            MaterialPageRoute(builder: (context)=> RestaurantFilter())
+                          onTap: () { 
+                          Navigator.push(
+                          context, 
+                          MaterialPageRoute(builder: (context)=> RestaurantFilter())
                           );
                           },
                         ),
