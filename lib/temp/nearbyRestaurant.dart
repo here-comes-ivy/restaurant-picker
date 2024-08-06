@@ -2,7 +2,7 @@ import 'package:geolocator/geolocator.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-
+import 'dart:math';
 
 
 Future<Position> _getCurrentLocation() async {
@@ -31,7 +31,7 @@ Future<Position> _getCurrentLocation() async {
 
 
 Future<List<dynamic>> getNearbyRestaurants(double lat, double lng) async {
-  final String apiKey = 'bdd09d8df00923f5d51b0e0d5e7af3d7';
+  final String apiKey = '2w9tGtHwzHVfI2_U35EjXyuHbmQ=';
   final String baseUrl = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
   
   final response = await http.get(Uri.parse(

@@ -5,9 +5,13 @@ import 'dart:async';
 
 
 class FortuneImageSlider extends StatefulWidget {
-  final List<String> imageUrls;
+  final List<String> imageUrls = [
+    "https://unsplash.com/photos/two-person-sitting-on-bar-stool-chair-in-front-of-bar-front-desk-8x_fFNrmeDk",
+    "https://unsplash.com/photos/brown-themed-bar-GXXYkSwndP4",
+    "https://unsplash.com/photos/mens-sitting-green-chair-reading-newspaper-4UGlx_OXqgs",
+  ];
 
-  const FortuneImageSlider({super.key, required this.imageUrls});
+  //const FortuneImageSlider({super.key, required this.imageUrls});
 
   @override
   _FortuneImageSliderState createState() => _FortuneImageSliderState();

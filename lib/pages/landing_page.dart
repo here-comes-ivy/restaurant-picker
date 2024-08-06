@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'map_page.dart';
 import 'chat_page.dart';
-import '../temp/profile_page.dart';
+import 'profile_page.dart';
 import 'filter_page.dart';
 
 class LandingPage extends StatefulWidget {
@@ -18,7 +18,7 @@ class _LandingPageState extends State<LandingPage> {
   static final List<Widget> _widgetOptions = [
         const MapPage(),
         const RestaurantFilter(),
-        const ChatPage(),
+        const RestaurantFilter(),
         const ProfilePage(),
   ];
 

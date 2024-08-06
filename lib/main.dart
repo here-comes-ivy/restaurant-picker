@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pages/landing_page.dart';
+import 'temp/spinner.dart';
 
 
 void main() => runApp(const myApp());
@@ -17,7 +18,7 @@ class myApp extends StatelessWidget {
           brightness: Brightness.dark, 
         ),
       ),
-      home: const LandingPage(),
+      home: Spinner(),
     ); 
   }
 }
