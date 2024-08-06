@@ -1,7 +1,7 @@
-import 'networking.dart';
-import 'location.dart';
+import '../services/networking.dart';
+import '../services/location.dart';
 
-const apiKey = "bdd09d8df00923f5d51b0e0d5e7af3d7"; 
+const apiKey = "AIzaSyBvCYfs_gzMM3iKU1NpW2XTOlPuwG13b1s"; 
 const googlePlaceUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
 
 const googlePlaceDetailsUrl = "https://maps.googleapis.com/maps/api/place/details/json";

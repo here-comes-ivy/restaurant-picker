@@ -19,17 +19,58 @@ class _SpinnerState extends State<Spinner> {
 
   FortuneItem foodItem(name){
     return FortuneItem(
-      child: Container(
+      child: Card(
         child: Column(
           children: [
-            Image.asset('assets/food/$name.png'),
+            Image.asset(
+              'assets/food/$name.jpg', 
+              width: 300,
+              height: 150,),
             Text(name),
+            buildstars(5),
+            Text('Restaurant Category'),
+            SizedBox(height: 10),
+            ElevatedButton(
+              child: Row(
+                children: [
+                  Icon(Icons.open_in_full),
+                  SizedBox(width: 8),
+                  Text('Details'),
+                ], 
+              ),
+              onPressed: () {}
+              ),
+            ElevatedButton(
+              child: Row(
+                children: [
+                  Icon(Icons.directions),
+                  SizedBox(width: 8),
+                  Text('Direction'),
+                ],
+                
+              ),
+              onPressed: () {}
+              ),
           ],
         ),
       ),
     );
   }
   
+  Row buildstars(int starsnum) {
+  List<Widget> stars = [];
+  for (int i = 0; i < 5; i++) {
+    if (i < starsnum) {
+      stars.add(Icon(Icons.star));
+    } else {
+      stars.add(Icon(Icons.star_border));
+    }
+  }
+  return Row(
+    mainAxisSize: MainAxisSize.min,
+    children: stars,
+  );
+}
 
   @override
   void initState() {
@@ -49,18 +90,28 @@ class _SpinnerState extends State<Spinner> {
       height: ResponsiveSize.dialogHeight(context),
       fullWidth: true,
       styleStrategy: const UniformStyleStrategy(
-        color: appColors.onFourth, 
-        borderColor: appColors.onFifth,   
-        borderWidth: 10,
+        color: Color.fromRGBO(191, 54, 12, 1), 
+        borderColor: Colors.transparent,   
+        //borderWidth: 10,
       ),
       selected: controller.stream,
+      visibleItemCount: 1,
       items: [
-        foodItem('Ramen'),
-        foodItem('Sushi'),
-        foodItem('Pizza'),
-        foodItem('Hamburger'),
-        foodItem('Fried Chicken'),
+        foodItem('dimsum'),
+        foodItem('greekstyle'),
+        foodItem('pasta'),
+        foodItem('steak'),
+        foodItem('sushi'),
       ],
+      indicators: <FortuneIndicator>[
+      FortuneIndicator(
+        alignment: Alignment.topCenter,
+        child: RectangleIndicator(
+          color: Colors.transparent, 
+          borderColor: Colors.transparent,
+        ),
+    ),
+  ],
     );
   }
 }
