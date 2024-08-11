@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-
 import 'pages/landing_page.dart';
+import 'pages/profile_page.dart';
+import 'pages/filter_page.dart';
+
 
 
 void main() => runApp(const myApp());
@@ -20,7 +22,7 @@ class myApp extends StatelessWidget {
           brightness: Brightness.dark, 
         ),
       ),
-      home: const LandingPage(),
+      home: const RestaurantFilter(),
     ); 
   }
 }
