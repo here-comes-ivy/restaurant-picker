@@ -1,35 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../components/filterCard.dart';
+import '../components/reusableCard.dart';
 import '../components/roundIconButton.dart';
+import '../utils/constants.dart';
 
 
-class RestaurantFilter extends StatefulWidget {
-  const RestaurantFilter({super.key});
+class FilterPage extends StatefulWidget {
+  const FilterPage({super.key});
 
   @override
-  State<RestaurantFilter> createState() => _RestaurantFilterCardState();
+  State<FilterPage> createState() => _RestaurantFilterCardState();
 }
 
-class _RestaurantFilterCardState extends State<RestaurantFilter> {
+class _RestaurantFilterCardState extends State<FilterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Restaurant Picker'),      
+        title: Text('Set Filter'),      
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+           Container(
+                padding: EdgeInsets.all(20.0),
+                child: TextField(
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                  decoration: kTextInputDecoration,
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                ),
+              ),
           Expanded(
-            child: ReusableCard(
+            child: FilterCard(
               color: Colors.deepOrangeAccent,
               cardChild: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'HEIGHT',
+                    'Distance',
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -72,7 +85,7 @@ class _RestaurantFilterCardState extends State<RestaurantFilter> {
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: ReusableCard(
+                  child: FilterCard(
                     color: Colors.deepOrangeAccent,
                     cardChild: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -107,7 +120,7 @@ class _RestaurantFilterCardState extends State<RestaurantFilter> {
                   ),
                 ),
                 Expanded(
-                  child: ReusableCard(
+                  child: FilterCard(
                     color: Colors.deepOrangeAccent,
                     cardChild: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

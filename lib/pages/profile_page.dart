@@ -1,66 +1,128 @@
 import 'package:flutter/material.dart';
+import '../components/reusableCard.dart';
+import '../components/cardslider.dart';
+import '../utils/constants.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key}); 
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  List emoji = ["🍩", "☕", "🧋", "🍺"];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(  
+    return Scaffold(
       //drawer: profileDrawer(),
       body: CustomScrollView(
-        slivers:  <Widget>[
-          SliverAppBar(
-            floating: true,
-            pinned: false,
-            snap: true, // 可選
-            expandedHeight: 120.0,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text('Profile Page'),
-              background: Image.asset(
-                'assets/slide_4.jpg',
-                fit: BoxFit.cover,
+        slivers: <Widget>[
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.only(
+                  top: 60.0, left: 30.0, right: 30.0, bottom: 30.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  CircleAvatar(
+                    child: Icon(
+                      Icons.account_circle,
+                    ),
+                    backgroundColor: Colors.white,
+                    radius: 30.0,
+                  ),
+                  SizedBox(
+                    height: 100.0,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'User Name',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text('UserID'),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
-          SliverList(
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                'Recommended',
+                style: kProfileTitleStyle,
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: CardSlider(),
+              ),
+            ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                'Browse History',
+                style: kProfileTitleStyle,
+              ),
+            ),
+          ),
+          SliverFixedExtentList(
+            itemExtent: 100.0,
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                return Card(
-                    elevation: 4.0,
-                    margin: EdgeInsets.symmetric(vertical: 8.0),
-                    child: Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Item $index',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          Text(
-                            'This is some additional information for item $index.',
-                            style: TextStyle(fontSize: 14.0),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+                return ProfileCard(
+                  cardChild: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('List Item ${index + 1}'),
+                      Text('Details of Item${index + 1}'),
+                    ],
+                  ),
+                );
               },
-              childCount: 10, // 示例中的項目數量
+              childCount: 5, // 設置列表項目數量
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                'Support Us',
+                style: kProfileTitleStyle,
+              ),
+            ),
+          ),
+          SliverGrid(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 10.0,
+              crossAxisSpacing: 10.0,
+              childAspectRatio: 1.0,
+            ),
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return Container(
+                  color: Colors.deepOrange[100 * (index+1 % 9)],
+                  child: Center(
+                    child: Text('Buy me a ${emoji[index]}'),
+                  ),
+                );
+              },
+              childCount: 4, // 設置網格項目數量
             ),
           ),
         ],
-
       ),
     );
   }

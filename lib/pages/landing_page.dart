@@ -17,8 +17,8 @@ class _LandingPageState extends State<LandingPage> {
 
   static final List<Widget> _widgetOptions = [
         const MapPage(),
-        const RestaurantFilter(),
-        const RestaurantFilter(),
+        const FilterPage(),
+        const FilterPage(),
         const ProfilePage(),
   ];
 

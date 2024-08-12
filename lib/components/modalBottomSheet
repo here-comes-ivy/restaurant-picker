@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+​import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
+class ModalBottomSheetContent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      height: MediaQuery.of(context).size.height * 0.3,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text('這是一個 Modal Bottom Sheet', style: TextStyle(fontSize: 20)),
+          SizedBox(height: 20),
+          Text('您可以在此添加任何內容'),
+          SizedBox(height: 20),
+          ElevatedButton(
+            child: Text('關閉'),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+// 這個函數用於顯示 ModalBottomSheet
+static void showCustomModalBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    builder: (BuildContext context) {
+      return ModalBottomSheetContent();
+    },
+  );
+}
+
+}

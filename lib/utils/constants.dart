@@ -14,3 +14,10 @@ const kTextInputDecoration = InputDecoration(
     borderSide: BorderSide.none,
   ),
 );
+
+
+var kProfileTitleStyle = TextStyle(
+    color: Colors.white,
+    fontWeight: FontWeight.w700,
+    fontSize: 20.0,
+  );

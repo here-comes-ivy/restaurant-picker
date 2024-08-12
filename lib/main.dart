@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'pages/landing_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/filter_page.dart';
+import 'pages/chat_page.dart';
+
 
 
 
@@ -22,7 +24,7 @@ class myApp extends StatelessWidget {
           brightness: Brightness.dark, 
         ),
       ),
-      home: const RestaurantFilter(),
+      home: const FilterPage(),
     ); 
   }
 }

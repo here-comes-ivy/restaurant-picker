@@ -3,7 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../services/location.dart';
 import '../utils/constants.dart';
 import 'filter_page.dart';
-
+import  '../components/modalBottomSheet.dart';
 
 
 // https://pub.dev/packages/modal_bottom_sheet
@@ -23,6 +23,17 @@ class _MapPageState extends State<MapPage> {
   Future<LatLng?> getLocationData() async{
     return await location.getLocation();
   }
+
+  @override
+    void initState() {
+        super.initState();
+        getLocationData();
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          //showCustomModalBottomSheet(context);
+        });
+      }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +83,7 @@ class _MapPageState extends State<MapPage> {
                           onTap: () { 
                           Navigator.push(
                           context, 
-                          MaterialPageRoute(builder: (context)=> RestaurantFilter())
+                          MaterialPageRoute(builder: (context)=> FilterPage())
                           );
                           },
                         ),

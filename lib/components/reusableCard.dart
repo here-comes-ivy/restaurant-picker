@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ReusableCard extends StatelessWidget {
-  ReusableCard({
+class FilterCard extends StatelessWidget {
+  FilterCard({
     required this.color,
     this.cardChild,
     this.onPress,
@@ -26,3 +26,28 @@ class ReusableCard extends StatelessWidget {
     );
   }
 }
+
+
+
+
+class ProfileCard extends StatelessWidget {
+
+  ProfileCard({
+    this.cardChild,
+  });
+  
+  final Widget? cardChild;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+    elevation: 4.0,
+    margin: EdgeInsets.symmetric(vertical: 8.0),
+    child: Padding(
+      padding: EdgeInsets.all(6.0),
+      child: cardChild 
+    ),
+                    );
+  }
+}
+

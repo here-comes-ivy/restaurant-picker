@@ -1,166 +1,221 @@
-// import 'package:flutter/material.dart';
-// import 'package:google_generative_ai/google_generative_ai.dart';
-// import 'package:intl/intl.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:mime/mime.dart';
+import 'package:open_filex/open_filex.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
 
-// class ChatPage extends StatefulWidget {
-//   const ChatPage({super.key});
 
-//   @override
-//   State<ChatPage> createState() => _ChatPageState();
-// }
 
-// class _ChatPageState extends State<ChatPage> {
-//   TextEditingController _userInput = TextEditingController();
 
-//   static const apiKey = "<Replace Your Gemini API Key Here>";
 
-//   final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey);
-
-//   final List<Message> _messages = [];
-
-//   Future<void> sendMessage() async {
-//     final message = _userInput.text;
-//     _userInput.clear(); // 清空輸入框
-
-//     setState(() {
-//       _messages.insert(0, Message(isUser: true, message: message, date: DateTime.now()));
-//     });
-
-//     try {
-//       final content = [Content.text(message)];
-//       final response = await model.generateContent(content);
-
-//       setState(() {
-//         _messages.insert(0, Message(isUser: false, message: response.text ?? "", date: DateTime.now()));
-//       });
-//     } catch (e) {
-//       // 錯誤處理
-//       print('Error generating content: $e');
-//       setState(() {
-//         _messages.insert(0, Message(isUser: false, message: "Sorry, an error occurred.", date: DateTime.now()));
-//       });
-//     }
-//   }
+class ChatPage extends StatefulWidget {
+  const ChatPage({super.key});
   
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Container(
-//         decoration: BoxDecoration(
-//           image: DecorationImage(
-//             image: AssetImage('assets/slide_1.jpg'),
-//             fit: BoxFit.cover,
-//             colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.8), BlendMode.dstATop),
-//           )
-//         ),
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.end,
-//           children: [
-//             Expanded(
-//               child: ListView.builder(
-//                 reverse: true,
-//                 itemCount: _messages.length,
-//                 itemBuilder: (context, index) {
-//                   final message = _messages[index];
-//                   return Messages(
-//                     isUser: message.isUser,
-//                     message: message.message,
-//                     date: DateFormat('HH:mm').format(message.date),
-//                   );
-//                 }
-//               )
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.all(8.0),
-//               child: Row(
-//                 children: [
-//                   Expanded(
-//                     flex: 15,
-//                     child: TextFormField(
-//                       style: TextStyle(color: Colors.white),
-//                       controller: _userInput,
-//                       decoration: InputDecoration(
-//                         border: OutlineInputBorder(
-//                           borderRadius: BorderRadius.circular(15),
-//                         ),
-//                         labelText: 'Enter Your Message',
-//                         labelStyle: TextStyle(color: Colors.white),
-//                       ),
-//                     ),
-//                   ),
-//                   Spacer(),
-//                   IconButton(
-//                     padding: EdgeInsets.all(12),
-//                     iconSize: 30,
-//                     style: ElevatedButton.styleFrom(
-//                       backgroundColor: Colors.black,
-//                       foregroundColor: Colors.white,
-//                       shape: CircleBorder(),
-//                     ),
-//                     onPressed: sendMessage,
-//                     icon: Icon(Icons.send)
-//                   )
-//                 ],
-//               ),
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
 
-// class Message {
-//   final bool isUser;
-//   final String message;
-//   final DateTime date;
+class _ChatPageState extends State<ChatPage> {
 
-//   Message({required this.isUser, required this.message, required this.date});
-// }
 
-// class Messages extends StatelessWidget {
-//   final bool isUser;
-//   final String message;
-//   final String date;
 
-//   const Messages({
-//     Key? key,
-//     required this.isUser,
-//     required this.message,
-//     required this.date
-//   }) : super(key: key);
+  List<types.Message> _messages = [];
+  final _user = const types.User(
+    id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',
+  );
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       width: double.infinity,
-//       padding: EdgeInsets.all(15),
-//       margin: EdgeInsets.symmetric(vertical: 15).copyWith(
-//         left: isUser ? 100 : 10,
-//         right: isUser ? 10 : 100
-//       ),
-//       decoration: BoxDecoration(
-//         color: isUser ? Colors.blueAccent : Colors.grey.shade400,
-//         borderRadius: BorderRadius.only(
-//           topLeft: Radius.circular(10),
-//           bottomLeft: isUser ? Radius.circular(10) : Radius.zero,
-//           topRight: Radius.circular(10),
-//           bottomRight: isUser ? Radius.zero : Radius.circular(10)
-//         )
-//       ),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             message,
-//             style: TextStyle(fontSize: 16, color: isUser ? Colors.white : Colors.black),
-//           ),
-//           Text(
-//             date,
-//             style: TextStyle(fontSize: 10, color: isUser ? Colors.white : Colors.black),
-//           )
-//         ],
-//       ),
-//     );
-//   }
-// }
+  @override
+  void initState() {
+    super.initState();
+    _loadMessages();
+  }
+
+  void _addMessage(types.Message message) {
+    setState(() {
+      _messages.insert(0, message);
+    });
+  }
+
+  void _handleAttachmentPressed() {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) => SafeArea(
+        child: SizedBox(
+          height: 144,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _handleImageSelection();
+                },
+                child: const Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('Photo'),
+                ),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('Cancel'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _handleFileSelection() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.any,
+    );
+
+    if (result != null && result.files.single.path != null) {
+      final message = types.FileMessage(
+        author: _user,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        id: const Uuid().v4(),
+        mimeType: lookupMimeType(result.files.single.path!),
+        name: result.files.single.name,
+        size: result.files.single.size,
+        uri: result.files.single.path!,
+      );
+
+      _addMessage(message);
+    }
+  }
+
+  void _handleImageSelection() async {
+    final result = await ImagePicker().pickImage(
+      imageQuality: 70,
+      maxWidth: 1440,
+      source: ImageSource.gallery,
+    );
+
+    if (result != null) {
+      final bytes = await result.readAsBytes();
+      final image = await decodeImageFromList(bytes);
+
+      final message = types.ImageMessage(
+        author: _user,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        height: image.height.toDouble(),
+        id: const Uuid().v4(),
+        name: result.name,
+        size: bytes.length,
+        uri: result.path,
+        width: image.width.toDouble(),
+      );
+
+      _addMessage(message);
+    }
+  }
+
+  void _handleMessageTap(BuildContext _, types.Message message) async {
+    if (message is types.FileMessage) {
+      var localPath = message.uri;
+
+      if (message.uri.startsWith('http')) {
+        try {
+          final index =
+              _messages.indexWhere((element) => element.id == message.id);
+          final updatedMessage =
+              (_messages[index] as types.FileMessage).copyWith(
+            isLoading: true,
+          );
+
+          setState(() {
+            _messages[index] = updatedMessage;
+          });
+
+          final client = http.Client();
+          final request = await client.get(Uri.parse(message.uri));
+          final bytes = request.bodyBytes;
+          final documentsDir = (await getApplicationDocumentsDirectory()).path;
+          localPath = '$documentsDir/${message.name}';
+
+          if (!File(localPath).existsSync()) {
+            final file = File(localPath);
+            await file.writeAsBytes(bytes);
+          }
+        } finally {
+          final index =
+              _messages.indexWhere((element) => element.id == message.id);
+          final updatedMessage =
+              (_messages[index] as types.FileMessage).copyWith(
+            isLoading: null,
+          );
+
+          setState(() {
+            _messages[index] = updatedMessage;
+          });
+        }
+      }
+
+      await OpenFilex.open(localPath);
+    }
+  }
+
+  void _handlePreviewDataFetched(
+    types.TextMessage message,
+    types.PreviewData previewData,
+  ) {
+    final index = _messages.indexWhere((element) => element.id == message.id);
+    final updatedMessage = (_messages[index] as types.TextMessage).copyWith(
+      previewData: previewData,
+    );
+
+    setState(() {
+      _messages[index] = updatedMessage;
+    });
+  }
+
+  void _handleSendPressed(types.PartialText message) {
+    final textMessage = types.TextMessage(
+      author: _user,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      id: const Uuid().v4(),
+      text: message.text,
+    );
+
+    _addMessage(textMessage);
+  }
+
+  void _loadMessages() async {
+    final response = await rootBundle.loadString('assets/messages.json');
+    final messages = (jsonDecode(response) as List)
+        .map((e) => types.Message.fromJson(e as Map<String, dynamic>))
+        .toList();
+
+    setState(() {
+      _messages = messages;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        body: Chat(
+          messages: _messages,
+          onAttachmentPressed: _handleAttachmentPressed,
+          onMessageTap: _handleMessageTap,
+          onPreviewDataFetched: _handlePreviewDataFetched,
+          onSendPressed: _handleSendPressed,
+          showUserAvatars: true,
+          showUserNames: true,
+          user: _user,
+        ),
+      );
+}
