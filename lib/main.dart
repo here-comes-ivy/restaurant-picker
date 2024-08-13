@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+
+import 'pages/onboarding_page.dart';
 import 'pages/landing_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/filter_page.dart';
 import 'pages/chat_page.dart';
+import 'pages/map_page.dart';
+
+import 'pages/favorite_page.dart';
 
 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
+}
 
-
-void main() => runApp(const myApp());
-
-class myApp extends StatelessWidget {
-  const myApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +31,7 @@ class myApp extends StatelessWidget {
           brightness: Brightness.dark, 
         ),
       ),
-      home: const FilterPage(),
+      home: FavoritePage(),
     ); 
   }
 }

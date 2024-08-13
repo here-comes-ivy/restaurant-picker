@@ -1,38 +1,57 @@
-
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-class BottomSheet extends StatelessWidget {
-      const BottomSheet({super.key});
-    
-      @override
-      Widget build(BuildContext context) {
-        return Center(
-          child: ElevatedButton(
-            child: const Text('showModalBottomSheet'),
+import 'spinner.dart';
+import '../utils/responsiveSize.dart';
+
+class ModalBottomSheetContent extends StatefulWidget {
+  @override
+  State<ModalBottomSheetContent> createState() => _ModalBottomSheetContentState();
+
+  static void showCustomModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isDismissible: true,
+      builder: (BuildContext context) {
+        return ModalBottomSheetContent();
+      },
+    );
+  }
+}
+
+class _ModalBottomSheetContentState extends State<ModalBottomSheetContent> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      height: ResponsiveSize.spinButtonHeight(context),
+      width: ResponsiveSize.SpinButtonWidth(context),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text('Not sure what to eat?', style: TextStyle(fontSize: 20)),
+          SizedBox(height: 20),
+          FilledButton(
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.all(Colors.orange),
+            ),
+            child: Text(
+              'Surprise me!',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+              ),
+            ),
             onPressed: () {
-              showModalBottomSheet<void>(
-                context: context,
-                builder: (BuildContext context) {
-                  return Container(
-                    height: 200,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          const Text('Welcome to Modal Bottom Sheet'),
-                          ElevatedButton(
-                            child: const Text('Close BottomSheet'),
-                            onPressed: () => Navigator.pop(context),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Spinner()),
+                );
             },
           ),
-        );
-      }
-    }
+        ],
+      ),
+    );
+  }
+}

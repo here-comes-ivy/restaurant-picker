@@ -3,7 +3,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../services/location.dart';
 import '../utils/constants.dart';
 import 'filter_page.dart';
-import  '../components/modalBottomSheet.dart';
 
 
 // https://pub.dev/packages/modal_bottom_sheet
@@ -24,81 +23,75 @@ class _MapPageState extends State<MapPage> {
     return await location.getLocation();
   }
 
-  @override
-    void initState() {
-        super.initState();
-        getLocationData();
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          //showCustomModalBottomSheet(context);
-        });
-      }
-
-
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<LatLng?>(
-      future: getLocationData(),
+    return StreamBuilder<Object>(
+      stream: null,
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else {
-          LatLng mapCenter = snapshot.data ?? defaultLocation;
-          return Stack(
-            children: [
-              GoogleMap(
-                myLocationEnabled: true,
-                myLocationButtonEnabled: true,
-                initialCameraPosition: CameraPosition(
-                  target: mapCenter,
-                  zoom: 15,
-                ),
-                markers: Set.of([
-                  Marker(
-                    markerId: MarkerId("CurrentLocation"),
-                    position: mapCenter,
-                  ),
-                ]),
-              ),
-              SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.near_me),
-                        onPressed: (){
-                        }
+        return FutureBuilder<LatLng?>(
+          future: getLocationData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else {
+              LatLng mapCenter = snapshot.data ?? defaultLocation;
+              return Stack(
+                children: [
+                  GoogleMap(
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: true,
+                    initialCameraPosition: CameraPosition(
+                      target: mapCenter,
+                      zoom: 15,
+                    ),
+                    markers: Set.of([
+                      Marker(
+                        markerId: MarkerId("CurrentLocation"),
+                        position: mapCenter,
                       ),
-                      Expanded(
-                        child: TextField(
-                          style: 
-                            TextStyle(
-                              color: Colors.black,
+                    ]),
+                  ),
+                  SafeArea(
+                    child: Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.tune),
+                            onPressed: (){
+                              Navigator.push(
+                              context, 
+                              MaterialPageRoute(builder: (context)=> FilterPage())
+                              );
+                            }
+                          ),
+                          Expanded(
+                            child: TextField(
+                              style: 
+                                TextStyle(
+                                  color: Colors.black,
+                                ),
+                              decoration: kTextInputDecoration,
+                              onTap: () {},
                             ),
-                          decoration: kTextInputDecoration,
-                          onTap: () { 
-                          Navigator.push(
-                          context, 
-                          MaterialPageRoute(builder: (context)=> FilterPage())
-                          );
-                          },
-                        ),
+                          ),
+        
+                        ],
                       ),
-
-                    ],
+                   
+                    ),
+                   
                   ),
-               
-                ),
-               
-              ),
-            ]
-          );
-        }
-      },
+                ]
+              );
+            }
+          },
+        );
+      }
     );
   }
 

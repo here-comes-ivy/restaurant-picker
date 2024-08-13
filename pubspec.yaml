@@ -32,6 +32,9 @@ dependencies:
   mime: ^1.0.5
   file_picker: ^8.0.7
   image_picker: ^1.1.2
+  permission_handler: ^11.3.1
+  flutter_listfilter: ^0.0.5
+  filter_list: ^1.0.3
 
 dev_dependencies:
   flutter_test:

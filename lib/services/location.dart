@@ -2,6 +2,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
+
 class LocationData {
   LatLng? currentLocation; 
   bool isLoading = true;
@@ -24,6 +25,7 @@ class LocationData {
       isLoading = false;
       print('Error getting location: $e');
     }
+
   }
 
 }

@@ -1,1 +1,1 @@
-resultPage
+Object

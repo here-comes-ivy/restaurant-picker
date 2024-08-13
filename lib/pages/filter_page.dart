@@ -5,6 +5,12 @@ import '../components/reusableCard.dart';
 import '../components/roundIconButton.dart';
 import '../utils/constants.dart';
 
+// Place Type: restaurant, cafe, bar (includedPrimaryTypes??)
+// Restaurant category, 
+// distance: locationRestriction
+// priceLevel: priceLevel
+// opening hours
+// 地點屬性: delivery, dineIn, takeout, reservable, servesBeer, servesBeer
 
 class FilterPage extends StatefulWidget {
   const FilterPage({super.key});
@@ -14,13 +20,13 @@ class FilterPage extends StatefulWidget {
 }
 
 class _RestaurantFilterCardState extends State<FilterPage> {
+  int radius = 3;
+
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Set Filter'),      
-      ),
-      body: Column(
+    return Dialog(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
            Container(
@@ -50,9 +56,6 @@ class _RestaurantFilterCardState extends State<FilterPage> {
                     textBaseline: TextBaseline.alphabetic,
                     children: <Widget>[
                       Text(
-                        '500'
-                      ),
-                      Text(
                         'kilometer',
                       )
                     ],
@@ -61,7 +64,6 @@ class _RestaurantFilterCardState extends State<FilterPage> {
                     data: SliderTheme.of(context).copyWith(
                       inactiveTrackColor: Color(0xFF8D8E98),
                       activeTrackColor: Colors.white,
-                      thumbColor: Color(0xFFEB1555),
                       overlayColor: Color(0x29EB1555),
                       thumbShape:
                           RoundSliderThumbShape(enabledThumbRadius: 15.0),
@@ -69,11 +71,12 @@ class _RestaurantFilterCardState extends State<FilterPage> {
                           RoundSliderOverlayShape(overlayRadius: 30.0),
                     ),
                     child: Slider(
-                      value: 150.0,
-                      min: 120.0,
-                      max: 220.0,
+                      value: radius.toDouble(),
+                      min: 1.0,
+                      max: 20.0,
+                      label: 'Kilometer',
                       onChanged: (double newValue) {
-                        setState(() {});
+                        setState(() { radius = newValue.round();});
                       },
                     ),
                   ),

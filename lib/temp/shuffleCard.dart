@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:restaurant_picker/utils/colorSetting.dart';
-import '../temp/spinner.dart';
+import '../components/spinner.dart';
 import '/utils/responsiveSize.dart';
 
 class ShuffleCard extends StatefulWidget {
@@ -41,8 +41,8 @@ class _ShuffleCardState extends State<ShuffleCard> {
                           builder: (BuildContext){ 
                             return Dialog(
                               child: SizedBox(
-                                  width: ResponsiveSize.dialogWidth(context),
-                                  height: ResponsiveSize.dialogHeight(context),
+                                  width: ResponsiveSize.spinDialogWidth(context),
+                                  height: ResponsiveSize.spinDialogHeight(context),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [

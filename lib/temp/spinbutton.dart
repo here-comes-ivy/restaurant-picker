@@ -1,72 +1,42 @@
 import 'package:flutter/material.dart';
-import 'spinner.dart';
+import '../components/spinner.dart';
 
-class spinButton extends StatefulWidget {
-  const spinButton({super.key});
+class SpinButton extends StatelessWidget {
+  const SpinButton({Key? key}) : super(key: key);
 
-  @override
-  _spinButtonState createState() => _spinButtonState();
-}
-
-class _spinButtonState extends State<spinButton> {
-
-  Expanded button (Color color, String text, {VoidCallback? addonPressed}){
+  Widget button(BuildContext context, Color color, String text, {VoidCallback? addonPressed}) {
     return Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: FilledButton(
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(color), 
-              ),
-              child: Text(
-                text,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                ),
-              ),
-              onPressed: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Spinner()),
-                );
-                addonPressed;
-              }
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: FilledButton(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty .all(color),
+          ),
+          child: Text(
+            text,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
             ),
           ),
-        );
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Spinner()),
+            );
+            if (addonPressed != null) {
+              addonPressed();
+            }
+          },
+        ),
+      ),
+    );
   }
 
-  
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        const Expanded(
-          flex: 5,
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Center(
-              child: Text(
-                'Have you decided what to eat?',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25.0,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-        ),
-        button(
-          Colors.amber, 
-          'Surprise me!',
-          
-          ),
-        button(Colors.grey, 'Have something in mind'),
-      ],
-    );
+    // 這裡應該返回使用 button 方法創建的 widget
+    // 例如：
+    return button(context, Colors.yellow, "Surprise me!");
   }
 }

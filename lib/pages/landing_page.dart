@@ -4,6 +4,8 @@ import 'map_page.dart';
 import 'chat_page.dart';
 import 'profile_page.dart';
 import 'filter_page.dart';
+import 'favorite_page.dart';
+import '../components/modalBottomSheet.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -16,10 +18,10 @@ class _LandingPageState extends State<LandingPage> {
   int _selectedIndex = 0;
 
   static final List<Widget> _widgetOptions = [
-        const MapPage(),
-        const FilterPage(),
-        const FilterPage(),
-        const ProfilePage(),
+    const MapPage(),
+    FavoritePage(),
+    const ChatPage(),
+    const ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
@@ -28,41 +30,35 @@ class _LandingPageState extends State<LandingPage> {
     });
   }
 
-  // moving to googlemaps.dart?
-  GoogleMapController? mapController;
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
-  //
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _widgetOptions.elementAt(_selectedIndex),
-          bottomNavigationBar: BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.bolt),
-                label: 'Shuffle',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.tune),
-                label: 'Set Filter',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.quickreply),
-                label: 'Chat with AI',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.pending),
-                label: 'More',
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: Theme.of(context).colorScheme.primary,
-            onTap: _onItemTapped,
-            type: BottomNavigationBarType.fixed,
+      body: _widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bolt),
+            label: 'Shuffle',
           ),
-        );
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'My Favorites',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.quickreply),
+            label: 'Chat with AI',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.pending),
+            label: 'More',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        onTap: _onItemTapped,
+        type: BottomNavigationBarType.fixed,
+      ),
+      bottomSheet: _selectedIndex == 0? ModalBottomSheetContent(): null, // Your custom modal content here
+    );
   }
 }
