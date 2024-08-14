@@ -3,8 +3,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../services/location.dart';
 import '../utils/constants.dart';
 import 'filter_page.dart';
-
-
+import '../components/spinner.dart';
+import '../components/modalBottomSheet2.dart';
 // https://pub.dev/packages/modal_bottom_sheet
 
 class MapPage extends StatefulWidget {
@@ -57,34 +57,37 @@ class _MapPageState extends State<MapPage> {
                   SafeArea(
                     child: Padding(
                       padding: EdgeInsets.all(20.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          IconButton(
-                            icon: Icon(Icons.tune),
-                            onPressed: (){
-                              Navigator.push(
-                              context, 
-                              MaterialPageRoute(builder: (context)=> FilterPage())
-                              );
-                            }
-                          ),
-                          Expanded(
-                            child: TextField(
-                              style: 
-                                TextStyle(
-                                  color: Colors.black,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.tune,),
+                                onPressed: (){
+                                  Navigator.push(
+                                  context, 
+                                  MaterialPageRoute(builder: (context)=> FilterPage())
+                                  );
+                                }
+                              ),
+                              Expanded(
+                                child: TextField(
+                                  style: 
+                                    TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  decoration: kTextInputDecoration,
+                                  onTap: () {},
                                 ),
-                              decoration: kTextInputDecoration,
-                              onTap: () {},
-                            ),
+                              ),
+                            ],
                           ),
-        
+                          ModalBottomSheetContent(), 
                         ],
                       ),
-                   
-                    ),
-                   
+                    ),                
                   ),
                 ]
               );
@@ -94,5 +97,4 @@ class _MapPageState extends State<MapPage> {
       }
     );
   }
-
 }

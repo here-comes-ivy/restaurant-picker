@@ -12,6 +12,9 @@ class ModalBottomSheetContent extends StatefulWidget {
     showModalBottomSheet(
       context: context,
       isDismissible: true,
+      showDragHandle: true,
+      isScrollControlled: true,
+      useSafeArea: true,
       builder: (BuildContext context) {
         return ModalBottomSheetContent();
       },
@@ -20,38 +23,13 @@ class ModalBottomSheetContent extends StatefulWidget {
 }
 
 class _ModalBottomSheetContentState extends State<ModalBottomSheetContent> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16),
-      height: ResponsiveSize.spinButtonHeight(context),
-      width: ResponsiveSize.SpinButtonWidth(context),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text('Not sure what to eat?', style: TextStyle(fontSize: 20)),
-          SizedBox(height: 20),
-          FilledButton(
-            style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all(Colors.orange),
-            ),
-            child: Text(
-              'Surprise me!',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-              ),
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Spinner()),
-                );
-            },
-          ),
-        ],
-      ),
+      //height: ResponsiveSize.spinButtonHeight(context),
+      //width: ResponsiveSize.SpinButtonWidth(context),
+      child: Spinner(),
     );
   }
 }

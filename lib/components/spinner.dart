@@ -6,15 +6,14 @@ import 'package:restaurant_picker/utils/colorSetting.dart';
 import '/utils/responsiveSize.dart';
 
 
-
 class Spinner extends StatefulWidget {
   const Spinner({super.key});
 
   @override
-  _SpinnerState createState() => _SpinnerState();
+  SpinnerState createState() => SpinnerState();
 }
 
-class _SpinnerState extends State<Spinner> {
+class SpinnerState extends State<Spinner> {
   late StreamController<int> controller;
 
   FortuneItem foodItem(name){
@@ -72,11 +71,19 @@ class _SpinnerState extends State<Spinner> {
   );
 }
 
+  void spinAgain() {
+    final random = (List<int>.generate(5, (index) => index)..shuffle()).first;
+    controller.add(random);
+  }
+
+
   @override
   void initState() {
     super.initState();
     controller = StreamController<int>();
   }
+
+
 
   @override
   void dispose() {
@@ -89,8 +96,7 @@ class _SpinnerState extends State<Spinner> {
     return FortuneBar(
       height: ResponsiveSize.spinDialogHeight(context),
       fullWidth: true,
-      styleStrategy: const UniformStyleStrategy(
-        color: Color.fromRGBO(191, 54, 12, 1), 
+      styleStrategy: const UniformStyleStrategy( 
         borderColor: Colors.transparent,   
         //borderWidth: 10,
       ),

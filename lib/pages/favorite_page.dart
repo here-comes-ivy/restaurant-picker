@@ -1,6 +1,28 @@
 import 'package:flutter/material.dart';
 import 'favoriteitems.dart';
 import '../components/editAndDeleteDialog.dart';
+import '../components/reusableCard.dart';
+
+class SavedItem {
+  final String title;
+  List<String> contents = [];
+  SavedItem(this.title, this.contents);
+}
+
+List<SavedItem> savedItems = [
+  SavedItem(
+    'Taipei',
+    ['10001', '10002', '10003', '10004'],
+  ),
+  SavedItem(
+    'Tokyo',
+    ['20001', '20002', '20003'],
+  ),
+  SavedItem(
+    'New York',
+    ['30001', '30002', '30003', '30004'],
+  ),
+];
 
 class FavoritePage extends StatefulWidget {
   @override
@@ -8,19 +30,13 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends State<FavoritePage> {
-  List<Map<String, dynamic>> itemList = [
-    {'name': '巴黎', 'places': ['艾菲爾鐵塔', '羅浮宮', '凱旋門']},
-    {'name': '東京', 'places': ['東京鐵塔', '淺草寺', '明治神宮']},
-    {'name': '紐約', 'places': ['自由女神像', '中央公園', '帝國大廈']},
-  ];
-
   void _addNewList() {
     showDialog(
       context: context,
       builder: (BuildContext context) => AddListDialog(
         onAdd: (String newListName) {
           setState(() {
-            itemList.add({'name': newListName, 'places': []});
+            savedItems.add(SavedItem(newListName, []));
           });
         },
       ),
@@ -31,10 +47,10 @@ class _FavoritePageState extends State<FavoritePage> {
     showDialog(
       context: context,
       builder: (BuildContext context) => EditListDialog(
-        initialName: itemList[index]['name'],
+        initialName: savedItems[index].title,
         onEdit: (String updatedListName) {
           setState(() {
-            itemList[index]['name'] = updatedListName;
+            savedItems.add(SavedItem(updatedListName, []));
           });
         },
       ),
@@ -42,9 +58,17 @@ class _FavoritePageState extends State<FavoritePage> {
   }
 
   void _deleteList(int index) {
-    setState(() {
-      itemList.removeAt(index);
-    });
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => DeleteConfirmationDialog(
+        itemName: savedItems[index].title,
+        onDelete: () {
+          setState(() {
+            savedItems.removeAt(index);
+          });
+        },
+      ),
+    );
   }
 
   @override
@@ -54,10 +78,10 @@ class _FavoritePageState extends State<FavoritePage> {
         title: Text('Favorites'),
       ),
       body: ListView.builder(
-        itemCount: itemList.length,
+        itemCount: savedItems.length,
         itemBuilder: (context, index) {
           return Dismissible(
-            key: Key(itemList[index]['name']),
+            key: Key(savedItems[index].title),
             secondaryBackground: DeleteBackground(),
             background: EditBackground(),
             dismissThresholds: {
@@ -69,10 +93,10 @@ class _FavoritePageState extends State<FavoritePage> {
                 return await showDialog(
                   context: context,
                   builder: (BuildContext context) => DeleteConfirmationDialog(
-                    itemName: itemList[index]['name'],
+                    itemName: savedItems[index].title,
                     onDelete: () {
                       setState(() {
-                        itemList.removeAt(index);
+                        savedItems.removeAt(index);
                       });
                     },
                   ),
@@ -82,19 +106,20 @@ class _FavoritePageState extends State<FavoritePage> {
                 return false;
               }
             },
-            child: Card(
-              child: ListTile(
-                leading: Icon(Icons.list),
-                title: Text(itemList[index]['name']),
-                trailing: Icon(Icons.arrow_forward_ios),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ListDetailPage(list: itemList[index]),
-                    ),
-                  );
-                },
+            child: RestaurantCard(
+              cardChild: ExpansionTile(
+                title: Text(
+                  savedItems[index].title,
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic),
+                ),
+                children: <Widget>[
+                  Column(
+                    children: _buildExpandableContent(savedItems[index]),
+                  ),
+                ],
               ),
             ),
           );
@@ -105,5 +130,39 @@ class _FavoritePageState extends State<FavoritePage> {
         onPressed: _addNewList,
       ),
     );
+  }
+
+  List<Widget> _buildExpandableContent(SavedItem item) {
+    return item.contents.map((content) {
+      return RestaurantCard(
+        customPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        customMargin: EdgeInsets.zero,
+        cardChild: ListTile(
+          title: Text(
+            content,
+            style: TextStyle(fontSize: 18.0),
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () {
+                  // 实现编辑单个内容的逻辑
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  setState(() {
+                    item.contents.remove(content);
+                  });
+                },
+              ),
+            ],
+          ),
+        ),
+      );
+    }).toList();
   }
 }

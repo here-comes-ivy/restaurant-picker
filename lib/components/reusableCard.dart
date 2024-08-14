@@ -29,25 +29,29 @@ class FilterCard extends StatelessWidget {
 
 
 
-
-class ProfileCard extends StatelessWidget {
-
-  ProfileCard({
+class RestaurantCard extends StatelessWidget {
+  RestaurantCard({
     this.cardChild,
+    this.customPadding,
+    this.customMargin,
   });
   
   final Widget? cardChild;
+  final EdgeInsetsGeometry? customPadding;
+  final EdgeInsetsGeometry? customMargin;
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Card(
-    elevation: 4.0,
-    margin: EdgeInsets.symmetric(vertical: 8.0),
-    child: Padding(
-      padding: EdgeInsets.all(6.0),
-      child: cardChild 
-    ),
-                    );
+      elevation: 4.0,
+      margin: customMargin ?? EdgeInsets.symmetric(vertical: 8.0),
+      child: InkWell(
+        onTap: () {}, // 添加這個空的onTap以啟用水波紋效果
+        child: Padding(
+          padding: customPadding ?? EdgeInsets.all(6.0),
+          child: cardChild,
+        ),
+      ),
+    );
   }
 }
-

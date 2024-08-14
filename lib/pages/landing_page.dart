@@ -58,7 +58,7 @@ class _LandingPageState extends State<LandingPage> {
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
       ),
-      bottomSheet: _selectedIndex == 0? ModalBottomSheetContent(): null, // Your custom modal content here
+      // bottomSheet: _selectedIndex == 0? ModalBottomSheetContent(): null, // Your custom modal content here
     );
   }
 }
