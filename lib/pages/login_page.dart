@@ -5,15 +5,15 @@ import '../pages/landing_page.dart';
 import '../components/roundButton.dart';
 import '../utils/constants.dart';
 
-
-class RegistrationPage extends StatefulWidget {
+class LoginPage extends StatefulWidget {
+  static const String id = 'login_screen';
   @override
-  _RegistrationPageState createState() => _RegistrationPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _RegistrationPageState extends State<RegistrationPage> {
-  final _auth = FirebaseAuth.instance;
+class _LoginPageState extends State<LoginPage> {
   bool showSpinner = false;
+  final _auth = FirebaseAuth.instance;
   late String email;
   late String password;
 
@@ -33,7 +33,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   tag: 'logo',
                   child: Container(
                     height: 200.0,
-                    child: Image.asset('assets/app_icon.png'),
+                    child: Image.asset('images/logo.png'),
                   ),
                 ),
               ),
@@ -65,16 +65,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 height: 24.0,
               ),
               RoundButton(
-                title: 'Register',
-                color: Colors.blueAccent,
+                title: 'Log In',
+                color: Colors.lightBlueAccent,
                 onPressed: () async {
                   setState(() {
                     showSpinner = true;
                   });
                   try {
-                    final newUser = await _auth.createUserWithEmailAndPassword(
+                    final user = await _auth.signInWithEmailAndPassword(
                         email: email, password: password);
-                    if (newUser != null) {
+                    if (user != null) {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> LandingPage()));
                     }
 

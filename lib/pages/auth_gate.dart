@@ -7,7 +7,7 @@ import 'landing_page.dart';
 
 
 class AuthGate extends StatelessWidget {
-  const AuthGate({super.key});
+  String clientId = '311208916992-sennaidp9rigi5nmngpljm8doqe6odeb.apps.googleusercontent.com';
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class AuthGate extends StatelessWidget {
           return SignInScreen(
             providers: [
               EmailAuthProvider(),
-              //GoogleProvider(clientId: clientId),
+              GoogleProvider(clientId: clientId),
             ],
             headerBuilder: (context, constraints, shrinkOffset) {
               return Padding(
