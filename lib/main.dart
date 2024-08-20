@@ -4,13 +4,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
 import 'pages/onboarding_page.dart';
-import 'pages/registration_page.dart';
+import 'temp/registration_page.dart';
 import 'pages/landing_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/filter_page.dart';
 import 'pages/chat_page.dart';
 import 'pages/map_page.dart';
 import 'pages/favorite_page.dart';
+import 'pages/auth_gate.dart';
 
 
 void main() async {
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark, 
         ),
       ),
-      home: OnBoarding(),
+      home: LandingPage(),
     ); 
   }
 }

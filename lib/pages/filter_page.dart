@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../components/reusableCard.dart';
-import '../components/roundIconButton.dart';
+import '../utils/cardStyles.dart';
+import '../components/filter_roundIconButton.dart';
 import '../utils/constants.dart';
 
 // Place Type: restaurant, cafe, bar (includedPrimaryTypes??)

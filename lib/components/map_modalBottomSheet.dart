@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:rubber/rubber.dart';
-import 'spinner.dart';
+import 'map_spinner.dart';
 import '../utils/responsiveSize.dart';
 
 class ModalBottomSheetContent extends StatefulWidget {

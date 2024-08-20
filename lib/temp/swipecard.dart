@@ -29,7 +29,7 @@ Container foodItem(name){
                 image: AssetImage('assets/food/$name.png'),
                 fit: BoxFit.fill,
                 ),
-                color: appColors.onSecond,
+                color: appColors.primary,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(8),
                   topRight: Radius.circular(8),

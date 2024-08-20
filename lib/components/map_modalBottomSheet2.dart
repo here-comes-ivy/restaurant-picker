@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'spinner.dart';
+import 'map_spinner.dart';
 import '../utils/responsiveSize.dart';
 
 class ModalBottomSheetContent extends StatefulWidget {
@@ -12,11 +12,10 @@ class ModalBottomSheetContent extends StatefulWidget {
       context: context,
       isDismissible: true,
       showDragHandle: true,
-      isScrollControlled: true,
       useSafeArea: true,
       builder: (BuildContext context) {
         return DraggableScrollableSheet(
-          initialChildSize: 0.3, // 初始大小
+          initialChildSize: 0.1, // 初始大小
           minChildSize: 0.1,     // 最小大小
           maxChildSize: 0.8, 
           expand: false,// 最大大小

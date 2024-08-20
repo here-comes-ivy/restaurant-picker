@@ -2,30 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
-import 'login_page.dart';
-import 'registration_page.dart';
-import '../components/roundButton.dart';
+import 'auth_gate.dart';
+import '../utils/responsiveSize.dart';
+
 
 class OnBoarding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OnBoardingSlider(
-      headerBackgroundColor: Colors.white,
-      finishButtonText: 'Register',
+      headerBackgroundColor:Color.fromRGBO(237, 58, 39, 1),
+      finishButtonText: 'Get started!',
       finishButtonStyle: FinishButtonStyle(
         backgroundColor: Colors.black,
       ),
       skipTextButton: Text('Skip'),
+      indicatorAbove: true,
       trailing: Text('Login'),
+      trailingFunction: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => AuthGate()));
+      },
       background: [
-        Image.asset('assets/slide_3.jpg'),
-        Image.asset('assets/slide_4.jpg'),
+        Padding(
+          padding: const EdgeInsets.only(top: 50),
+          child: Image.asset('assets/slide1.png', height:ResponsiveSize.onBoardingSlideHeight(context), width: ResponsiveSize.onBoardingSlideWidth(context),),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 50),
+          child: Image.asset('assets/slide2.png', height:ResponsiveSize.onBoardingSlideHeight(context), width: ResponsiveSize.onBoardingSlideWidth(context),),
+        ),
       ],
+      pageBackgroundColor: Color.fromRGBO(237, 58, 39, 1),
       totalPage: 2,
       speed: 1.8,
       onFinish: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => RegistrationPage()));
+            MaterialPageRoute(builder: (context) => AuthGate()));
       },
       pageBodies: [
         Container(
@@ -35,7 +46,22 @@ class OnBoarding extends StatelessWidget {
               SizedBox(
                 height: 480,
               ),
-              Text('Description Text 1'),
+              AnimatedTextKit(
+                    animatedTexts: [
+                      TypewriterAnimatedText(
+                        'Not sure what to eat?',
+                        textStyle: const TextStyle(
+                          fontSize: 45.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        speed: const Duration(milliseconds: 200),
+                      ),
+                    ],
+                    totalRepeatCount: 1,
+                    pause: const Duration(milliseconds: 100),
+                    displayFullTextOnTap: true,
+                    stopPauseOnTap: true,
+                  ),
             ],
           ),
         ),
@@ -45,55 +71,25 @@ class OnBoarding extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Hero(
-                    tag: 'logo',
-                    child: Container(
-                      child: Image.asset('assets/app_icon.png'),
-                      height: 60.0,
-                    ),
-                  ),
-                  AnimatedTextKit(
+              SizedBox(
+                height: 480,
+              ),
+              AnimatedTextKit(
                     animatedTexts: [
                       TypewriterAnimatedText(
-                        'Not sure what to eat?',
+                        'Let WhatsForDinner tells you',
                         textStyle: const TextStyle(
                           fontSize: 45.0,
                           fontWeight: FontWeight.bold,
                         ),
-                        speed: const Duration(milliseconds: 2000),
+                        speed: const Duration(milliseconds: 200),
                       ),
                     ],
-                    totalRepeatCount: 4,
-                    pause: const Duration(milliseconds: 1000),
+                    totalRepeatCount: 1,
+                    pause: const Duration(milliseconds: 100),
                     displayFullTextOnTap: true,
                     stopPauseOnTap: true,
                   ),
-                  
-                ],
-              ),
-              SizedBox(
-                height: 48.0,
-              ),
-              RoundButton(
-                title: 'Log In',
-                color: Colors.lightBlueAccent,
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
-                },
-              ),
-              RoundButton(
-                title: 'Register',
-                color: Colors.blueAccent,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => RegistrationPage()));
-                },
-              ),
             ],
           ),
         ),

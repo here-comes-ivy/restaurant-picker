@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import '../utils/colorSetting.dart';
 
-class RoundButton extends StatelessWidget {
-  RoundButton({required this.title, this.color, required this.onPressed});
+class LoginButton extends StatelessWidget {
+  LoginButton({required this.title, this.color, required this.onPressed});
 
   final Color? color;
   String title;
@@ -13,7 +14,7 @@ class RoundButton extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: Material(
         elevation: 5.0,
-        color: color,
+        color: color?? appColors.primary,
         borderRadius: BorderRadius.circular(30.0),
         child: MaterialButton(
           onPressed: onPressed,

@@ -95,7 +95,6 @@ class SpinnerState extends State<Spinner> {
   Widget build(BuildContext context) {
     return FortuneBar(
       height: ResponsiveSize.spinDialogHeight(context),
-      fullWidth: true,
       styleStrategy: const UniformStyleStrategy( 
         borderColor: Colors.transparent,   
         //borderWidth: 10,

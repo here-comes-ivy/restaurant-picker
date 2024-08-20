@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import '../pages/landing_page.dart';
-import '../components/roundButton.dart';
-import '../utils/constants.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
+import '../pages/landing_page.dart';
+import '../components/auth_loginButton.dart';
+import '../utils/constants.dart';
+import 'login_page.dart';
 
 class RegistrationPage extends StatefulWidget {
   @override
@@ -28,14 +30,20 @@ class _RegistrationPageState extends State<RegistrationPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Flexible(
-                child: Hero(
-                  tag: 'logo',
-                  child: Container(
-                    height: 200.0,
-                    child: Image.asset('assets/app_icon.png'),
+              AnimatedTextKit(
+                animatedTexts: [
+                  WavyAnimatedText(
+                    'Register with WhatsForDinner',
+                    textStyle: const TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
+                ],
+                isRepeatingAnimation: true,
+                pause: const Duration(milliseconds: 100),
+                displayFullTextOnTap: true,
+                stopPauseOnTap: true,
               ),
               SizedBox(
                 height: 48.0,
@@ -64,9 +72,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
               SizedBox(
                 height: 24.0,
               ),
-              RoundButton(
+              LoginButton(
                 title: 'Register',
-                color: Colors.blueAccent,
+                //color: Colors.blueAccent,
                 onPressed: () async {
                   setState(() {
                     showSpinner = true;
@@ -75,7 +83,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     final newUser = await _auth.createUserWithEmailAndPassword(
                         email: email, password: password);
                     if (newUser != null) {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> LandingPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LandingPage()));
                     }
 
                     setState(() {
@@ -86,6 +97,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   }
                 },
               ),
+              TextButton(
+                  child: Text(
+                    'Already have an account?',
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginPage()));
+                  }),
             ],
           ),
         ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../components/reusableCard.dart';
-import '../components/cardslider.dart';
+import '../utils/cardStyles.dart';
+import '../components/profile_cardslider.dart';
 import '../utils/constants.dart';
+import '../components/profile_paymentGrid.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -11,7 +12,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  List emoji = ["🍩", "☕", "🧋", "🍺"];
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'User Name',
+                            'Annonymous User',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
@@ -97,25 +97,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   style: kProfileTitleStyle,
                 ),
               ),
-              SliverGrid(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10.0,
-                  crossAxisSpacing: 10.0,
-                  childAspectRatio: 1.0,
-                ),
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return Container(
-                      color: Colors.deepOrange[100 * (index+1 % 9)],
-                      child: Center(
-                        child: Text('Buy me a ${emoji[index]}', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                      ),
-                    );
-                  },
-                  childCount: 4, // 設置網格項目數量
-                ),
-              ),
+              PaymentGrid(),
             ],
           ),
         ),

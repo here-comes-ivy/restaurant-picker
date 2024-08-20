@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../pages/landing_page.dart';
-import '../components/roundButton.dart';
+import '../components/auth_loginButton.dart';
 import '../utils/constants.dart';
 
 class LoginPage extends StatefulWidget {
@@ -16,6 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   final _auth = FirebaseAuth.instance;
   late String email;
   late String password;
+  bool accountSavedisChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +29,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Flexible(
-                child: Hero(
-                  tag: 'logo',
-                  child: Container(
-                    height: 200.0,
-                    child: Image.asset('images/logo.png'),
-                  ),
-                ),
-              ),
+              Center(child: Text('Sign in to WhatsForDinner')),
               SizedBox(
                 height: 48.0,
               ),
@@ -61,12 +54,37 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: kTextFieldDecoration.copyWith(
                     hintText: 'Enter your password'),
               ),
-              SizedBox(
-                height: 24.0,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: accountSavedisChecked, 
+                        onChanged: (bool? value) {
+                          setState(() {
+                            accountSavedisChecked = value!;
+                          });
+                          }
+                        ),
+                      Text('Remember me'),
+                    ],
+                  ),
+                  TextButton(
+                    child: Text(
+                      'Forgot Password?',
+                      style: TextStyle(
+                        color: Colors.grey, 
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                    onPressed: (){},
+                  ),
+                ],
               ),
-              RoundButton(
-                title: 'Log In',
-                color: Colors.lightBlueAccent,
+              LoginButton(
+                title: 'Sign In',
+                //color: Colors.lightBlueAccent,
                 onPressed: () async {
                   setState(() {
                     showSpinner = true;

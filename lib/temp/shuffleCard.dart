@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:restaurant_picker/utils/colorSetting.dart';
-import '../components/spinner.dart';
+import '../components/map_spinner.dart';
 import '/utils/responsiveSize.dart';
 
 class ShuffleCard extends StatefulWidget {

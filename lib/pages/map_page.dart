@@ -3,8 +3,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../services/location.dart';
 import '../utils/constants.dart';
 import 'filter_page.dart';
-import '../components/spinner.dart';
-import '../components/modalBottomSheet2.dart';
+import '../components/map_spinner.dart';
+import '../components/map_modalBottomSheet2.dart';
 // https://pub.dev/packages/modal_bottom_sheet
 
 class MapPage extends StatefulWidget {
