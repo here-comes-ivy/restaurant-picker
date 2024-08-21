@@ -28,26 +28,30 @@ class _RestaurantFilterCardState extends State<FilterPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.arrow_back_ios,
-              size: 50.0,
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(20.0),
-            child: TextField(
-              style: TextStyle(
-                color: Colors.black,
+          Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  size: 50.0,
+                ),
               ),
-              decoration: kSearchAddressInputDecoration,
-              onChanged: (value) {
-                setState(() {});
-              },
-            ),
+              Container(
+                padding: EdgeInsets.all(20.0),
+                child: TextField(
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                  decoration: kSearchAddressInputDecoration,
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                ),
+              ),
+            ],
           ),
           Expanded(
             child: FilterCard(
