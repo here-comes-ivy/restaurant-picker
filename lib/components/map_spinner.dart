@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:async'; 
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
-import 'package:restaurant_picker/utils/colorSetting.dart';
 // https://pub.dev/packages/flutter_fortune_wheel/example
 import '/utils/responsiveSize.dart';
+import '../components/map_spinnerCard.dart';
 
 
 class Spinner extends StatefulWidget {
@@ -16,60 +16,13 @@ class Spinner extends StatefulWidget {
 class SpinnerState extends State<Spinner> {
   late StreamController<int> controller;
 
-  FortuneItem foodItem(name){
-    return FortuneItem(
-      child: Card(
-        child: Column(
-          children: [
-            Image.asset(
-              'assets/food/$name.jpg', 
-              width: 300,
-              height: 150,),
-            Text(name),
-            buildstars(5),
-            Text('Restaurant Category'),
-            SizedBox(height: 10),
-            ElevatedButton(
-              child: Row(
-                children: [
-                  Icon(Icons.open_in_full),
-                  SizedBox(width: 8),
-                  Text('Details'),
-                ], 
-              ),
-              onPressed: () {}
-              ),
-            ElevatedButton(
-              child: Row(
-                children: [
-                  Icon(Icons.directions),
-                  SizedBox(width: 8),
-                  Text('Direction'),
-                ],
-                
-              ),
-              onPressed: () {}
-              ),
-          ],
-        ),
-      ),
-    );
+
+  @override
+  void initState() {
+    super.initState();
+    controller = StreamController<int>();
+
   }
-  
-  Row buildstars(int starsnum) {
-  List<Widget> stars = [];
-  for (int i = 0; i < 5; i++) {
-    if (i < starsnum) {
-      stars.add(Icon(Icons.star));
-    } else {
-      stars.add(Icon(Icons.star_border));
-    }
-  }
-  return Row(
-    mainAxisSize: MainAxisSize.min,
-    children: stars,
-  );
-}
 
   void spinAgain() {
     final random = (List<int>.generate(5, (index) => index)..shuffle()).first;
@@ -77,46 +30,41 @@ class SpinnerState extends State<Spinner> {
   }
 
 
-  @override
-  void initState() {
-    super.initState();
-    controller = StreamController<int>();
-  }
 
-
-
-  @override
-  void dispose() {
-    controller.close();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return FortuneBar(
-      height: ResponsiveSize.spinDialogHeight(context),
-      styleStrategy: const UniformStyleStrategy( 
-        borderColor: Colors.transparent,   
-        //borderWidth: 10,
-      ),
-      selected: controller.stream,
-      visibleItemCount: 1,
-      items: [
-        foodItem('dimsum'),
-        foodItem('greekstyle'),
-        foodItem('pasta'),
-        foodItem('steak'),
-        foodItem('sushi'),
-      ],
-      indicators: <FortuneIndicator>[
-      FortuneIndicator(
-        alignment: Alignment.topCenter,
-        child: RectangleIndicator(
-          color: Colors.transparent, 
-          borderColor: Colors.transparent,
-        ),
-    ),
-  ],
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: nearbyRestaurantsFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (snapshot.hasData) {
+          final nearbyRestaurants = snapshot.data!;
+          return FortuneBar(
+            height: ResponsiveSize.spinDialogHeight(context),
+            styleStrategy: const UniformStyleStrategy( 
+              borderColor: Colors.transparent,   
+            ),
+            selected: controller.stream,
+            visibleItemCount: 1,
+            items: [restaurantData(),],
+            indicators: <FortuneIndicator>[
+              FortuneIndicator(
+                alignment: Alignment.topCenter,
+                child: RectangleIndicator(
+                  color: Colors.transparent, 
+                  borderColor: Colors.transparent,
+                ),
+              ),
+            ],
+          );
+        } else {
+          return Center(child: Text('No data available'));
+        }
+      },
     );
   }
 }

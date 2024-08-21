@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../utils/colorSetting.dart';
 
 
-const kTextInputDecoration = InputDecoration(
+const kSearchAddressInputDecoration = InputDecoration(
   filled: true,
   fillColor: Colors.white,
   //icon: Icon(Icons.near_me),
@@ -11,7 +11,7 @@ const kTextInputDecoration = InputDecoration(
   border: OutlineInputBorder(
     borderRadius: 
     BorderRadius.all(
-      Radius.circular(10.0),),
+      Radius.circular(32.0),),
     borderSide: BorderSide.none,
   ),
 );

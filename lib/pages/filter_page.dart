@@ -6,7 +6,7 @@ import '../components/filter_roundIconButton.dart';
 import '../utils/constants.dart';
 
 // Place Type: restaurant, cafe, bar (includedPrimaryTypes??)
-// Restaurant category, 
+// Restaurant category,
 // distance: locationRestriction
 // priceLevel: priceLevel
 // opening hours
@@ -22,25 +22,33 @@ class FilterPage extends StatefulWidget {
 class _RestaurantFilterCardState extends State<FilterPage> {
   int radius = 3;
 
-
   @override
   Widget build(BuildContext context) {
     return Dialog(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-           Container(
-                padding: EdgeInsets.all(20.0),
-                child: TextField(
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                  decoration: kTextInputDecoration,
-                  onChanged: (value) {
-                    setState(() {});
-                  },
-                ),
+          IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 50.0,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(20.0),
+            child: TextField(
+              style: TextStyle(
+                color: Colors.black,
               ),
+              decoration: kSearchAddressInputDecoration,
+              onChanged: (value) {
+                setState(() {});
+              },
+            ),
+          ),
           Expanded(
             child: FilterCard(
               color: Colors.deepOrangeAccent,
@@ -76,7 +84,9 @@ class _RestaurantFilterCardState extends State<FilterPage> {
                       max: 20.0,
                       label: 'Kilometer',
                       onChanged: (double newValue) {
-                        setState(() { radius = newValue.round();});
+                        setState(() {
+                          radius = newValue.round();
+                        });
                       },
                     ),
                   ),
@@ -96,9 +106,7 @@ class _RestaurantFilterCardState extends State<FilterPage> {
                         Text(
                           'Price Range',
                         ),
-                        Text(
-                          '1000'
-                        ),
+                        Text('1000'),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -131,9 +139,7 @@ class _RestaurantFilterCardState extends State<FilterPage> {
                         Text(
                           'Persons',
                         ),
-                        Text(
-                          '5'
-                        ),
+                        Text('5'),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -163,7 +169,6 @@ class _RestaurantFilterCardState extends State<FilterPage> {
             ),
           ),
         ],
-
       ),
     );
   }

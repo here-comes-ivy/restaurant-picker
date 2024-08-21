@@ -63,23 +63,19 @@ class _MapPageState extends State<MapPage> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              IconButton(
-                                icon: Icon(Icons.tune,),
-                                onPressed: (){
-                                  Navigator.push(
-                                  context, 
-                                  MaterialPageRoute(builder: (context)=> FilterPage())
-                                  );
-                                }
-                              ),
                               Expanded(
                                 child: TextField(
                                   style: 
                                     TextStyle(
                                       color: Colors.black,
                                     ),
-                                  decoration: kTextInputDecoration,
-                                  onTap: () {},
+                                  decoration: kSearchAddressInputDecoration,
+                                  onTap: () {
+                                    Navigator.push(
+                                  context, 
+                                  MaterialPageRoute(builder: (context)=> FilterPage())
+                                  );
+                                  },
                                 ),
                               ),
                             ],
