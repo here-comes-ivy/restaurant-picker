@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../pages/landing_page.dart';
 import '../components/auth_loginButton.dart';
-import '../utils/constants.dart';
+import '../utils/decorationStyles.dart';
 
 class LoginPage extends StatefulWidget {
   static const String id = 'login_screen';

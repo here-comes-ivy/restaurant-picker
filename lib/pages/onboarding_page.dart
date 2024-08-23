@@ -6,7 +6,7 @@ import 'auth_gate.dart';
 import '../utils/responsiveSize.dart';
 
 
-class OnBoarding extends StatelessWidget {
+class OnboardingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OnBoardingSlider(
@@ -51,14 +51,14 @@ class OnBoarding extends StatelessWidget {
                       TypewriterAnimatedText(
                         'Not sure what to eat?',
                         textStyle: const TextStyle(
-                          fontSize: 45.0,
+                          fontSize: 35.0,
                           fontWeight: FontWeight.bold,
                         ),
-                        speed: const Duration(milliseconds: 200),
+                        speed: const Duration(milliseconds: 100),
                       ),
                     ],
                     totalRepeatCount: 1,
-                    pause: const Duration(milliseconds: 100),
+                    pause: const Duration(milliseconds: 1),
                     displayFullTextOnTap: true,
                     stopPauseOnTap: true,
                   ),
@@ -79,14 +79,14 @@ class OnBoarding extends StatelessWidget {
                       TypewriterAnimatedText(
                         'Let WhatsForDinner tells you',
                         textStyle: const TextStyle(
-                          fontSize: 45.0,
+                          fontSize: 35.0,
                           fontWeight: FontWeight.bold,
                         ),
-                        speed: const Duration(milliseconds: 200),
+                        speed: const Duration(milliseconds: 100),
                       ),
                     ],
                     totalRepeatCount: 1,
-                    pause: const Duration(milliseconds: 100),
+                    pause: const Duration(milliseconds: 10),
                     displayFullTextOnTap: true,
                     stopPauseOnTap: true,
                   ),

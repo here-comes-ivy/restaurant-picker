@@ -5,7 +5,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 
 import '../pages/landing_page.dart';
 import '../components/auth_loginButton.dart';
-import '../utils/constants.dart';
+import '../utils/decorationStyles.dart';
 import 'login_page.dart';
 
 class RegistrationPage extends StatefulWidget {

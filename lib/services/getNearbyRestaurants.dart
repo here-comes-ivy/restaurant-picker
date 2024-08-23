@@ -10,7 +10,7 @@ class PlaceService {
 
   PlaceService._internal();
 
-  Future<List<Map<String, dynamic>>> getNearbyRestaurants() async {
+  Future<List<Map<String, dynamic>>> fetchData() async {
     var headers = {
       'Content-Type': 'application/json',
       'X-Goog-Api-Key': 'AIzaSyBvCYfs_gzMM3iKU1NpW2XTOlPuwG13b1s',

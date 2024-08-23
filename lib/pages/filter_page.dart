@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../utils/cardStyles.dart';
 import '../components/filter_roundIconButton.dart';
-import '../utils/constants.dart';
+import '../utils/decorationStyles.dart';
 
 // Place Type: restaurant, cafe, bar (includedPrimaryTypes??)
 // Restaurant category,

@@ -5,13 +5,13 @@ import '../utils/colorSetting.dart';
 const kSearchAddressInputDecoration = InputDecoration(
   filled: true,
   fillColor: Colors.white,
-  //icon: Icon(Icons.near_me),
+  prefixIcon: Icon(Icons.search, color: Colors.grey),
   hintText: 'Search Location',
   hintStyle: TextStyle(color: Colors.grey),
   border: OutlineInputBorder(
     borderRadius: 
     BorderRadius.all(
-      Radius.circular(32.0),),
+      Radius.circular(8.0),),
     borderSide: BorderSide.none,
   ),
 );

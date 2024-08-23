@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../utils/cardStyles.dart';
 import '../components/profile_cardslider.dart';
-import '../utils/constants.dart';
+import '../utils/decorationStyles.dart';
 import '../components/profile_paymentGrid.dart';
 
 class ProfilePage extends StatefulWidget {
