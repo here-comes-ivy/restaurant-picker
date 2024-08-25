@@ -71,17 +71,7 @@ class _MapPageState extends State<MapPage> {
                             },
                           ),
                           SizedBox(height: 5),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                searchFilterChip(label: 'Category'),
-                                searchFilterChip(label: 'OpeningHour'),
-                                searchFilterChip(label: 'Distance'),
-                                searchFilterChip(label: 'Price Range'),
-                              ],
-                            ),
-                          ),
+                          SearchFilterChips(),                         
                         ],
                       ),
                       ModalBottomSheetContent(),

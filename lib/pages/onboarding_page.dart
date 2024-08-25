@@ -5,8 +5,11 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'auth_gate.dart';
 import '../utils/responsiveSize.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class OnboardingPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return OnBoardingSlider(
@@ -18,7 +21,7 @@ class OnboardingPage extends StatelessWidget {
       skipTextButton: Text('Skip'),
       indicatorAbove: true,
       trailing: Text('Login'),
-      trailingFunction: (){
+      trailingFunction: ()async{
         Navigator.push(context, MaterialPageRoute(builder: (context) => AuthGate()));
       },
       background: [

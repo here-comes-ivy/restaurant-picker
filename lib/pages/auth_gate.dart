@@ -2,16 +2,24 @@ import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'landing_page.dart';
+import '../services/saveFirestoreData.dart';
 
 class AuthGate extends StatelessWidget {
-  String clientId =
-      '311208916992-sennaidp9rigi5nmngpljm8doqe6odeb.apps.googleusercontent.com';
+  final String clientId = '311208916992-sennaidp9rigi5nmngpljm8doqe6odeb.apps.googleusercontent.com';
+
+  final auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
+
+  final currentUser = auth.currentUser;
+  print("Current user: $currentUser");
+
     return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
+      stream: auth.authStateChanges(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return SignInScreen(
@@ -39,7 +47,7 @@ class AuthGate extends StatelessWidget {
             footerBuilder: (context, action) {
               return Column(
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(top: 16),
                     child: Text(
                       'By signing in, you agree to our terms and conditions.',
@@ -51,7 +59,7 @@ class AuthGate extends StatelessWidget {
                     child: const Text('Continue without signing in'),
                     onPressed: () async {
                       try {
-                        await FirebaseAuth.instance.signInAnonymously();
+                        await auth.signInAnonymously();
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Error: ${e.toString()}')),
@@ -62,6 +70,19 @@ class AuthGate extends StatelessWidget {
                 ],
               );
             },
+            // 添加 actions 參數來處理身份驗證事件
+            actions: [
+              AuthStateChangeAction<SignedIn>((context, state) {
+                if (state.user != null) {
+                  SaveFirestoreUser().updateUserData(state.user!);
+                }
+              }),
+              AuthStateChangeAction<UserCreated>((context, state) {
+                if (state.credential.user != null) {
+                  SaveFirestoreUser().updateUserData(state.credential.user!);
+                }
+              }),
+            ],
           );
         }
         return const LandingPage();

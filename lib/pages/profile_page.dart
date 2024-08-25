@@ -3,6 +3,8 @@ import '../utils/cardStyles.dart';
 import '../components/profile_cardslider.dart';
 import '../utils/decorationStyles.dart';
 import '../components/profile_paymentGrid.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../services/getFirestoreData.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -13,9 +15,32 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
 
+  final auth = FirebaseAuth.instance;
+
+  String? userName = FireStoreUser.userName;
+  String? userEmail = FireStoreUser.userEmail;
+  String? userId = FireStoreUser.userId;
+
+  @override
+  void initState() {
+    super.initState();
+    FireStoreUser.initUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions:[
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () async {
+              await auth.signOut();
+              Navigator.pop(context);
+              FireStoreUser.clearUser();
+            },
+          ),
+        ],),
       //drawer: profileDrawer(),
       body: SafeArea(
         child: Padding(
@@ -25,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
               SliverToBoxAdapter(
                 child: Padding(
                   padding: EdgeInsets.only(
-                      top: 60.0, left: 30.0, right: 30.0, bottom: 30.0),
+                      top: 10.0, left: 30.0, right: 30.0, bottom: 30.0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
@@ -43,13 +68,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Annonymous User',
+                            userName ?? 'Anonymous User',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          Text('UserID'),
+                          Text(userEmail ?? 'No email'),
+                          Text(userId ?? 'Anonymous'),
                         ],
                       ),
                     ],

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:restaurant_picker/utils/colorSetting.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../components/chat_messageTile.dart';
+import '../services/getFirestoreData.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -14,6 +16,9 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  final firestore = FirebaseFirestore.instance;
+  late String _userId;
+  String? messageText;
 
   List<Content> history = [];
   late final GenerativeModel _model;
@@ -22,11 +27,11 @@ class _ChatPageState extends State<ChatPage> {
   final TextEditingController _textController = TextEditingController();
   final FocusNode _textFieldFocus = FocusNode();
   bool _loading = false;
-  static const _apiKey = 'AIzaSyDt-IJTvGWC75LnKxIfUI90SErWpePN8c4'; // https://ai.google.dev/ (Get API key from this link)
+  static const _apiKey = 'AIzaSyDt-IJTvGWC75LnKxIfUI90SErWpePN8c4';
 
   void _scrollDown() {
     WidgetsBinding.instance.addPostFrameCallback(
-          (_) => _scrollController.animateTo(
+      (_) => _scrollController.animateTo(
         _scrollController.position.minScrollExtent,
         duration: const Duration(
           milliseconds: 750,
@@ -40,9 +45,11 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     super.initState();
     _model = GenerativeModel(
-      model: 'gemini-pro', apiKey: _apiKey,
+      model: 'gemini-pro',
+      apiKey: _apiKey,
     );
     _chat = _model.startChat();
+    FireStoreUser();
   }
 
   @override
@@ -58,7 +65,7 @@ class _ChatPageState extends State<ChatPage> {
             itemCount: history.reversed.length,
             controller: _scrollController,
             reverse: true,
-            itemBuilder: (context, index){
+            itemBuilder: (context, index) {
               var content = history.reversed.toList()[index];
               var text = content.parts
                   .whereType<TextPart>()
@@ -67,11 +74,12 @@ class _ChatPageState extends State<ChatPage> {
               return MessageTile(
                 sendByMe: content.role == 'user',
                 message: text,
-
               );
             },
-            separatorBuilder: (context, index){
-              return const SizedBox(height: 15,);
+            separatorBuilder: (context, index) {
+              return const SizedBox(
+                height: 15,
+              );
             },
           ),
           Align(
@@ -81,15 +89,14 @@ class _ChatPageState extends State<ChatPage> {
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border(top: BorderSide(color: Colors.grey.shade200))
-              ),
+                  border: Border(top: BorderSide(color: Colors.grey.shade200))),
               child: Row(
                 children: [
                   Expanded(
                     child: SizedBox(
                       height: 55,
                       child: TextField(
-                        style:TextStyle(color: Colors.grey[900]),
+                        style: TextStyle(color: Colors.grey[900]),
                         cursorColor: Colors.grey,
                         controller: _textController,
                         autofocus: true,
@@ -97,41 +104,55 @@ class _ChatPageState extends State<ChatPage> {
                         decoration: InputDecoration(
                             hintText: 'Ask me anything...',
                             hintStyle: const TextStyle(color: Colors.grey),
-                            filled: true, fillColor: Colors.grey.shade200,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                            filled: true,
+                            fillColor: Colors.grey.shade200,
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 15),
                             border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(10)
-                            )
-                        ),
+                                borderRadius: BorderRadius.circular(10))),
+                        onChanged: (value) {
+                          messageText = value;
+                        },
                       ),
                     ),
                   ),
-                  const SizedBox(width: 10,),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       setState(() {
-                        history.add(Content('user', [TextPart(_textController.text)]));
+                        history.add(
+                            Content('user', [TextPart(_textController.text)]));
                       });
                       _sendChatMessage(_textController.text, history.length);
                     },
                     child: Container(
-                      width: 50, height: 50,
+                      width: 50,
+                      height: 50,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           color: appColors.onPrimary,
                           shape: BoxShape.circle,
                           boxShadow: [
-                            BoxShadow(offset: const Offset(1,1), blurRadius: 3, spreadRadius: 3, color: Colors.black.withOpacity(0.05))
-                          ]
-                      ),
+                            BoxShadow(
+                                offset: const Offset(1, 1),
+                                blurRadius: 3,
+                                spreadRadius: 3,
+                                color: Colors.black.withOpacity(0.05))
+                          ]),
                       child: _loading
                           ? const Padding(
-                            padding: EdgeInsets.all(15.0),
-                            child: CircularProgressIndicator.adaptive(
-                                                    backgroundColor: Colors.white, ),
-                          )
-                          : const Icon(Icons.send_rounded, color: Colors.white,),
+                              padding: EdgeInsets.all(15.0),
+                              child: CircularProgressIndicator.adaptive(
+                                backgroundColor: Colors.white,
+                              ),
+                            )
+                          : const Icon(
+                              Icons.send_rounded,
+                              color: Colors.white,
+                            ),
                     ),
                   )
                 ],
@@ -144,6 +165,8 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future<void> _sendChatMessage(String message, int historyIndex) async {
+    final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+
     setState(() {
       _loading = true;
       _textController.clear();
@@ -151,13 +174,23 @@ class _ChatPageState extends State<ChatPage> {
       _scrollDown();
     });
 
+    try {
+      await firestore.collection('users').doc(_userId).collection('chats').add({
+        'text': message,
+        'lastUpdated': FieldValue.serverTimestamp(),
+        'sender': 'user',
+      });
+    } catch (e) {
+      print('Error saving user message to Firestore: $e');
+      // 錯誤處理邏輯
+    }
     List<Part> parts = [];
 
     try {
       var response = _chat.sendMessageStream(
         Content.text(message),
       );
-      await for(var item in response){
+      await for (var item in response) {
         var text = item.text;
         if (text == null) {
           _showError('No response from API.');
@@ -166,16 +199,28 @@ class _ChatPageState extends State<ChatPage> {
           setState(() {
             _loading = false;
             parts.add(TextPart(text));
-            if((history.length - 1) == historyIndex){
+            if ((history.length - 1) == historyIndex) {
               history.removeAt(historyIndex);
             }
             history.insert(historyIndex, Content('model', parts));
-
           });
+
+          try {
+            await firestore
+                .collection('users')
+                .doc(_userId)
+                .collection('chats')
+                .add({
+              'text': text,
+              'timestamp': FieldValue.serverTimestamp(),
+              'sender': 'AI',
+            });
+          } catch (e) {
+            print('Error saving AI response to Firestore: $e');
+            // 錯誤處理邏輯
+          }
         }
       }
-
-
     } catch (e, t) {
       print(e);
       print(t);
@@ -211,5 +256,4 @@ class _ChatPageState extends State<ChatPage> {
       },
     );
   }
-  
 }

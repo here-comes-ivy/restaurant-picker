@@ -24,22 +24,20 @@ class FilterChip extends StatelessWidget {
 
 
 class SearchFilterChips extends StatelessWidget {
-  const SearchFilterChips({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return 
-  SingleChildScrollView(
-    scrollDirection: Axis.horizontal,
-    child: Row(
-      children: [
-        FilterChip(label: 'RestayrantType'),
-        FilterChip(label: 'Distance'),
-        FilterChip(label: 'OpeningHour'),
-        FilterChip(label: 'Price Range'),
-      ],
-    ),
-  );
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          FilterChip(label: 'RestayrantType'),
+          FilterChip(label: 'Distance'),
+          FilterChip(label: 'OpeningHour'),
+          FilterChip(label: 'Price Range'),
+        ],
+      ),
+    );
 
   }
 }
