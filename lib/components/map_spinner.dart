@@ -34,15 +34,14 @@ class SpinnerState extends State<Spinner> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Map<String, dynamic>>>(
-      future: nearbyRestaurantsFuture,
+    return FutureBuilder<List<FortuneItem>>(
+      future: convertToFortuneItems(nearbyRestaurantsFuture),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (snapshot.hasData) {
-          final nearbyRestaurants = snapshot.data!;
           return FortuneBar(
             height: ResponsiveSize.spinDialogHeight(context),
             styleStrategy: const UniformStyleStrategy( 
@@ -50,7 +49,7 @@ class SpinnerState extends State<Spinner> {
             ),
             selected: controller.stream,
             visibleItemCount: 1,
-            items: [restaurantData(),],
+            items: snapshot.data!,
             indicators: <FortuneIndicator>[
               FortuneIndicator(
                 alignment: Alignment.topCenter,

@@ -3,7 +3,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../services/location.dart';
 import '../utils/decorationStyles.dart';
 import 'filter_page.dart';
-import '../components/map_spinner.dart';
 import '../components/map_modalBottomSheet2.dart';
 // https://pub.dev/packages/modal_bottom_sheet
 import '../components/map_filterChips.dart';
