@@ -10,12 +10,24 @@ late Future<List<Map<String, dynamic>>> nearbyRestaurantsFuture = placesService.
 FortuneItem restaurantData(Map<String, dynamic> restaurant) {
   return FortuneItem(
     child: Card(
-      child: Column(
+      child: Column( 
         children: [
-          Text(restaurant['name'] ?? 'No Name'),
-          buildstars(restaurant['rating']?.round() ?? 0),
-          Text(restaurant['types']?.first ?? 'Unknown Category'),
-          SizedBox(height: 10),
+
+          Text(
+            restaurant['name'],
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),),
+          Row(
+            children: [
+              Text(restaurant['rating'].toString()),
+              SizedBox(width: 8),
+              buildstars(restaurant['rating']?.round() ?? 3),
+            ],
+          ),
+          Text(restaurant['address']),
+
           ElevatedButton(
             child: Row(
               children: [

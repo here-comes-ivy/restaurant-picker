@@ -74,12 +74,12 @@ class AuthGate extends StatelessWidget {
             actions: [
               AuthStateChangeAction<SignedIn>((context, state) {
                 if (state.user != null) {
-                  SaveFirestoreUser().updateUserData(state.user!);
+                  SaveFirestoreUser().updateUserData(context);
                 }
               }),
               AuthStateChangeAction<UserCreated>((context, state) {
                 if (state.credential.user != null) {
-                  SaveFirestoreUser().updateUserData(state.credential.user!);
+                  SaveFirestoreUser().updateUserData(context);
                 }
               }),
             ],

@@ -5,6 +5,9 @@ import '../utils/decorationStyles.dart';
 import '../components/profile_paymentGrid.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../services/getFirestoreData.dart';
+import '../services/userProvider.dart';
+import 'package:provider/provider.dart';
+
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -15,12 +18,6 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
 
-  final auth = FirebaseAuth.instance;
-
-  String? userName = FireStoreUser.userName;
-  String? userEmail = FireStoreUser.userEmail;
-  String? userId = FireStoreUser.userId;
-
   @override
   void initState() {
     super.initState();
@@ -29,13 +26,18 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    final userProvider = Provider.of<UserProvider>(context);
+    String userName = (userProvider.name ?? '').isEmpty ? 'Anonymous User' : userProvider.name!;
+    String userEmail = (userProvider.email ?? '').isEmpty ? 'No email' : userProvider.email!;
+
     return Scaffold(
       appBar: AppBar(
         actions:[
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: () async {
-              await auth.signOut();
+              await FirebaseAuth.instance.signOut();
               Navigator.pop(context);
               FireStoreUser.clearUser();
             },
@@ -68,14 +70,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            userName ?? 'Anonymous User',
+                            userName,
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          Text(userEmail ?? 'No email'),
-                          Text(userId ?? 'Anonymous'),
+                          Text(userEmail),
                         ],
                       ),
                     ],
@@ -118,9 +119,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               SliverToBoxAdapter(
-                child: Text(
-                  'Support Us',
-                  style: kProfileTitleStyle,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'Support Us',
+                    style: kProfileTitleStyle,
+                  ),
                 ),
               ),
               PaymentGrid(),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../pages/landing_page.dart';
-import '../components/auth_loginButton.dart';
+import 'auth_loginButton.dart';
 import '../utils/decorationStyles.dart';
 
 class LoginPage extends StatefulWidget {

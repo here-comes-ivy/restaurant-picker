@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async'; 
+import 'dart:math';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 // https://pub.dev/packages/flutter_fortune_wheel/example
 import '/utils/responsiveSize.dart';
@@ -20,17 +21,20 @@ class SpinnerState extends State<Spinner> {
   @override
   void initState() {
     super.initState();
-    controller = StreamController<int>();
+    controller = StreamController<int>.broadcast();
+  }
 
+   @override
+  void dispose() {
+    // 在 dispose 中關閉 StreamController
+    controller.close();
+    super.dispose();
   }
 
   void spinAgain() {
-    final random = (List<int>.generate(5, (index) => index)..shuffle()).first;
+    final random = Random().nextInt(5);
     controller.add(random);
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {

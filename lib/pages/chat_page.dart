@@ -24,6 +24,7 @@ class _ChatPageState extends State<ChatPage> {
   bool _loading = false;
   static const _apiKey = 'AIzaSyDt-IJTvGWC75LnKxIfUI90SErWpePN8c4'; // https://ai.google.dev/ (Get API key from this link)
 
+
   void _scrollDown() {
     WidgetsBinding.instance.addPostFrameCallback(
           (_) => _scrollController.animateTo(
@@ -40,7 +41,9 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     super.initState();
     _model = GenerativeModel(
-      model: 'gemini-pro', apiKey: _apiKey,
+      model: 'gemini-pro', 
+      apiKey: _apiKey, 
+
     );
     _chat = _model.startChat();
   }

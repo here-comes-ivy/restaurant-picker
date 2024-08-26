@@ -4,7 +4,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
 import '../pages/landing_page.dart';
-import '../components/auth_loginButton.dart';
+import 'auth_loginButton.dart';
 import '../utils/decorationStyles.dart';
 import 'login_page.dart';
 

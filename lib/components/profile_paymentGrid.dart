@@ -74,12 +74,18 @@ class PaymentGrid extends StatelessWidget {
               );
             },
             child: Container(
-              color: Colors.deepOrange[100 * ((index + 1) % 9)],
+              width: 150.0,
+              height: 150.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.deepOrange[100 * (index + 1)]),
               child: Center(
                 child: Text(
                   'Buy me a ${emoji[index]}',
                   style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                      color: Colors.white, 
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0),
                 ),
               ),
             ),

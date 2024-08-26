@@ -24,6 +24,13 @@ class _MapPageState extends State<MapPage> {
   Future<LatLng?> getLocationData() async {
     return await location.getLocation();
   }
+
+  @override
+void initState() {
+  super.initState();
+
+}
+
   @override
   void dispose() {
     _mapController.dispose();
