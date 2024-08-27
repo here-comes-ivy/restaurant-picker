@@ -30,8 +30,7 @@ FortuneItem restaurantData(Map<String, dynamic> restaurant) {
           ),
           Text(restaurant['address']),
       
-          Flexible(
-            
+          Expanded(
             child: Image.network(
               restaurant['photo'],),
           ),
