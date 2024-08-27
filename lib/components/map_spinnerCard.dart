@@ -10,9 +10,10 @@ late Future<List<Map<String, dynamic>>> nearbyRestaurantsFuture = placesService.
 FortuneItem restaurantData(Map<String, dynamic> restaurant) {
   return FortuneItem(
     child: Card(
-      child: Column( 
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           Text(
             restaurant['name'],
             style: TextStyle(
@@ -24,10 +25,16 @@ FortuneItem restaurantData(Map<String, dynamic> restaurant) {
               Text(restaurant['rating'].toString()),
               SizedBox(width: 8),
               buildstars(restaurant['rating']?.round() ?? 3),
+              Text(restaurant['ratingCount'].toString()),
             ],
           ),
           Text(restaurant['address']),
-
+      
+          Flexible(
+            
+            child: Image.network(
+              restaurant['photo'],),
+          ),
           ElevatedButton(
             child: Row(
               children: [

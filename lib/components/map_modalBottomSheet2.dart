@@ -9,11 +9,9 @@ class ModalBottomSheetContent extends StatefulWidget {
   State<ModalBottomSheetContent> createState() => _ModalBottomSheetContentState();
 
   static void showCustomModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
+    showBarModalBottomSheet(
       context: context,
       isDismissible: true,
-      showDragHandle: true,
-      useSafeArea: true,
       builder: (BuildContext context) {
         return DraggableScrollableSheet(
           initialChildSize: 0.1, // 初始大小

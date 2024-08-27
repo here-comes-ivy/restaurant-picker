@@ -1,43 +1,38 @@
 import 'package:flutter/material.dart';
 
-class FilterChip extends StatelessWidget {
-  FilterChip({required this.label, this.avatar});
+class FilterButton extends StatelessWidget {
+  FilterButton({required this.label});
   String label;
-  Widget? avatar;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right:6.0),
-      child: Chip(
-        avatar: avatar,
-        label: Text(label),
-        backgroundColor: Colors.grey[50],
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        //padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      padding: const EdgeInsets.only(right: 6.0),
+      child: FilledButton.tonal(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.all(
+              Theme.of(context).colorScheme.surface.withOpacity(0.8)),
+        ),
+        onPressed: () {},
+        child: Text(label),
       ),
     );
   }
-
 }
 
-
 class SearchFilterChips extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          FilterChip(label: 'RestayrantType'),
-          FilterChip(label: 'Distance'),
-          FilterChip(label: 'OpeningHour'),
-          FilterChip(label: 'Price Range'),
+          FilterButton(label: 'RestaurantType'),
+          FilterButton(label: 'Distance'),
+          FilterButton(label: 'OpeningHour'),
+          FilterButton(label: 'Price Range'),
         ],
       ),
     );
-
   }
 }

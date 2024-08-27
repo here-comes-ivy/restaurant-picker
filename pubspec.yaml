@@ -45,6 +45,7 @@ dependencies:
   pay: ^2.0.0
   cloud_firestore: ^5.2.1
   provider: ^6.1.2
+  awesome_select: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -56,4 +57,5 @@ flutter:
   assets:
     - assets/
     - assets/food/
+    - assets/banners/
 
