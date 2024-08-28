@@ -5,7 +5,7 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:restaurant_picker/utils/colorSetting.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../components/chat_messageTile.dart';
+import '../components/chatPage/messageTile.dart';
 import '../services/getFirestoreData.dart';
 
 class ChatPage extends StatefulWidget {

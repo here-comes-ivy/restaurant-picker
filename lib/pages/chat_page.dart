@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:restaurant_picker/utils/colorSetting.dart';
 
-import '../components/chat_messageTile.dart';
+import '../components/chatPage/messageTile.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});

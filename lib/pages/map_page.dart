@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../services/location.dart';
+import 'package:provider/provider.dart';
+import '../services/locationDataProvider.dart';
 import '../utils/decorationStyles.dart';
-import 'filter_page.dart';
-import '../components/map_modalBottomSheet2.dart';
+import '../components/mapPage/filterBottomSheetContent.dart';
+import '../components/mapPage/modalBottomSheet.dart';
 // https://pub.dev/packages/modal_bottom_sheet
-import '../components/map_filterChips.dart';
+import '../components/mapPage/searchFilters.dart';
+
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
+import '../components/mapPage/modalBottomSheet.dart';
+import '../components/mapPage/searchFilters.dart';
+
 
 class MapPage extends StatefulWidget {
-  const MapPage({super.key});
+  const MapPage({Key? key}) : super(key: key);
 
   @override
   _MapPageState createState() => _MapPageState();
@@ -16,20 +24,15 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   late GoogleMapController _mapController;
-
-  LocationData location = LocationData();
-  LatLng defaultLocation =
-      LatLng(25.0340637447189, 121.56452691031619); // 預設為台北101
-
-  Future<LatLng?> getLocationData() async {
-    return await location.getLocation();
-  }
+  final LatLng defaultLocation = LatLng(25.0340637447189, 121.56452691031619); // 台北101
 
   @override
-void initState() {
-  super.initState();
-
-}
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<LocationDataProvider>().getLocation();
+    });
+  }
 
   @override
   void dispose() {
@@ -39,15 +42,12 @@ void initState() {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<LatLng?>(
-      future: getLocationData(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+    return Consumer<LocationDataProvider>(
+      builder: (context, locationProvider, child) {
+        if (locationProvider.isLoading) {
           return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
         } else {
-          LatLng mapCenter = snapshot.data ?? defaultLocation;
+          LatLng mapCenter = locationProvider.currentLocation ?? defaultLocation;
           return Stack(
             children: [
               GoogleMap(
@@ -61,7 +61,7 @@ void initState() {
                   _mapController = controller;
                 },
               ),
-              SafeArea(
+               SafeArea(
                 child: Padding(
                   padding: EdgeInsets.all(20.0),
                   child: Column(
@@ -77,7 +77,7 @@ void initState() {
                             },
                           ),
                           SizedBox(height: 5),
-                          SearchFilterChips(),                         
+                          SearchFilterRow(),                         
                         ],
                       ),
                       ModalBottomSheetContent(),
@@ -92,3 +92,4 @@ void initState() {
     );
   }
 }
+             

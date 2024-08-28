@@ -1,18 +1,28 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'networking.dart';
+import 'locationDataProvider.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class PlaceService {
+class NearbyRestaurantData {
 
+  LocationDataProvider locationProvider = LocationDataProvider();
   String googApikey = 'AIzaSyBvCYfs_gzMM3iKU1NpW2XTOlPuwG13b1s';
 
-  static final PlaceService _instance = PlaceService._internal();
-  factory PlaceService() {
+  static final NearbyRestaurantData _instance = NearbyRestaurantData._internal();
+  factory NearbyRestaurantData() {
     return _instance;
   }
 
-  PlaceService._internal();
+  NearbyRestaurantData._internal();
 
   Future<List<Map<String, dynamic>>> fetchData() async {
+
+    await locationProvider.getLocation();
+    LatLng location = locationProvider.currentLocation!;
+    double lat = location.latitude;
+    double lng = location.longitude;
+
     var headers = {
       'Content-Type': 'application/json',
       'X-Goog-Api-Key': googApikey,
@@ -27,7 +37,9 @@ class PlaceService {
       "maxResultCount": 5,
       "locationRestriction": {
         "circle": {
-          "center": {"latitude": 25.03, "longitude": 121.56},
+          "center": {
+        "latitude": lat,
+        "longitude": lng},
           "radius": 1000
         }
       }

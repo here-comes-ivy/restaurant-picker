@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay/pay.dart';
-import '../services/payment_config.dart';
+import '../../services/payment_config.dart';
 
 class PaymentGrid extends StatelessWidget {
   final List<String> emoji = ["🍩", "☕", "🧋", "🍺"];

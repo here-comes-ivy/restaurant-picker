@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/map_spinner.dart';
+import '../components/mapPage/spinner.dart';
 
 class SpinButton extends StatelessWidget {
   const SpinButton({Key? key}) : super(key: key);

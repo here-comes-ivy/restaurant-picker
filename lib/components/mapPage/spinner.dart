@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'dart:async'; 
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 // https://pub.dev/packages/flutter_fortune_wheel/example
 import '/utils/responsiveSize.dart';
-import '../components/map_spinnerCard.dart';
-
+import 'spinnerCard.dart';
 
 class Spinner extends StatefulWidget {
   const Spinner({super.key});
@@ -15,8 +14,7 @@ class Spinner extends StatefulWidget {
 }
 
 class SpinnerState extends State<Spinner> {
-  late StreamController<int> controller;
-
+  StreamController<int> controller = StreamController<int>();
 
   @override
   void initState() {
@@ -24,9 +22,8 @@ class SpinnerState extends State<Spinner> {
     controller = StreamController<int>.broadcast();
   }
 
-   @override
+  @override
   void dispose() {
-    // 在 dispose 中關閉 StreamController
     controller.close();
     super.dispose();
   }
@@ -36,10 +33,16 @@ class SpinnerState extends State<Spinner> {
     controller.add(random);
   }
 
+  Future<List<FortuneItem>> FortuneItemList(
+      Future<List<Map<String, dynamic>>> futureData) async {
+    final List<Map<String, dynamic>> data = await futureData;
+    return data.map((item) => restaurantData(item)).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<FortuneItem>>(
-      future: convertToFortuneItems(nearbyRestaurantsFuture),
+      future: FortuneItemList(nearbyRestaurantsFuture),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
@@ -48,8 +51,8 @@ class SpinnerState extends State<Spinner> {
         } else if (snapshot.hasData) {
           return FortuneBar(
             height: ResponsiveSize.spinDialogHeight(context),
-            styleStrategy: const UniformStyleStrategy( 
-              borderColor: Colors.transparent,   
+            styleStrategy: const UniformStyleStrategy(
+              borderColor: Colors.transparent,
             ),
             selected: controller.stream,
             visibleItemCount: 1,
@@ -58,7 +61,7 @@ class SpinnerState extends State<Spinner> {
               FortuneIndicator(
                 alignment: Alignment.topCenter,
                 child: RectangleIndicator(
-                  color: Colors.transparent, 
+                  color: Colors.transparent,
                   borderColor: Colors.transparent,
                 ),
               ),

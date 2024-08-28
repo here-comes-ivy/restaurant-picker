@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-// https://pub.dev/packages/carousel_slider
-import '../utils/cardStyles.dart';
+import 'package:flutter/material.dart' hide CarouselController;
+import 'package:carousel_slider_plus/carousel_slider_plus.dart';// https://pub.dev/packages/carousel_slider
+
 
 
 final List<Widget> imageSliders = List.generate(5, (index) => Container(

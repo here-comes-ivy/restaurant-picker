@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import './services/userProvider.dart';
+
+import 'services/userDataProvider.dart';
+import 'services/locationDataProvider.dart';
 
 import 'pages/onboarding_page.dart';
 import 'temp/registration_page.dart';
 import 'pages/landing_page.dart';
 import 'pages/profile_page.dart';
-import 'pages/filter_page.dart';
+import 'components/mapPage/filterBottomSheetContent.dart';
 import 'pages/chat_test_page.dart';
 import 'pages/map_page.dart';
 import 'pages/favorite_page.dart';
@@ -20,8 +22,10 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(
-            create: (_) => UserProvider()), // 提供 UserProvider
+          create: (context) => LocationDataProvider(),
+        ) // 提供 UserProvider
       ],
       child: MyApp(),
     ),
@@ -35,8 +39,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.black54),
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
+          
           seedColor: Colors.deepOrange,
           brightness: Brightness.dark,
         ),
