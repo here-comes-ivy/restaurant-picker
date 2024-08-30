@@ -51,6 +51,7 @@ dependencies:
   carousel_slider_plus: ^7.0.0
   smart_select: ^4.3.3
   choice: ^2.3.2
+  weekday_selector: ^1.1.0
 
 dev_dependencies:
   flutter_test:
