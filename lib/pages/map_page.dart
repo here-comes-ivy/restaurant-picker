@@ -3,16 +3,17 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import '../services/locationDataProvider.dart';
 import '../utils/decorationStyles.dart';
-import '../components/mapPage/filterBottomSheetContent.dart';
-import '../components/mapPage/modalBottomSheet.dart';
+import '../components/mapPage/spinner_spinBottomSheet.dart';
 // https://pub.dev/packages/modal_bottom_sheet
-import '../components/mapPage/searchFilters.dart';
+import '../components/mapPage/filter_FilterRow.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import '../components/mapPage/modalBottomSheet.dart';
-import '../components/mapPage/searchFilters.dart';
+import '../components/mapPage/spinner_spinBottomSheet.dart';
+import '../components/mapPage/filter_FilterRow.dart';
+import '../components/mapPage/spinner_spinbutton.dart';
+
 
 
 class MapPage extends StatefulWidget {
@@ -24,7 +25,8 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   late GoogleMapController _mapController;
-  final LatLng defaultLocation = LatLng(25.0340637447189, 121.56452691031619); // 台北101
+  final LatLng defaultLocation =
+      LatLng(25.0340637447189, 121.56452691031619); // 台北101
 
   @override
   void initState() {
@@ -47,7 +49,8 @@ class _MapPageState extends State<MapPage> {
         if (locationProvider.isLoading) {
           return Center(child: CircularProgressIndicator());
         } else {
-          LatLng mapCenter = locationProvider.currentLocation ?? defaultLocation;
+          LatLng mapCenter =
+              locationProvider.currentLocation ?? defaultLocation;
           return Stack(
             children: [
               GoogleMap(
@@ -61,7 +64,7 @@ class _MapPageState extends State<MapPage> {
                   _mapController = controller;
                 },
               ),
-               SafeArea(
+              SafeArea(
                 child: Padding(
                   padding: EdgeInsets.all(20.0),
                   child: Column(
@@ -73,14 +76,13 @@ class _MapPageState extends State<MapPage> {
                             style: TextStyle(color: Colors.black),
                             decoration: kSearchAddressInputDecoration,
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => FilterPage()));
                             },
                           ),
                           SizedBox(height: 5),
-                          SearchFilterRow(),                         
+                          SearchFilterRow(),
                         ],
                       ),
-                      ModalBottomSheetContent(),
+                      SpinButton(),
                     ],
                   ),
                 ),
@@ -92,4 +94,3 @@ class _MapPageState extends State<MapPage> {
     );
   }
 }
-             

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_picker/temp/spinbutton.dart';
+import 'package:restaurant_picker/components/mapPage/spinner_spinbutton.dart';
 
 class ResponsiveSize {
   final BuildContext context;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import '../../services/getNearbyRestaurants.dart';
-import 'favoriteFAB.dart';
+import 'spinner_favoriteFAB.dart';
 
 
 final placesService = NearbyRestaurantData();

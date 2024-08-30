@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 // https://pub.dev/packages/flutter_fortune_wheel/example
 import '/utils/responsiveSize.dart';
-import 'spinnerCard.dart';
+import 'spinner_spinnerCard.dart';
 
 class Spinner extends StatefulWidget {
   const Spinner({super.key});

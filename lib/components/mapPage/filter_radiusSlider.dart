@@ -8,7 +8,13 @@ class RadiusSlider extends StatefulWidget {
 }
 
 class _RadiusSliderState extends State<RadiusSlider> {
-  int radius = 3;
+  double radius = 3.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +23,7 @@ class _RadiusSliderState extends State<RadiusSlider> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            'Radius',
+            'Distance',
           ),
           SliderTheme(
             data: SliderTheme.of(context).copyWith(
@@ -28,14 +34,14 @@ class _RadiusSliderState extends State<RadiusSlider> {
               overlayShape: RoundSliderOverlayShape(overlayRadius: 30.0),
             ),
             child: Slider(
-              value: radius.toDouble(),
+              value: radius,
               min: 1.0,
               max: 20.0,
               divisions: 19,
               label: '$radius km',
               onChanged: (double newValue) {
                 setState(() {
-                  radius = newValue.round();
+                  radius = newValue;
                 });
               },
             ),

@@ -27,8 +27,13 @@ class NearbyRestaurantData {
       'Content-Type': 'application/json',
       'X-Goog-Api-Key': googApikey,
       'X-Goog-FieldMask':
-          'places.id,places.displayName,places.rating,places.shortFormattedAddress,places.userRatingCount,places.photos'
-      //可能會用到的欄位: places.priceLevel,places.types,places.rating,places.userRatingCount,places.regularOpeningHours,places.businessStatus,places.googleMapsUri,places.photos'
+          'places.id,places.displayName,places.rating,places.userRatingCount,places.shortFormattedAddress,places.photos'
+      //可能會用到的欄位: 
+      //Advanced Filter: places.priceLevel,places.types,places.regularOpeningHours,places.businessStatus,
+
+      //Preference filter (boolean): places.delivery,places.allowsDogs,places.servesVegetarianFood,places.reservable,places.goodForGroups
+
+      //Direction? places.googleMapsUri
     };
     var request = http.Request('POST',
         Uri.parse('https://places.googleapis.com/v1/places:searchNearby'));

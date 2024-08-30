@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'filterBottomSheet.dart';
-import 'restaurantTypeFilter.dart';
+import 'filter_filterBottomSheet.dart';
+import 'filter_restaurantTypeFilter.dart';
 
 class SearchFilter extends StatelessWidget {
   SearchFilter({required this.child, required this.widget, this.shape });
@@ -21,7 +21,7 @@ class SearchFilter extends StatelessWidget {
         ),
         onPressed: () {
           showModalBottomSheet(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(0.8),
             isScrollControlled: true,
             context: context,
             builder: (context) => widget,

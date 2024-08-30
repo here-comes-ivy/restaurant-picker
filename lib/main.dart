@@ -10,7 +10,6 @@ import 'pages/onboarding_page.dart';
 import 'temp/registration_page.dart';
 import 'pages/landing_page.dart';
 import 'pages/profile_page.dart';
-import 'components/mapPage/filterBottomSheetContent.dart';
 import 'pages/chat_test_page.dart';
 import 'pages/map_page.dart';
 import 'pages/favorite_page.dart';
@@ -39,7 +38,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.black54),
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
           

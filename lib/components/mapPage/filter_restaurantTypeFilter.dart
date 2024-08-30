@@ -79,11 +79,11 @@ List<String> typeList = [
               );
             },
             listBuilder: ChoiceList.createWrapped(
-              spacing: 10,
-              runSpacing: 10,
+              spacing: 6,
+              runSpacing: 6,
               padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 25,
+                horizontal: 15,
+                vertical: 15,
               ),
             ),
           ),

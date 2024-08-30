@@ -4,9 +4,8 @@ import 'map_page.dart';
 //import 'chat_page.dart';
 import 'chat_page.dart';
 import 'profile_page.dart';
-import '../components/mapPage/filterBottomSheetContent.dart';
 import 'favorite_page.dart';
-import '../components/mapPage/modalBottomSheet.dart';
+import '../components/mapPage/spinner_spinBottomSheet.dart';
 import '../services/getFirestoreData.dart';
 import '../services/saveFirestoreData.dart';
 
