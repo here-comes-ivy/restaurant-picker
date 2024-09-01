@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-/// Flutter code sample for [ActionChoice].
-
+import 'package:restaurant_picker/services/mapFilterProvider.dart';
 
 class PriceRangeChoiceChips extends StatefulWidget {
   const PriceRangeChoiceChips({super.key});
@@ -11,10 +11,13 @@ class PriceRangeChoiceChips extends StatefulWidget {
 }
 
 class _PriceRangeChoiceChipsState extends State<PriceRangeChoiceChips> {
-  int? _value = 1;
+  int? displayPriceLevel;
 
   @override
   Widget build(BuildContext context) {
+
+    final filterProvider = Provider.of<FilterProvider>(context);
+
 
     return  Card(
         child: Column(
@@ -30,10 +33,11 @@ class _PriceRangeChoiceChipsState extends State<PriceRangeChoiceChips> {
                   String text = '\$' * (index + 1);
                   return ChoiceChip(
                     label: Text(text),
-                    selected: _value == index,
+                    selected: displayPriceLevel == index,
                     onSelected: (bool selected) {
                       setState(() {
-                        _value = selected ? index : null;
+                        displayPriceLevel = selected ? index : null;
+                        filterProvider.updatePriceRange(displayPriceLevel);
                       });
                     },
                   );

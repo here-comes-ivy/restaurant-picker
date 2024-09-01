@@ -5,9 +5,10 @@ import 'package:provider/provider.dart';
 
 import 'services/userDataProvider.dart';
 import 'services/locationDataProvider.dart';
+import 'services/mapFilterProvider.dart';
+
 
 import 'pages/onboarding_page.dart';
-import 'temp/registration_page.dart';
 import 'pages/landing_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/chat_test_page.dart';
@@ -24,7 +25,9 @@ void main() async {
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(
           create: (context) => LocationDataProvider(),
-        ) // 提供 UserProvider
+        ),
+            ChangeNotifierProvider(
+      create: (context) => FilterProvider()),
       ],
       child: MyApp(),
     ),

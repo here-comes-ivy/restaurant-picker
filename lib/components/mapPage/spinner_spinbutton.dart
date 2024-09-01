@@ -6,6 +6,7 @@ class SpinButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height*0.05,
       child: FilledButton.tonal(
         style: ButtonStyle(
           elevation: WidgetStateProperty.all(20.0),
@@ -19,12 +20,7 @@ class SpinButton extends StatelessWidget {
               Theme.of(context).colorScheme.surface.withOpacity(0.8)),
         ),
         onPressed: () {
-          showModalBottomSheet(
-            backgroundColor: Colors.transparent,
-            isScrollControlled: true,
-            context: context,
-            builder: (context) => ModalBottomSheetContent(),
-          );
+          SpinnerBottomSheet.show(context);
         },
         child: Text(
           'Surprise me!',

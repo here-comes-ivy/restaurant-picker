@@ -5,10 +5,10 @@ class RestaurantTypeMultipleChoice extends StatefulWidget {
   const RestaurantTypeMultipleChoice({super.key});
 
   @override
-  State<RestaurantTypeMultipleChoice> createState() => _RestaurantTypeMultipleChoiceState();
+  State<RestaurantTypeMultipleChoice> createState() => RestaurantTypeMultipleChoiceState();
 }
 
-class _RestaurantTypeMultipleChoiceState extends State<RestaurantTypeMultipleChoice> {
+class RestaurantTypeMultipleChoiceState extends State<RestaurantTypeMultipleChoice> {
 List<String> typeList = [
   'American',
   'Bakery',

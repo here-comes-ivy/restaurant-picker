@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_picker/services/mapFilterProvider.dart';
+
 
 class RadiusSlider extends StatefulWidget {
   const RadiusSlider({super.key});
@@ -8,7 +11,8 @@ class RadiusSlider extends StatefulWidget {
 }
 
 class _RadiusSliderState extends State<RadiusSlider> {
-  double radius = 3.0;
+
+  double displayRadius = 3.0; 
 
   @override
   void initState() {
@@ -18,6 +22,8 @@ class _RadiusSliderState extends State<RadiusSlider> {
 
   @override
   Widget build(BuildContext context) {
+    final filterProvider = Provider.of<FilterProvider>(context);
+
     return Card(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -34,14 +40,15 @@ class _RadiusSliderState extends State<RadiusSlider> {
               overlayShape: RoundSliderOverlayShape(overlayRadius: 30.0),
             ),
             child: Slider(
-              value: radius,
+              value: displayRadius,
               min: 1.0,
               max: 20.0,
               divisions: 19,
-              label: '$radius km',
-              onChanged: (double newValue) {
+              label: '${displayRadius.toStringAsFixed(1)} km',
+              onChanged: (double newRadius) {
                 setState(() {
-                  radius = newValue;
+                  displayRadius = newRadius;
+                  filterProvider.updateRadius(displayRadius); 
                 });
               },
             ),

@@ -28,6 +28,10 @@ class _MapPageState extends State<MapPage> {
   final LatLng defaultLocation =
       LatLng(25.0340637447189, 121.56452691031619); // 台北101
 
+  void _onMapCreated(GoogleMapController controller) {
+  _mapController = controller;
+}
+
   @override
   void initState() {
     super.initState();

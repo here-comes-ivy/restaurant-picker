@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'filter_radiusSlider.dart';
 import 'filter_restaurantTypeFilter.dart';
-import 'filter_priceRangeFilter.dart';
+import 'filter_priceLevelFilter.dart';
 import 'filter_optionSwitchList.dart';
 import 'filter_ratingFilter.dart';
 import 'filter_openingHour.dart';
+import 'spinner_spinBottomSheet.dart';
+import 'addressTextField.dart';
 
-class SearchBottomSheet extends StatelessWidget {
-  const SearchBottomSheet({Key? key}) : super(key: key);
+class FilterBottomSheet extends StatelessWidget {
+  const FilterBottomSheet({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class SearchBottomSheet extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.symmetric(horizontal: 16),
               children: [
+                AddressTextFiled(),
                 OpeningHourFilter(),
                 FilterDivider,
                 RadiusSlider(),
@@ -61,7 +64,10 @@ class SearchBottomSheet extends StatelessWidget {
                       fontSize: 20.0,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                    SpinnerBottomSheet.show(context);
+                  },
                 ),
               ],
             ),
@@ -72,9 +78,7 @@ class SearchBottomSheet extends StatelessWidget {
   }
 }
 
-
-
 Widget FilterDivider = Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Divider(),
-                );
+  padding: const EdgeInsets.all(10.0),
+  child: Divider(),
+);

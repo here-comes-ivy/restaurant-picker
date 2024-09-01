@@ -1,15 +1,21 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'networking.dart';
 import 'locationDataProvider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class NearbyRestaurantData {
+import 'package:provider/provider.dart';
+import 'mapFilterProvider.dart';
 
+class NearbyRestaurantData {
   LocationDataProvider locationProvider = LocationDataProvider();
+  FilterProvider filterProvider = FilterProvider();
+
   String googApikey = 'AIzaSyBvCYfs_gzMM3iKU1NpW2XTOlPuwG13b1s';
 
-  static final NearbyRestaurantData _instance = NearbyRestaurantData._internal();
+  static final NearbyRestaurantData _instance =
+      NearbyRestaurantData._internal();
   factory NearbyRestaurantData() {
     return _instance;
   }
@@ -22,6 +28,8 @@ class NearbyRestaurantData {
     LatLng location = locationProvider.currentLocation!;
     double lat = location.latitude;
     double lng = location.longitude;
+    double? radius = filterProvider.apiRadius;
+    String? priceLevel = filterProvider.apiPriceLevel;
 
     var headers = {
       'Content-Type': 'application/json',
@@ -37,9 +45,10 @@ class NearbyRestaurantData {
     };
     var request = http.Request('POST',
         Uri.parse('https://places.googleapis.com/v1/places:searchNearby'));
-    request.body = json.encode({
+
+    var requestBody = {
       "includedTypes": ["restaurant"],
-      "maxResultCount": 5,
+      "maxResultCount": 10,
       "locationRestriction": {
         "circle": {
           "center": {
@@ -48,8 +57,18 @@ class NearbyRestaurantData {
           "radius": 1000
         }
       }
-    });
+    };
+
+    // [WIP] Seems not working: 添加條件
+    //"businessStatus": "OPERATIONAL",
+
+    // if (priceLevel != null) {
+    //   requestBody["priceLevel"] = priceLevel;
+    // }
+
+    request.body = json.encode(requestBody);
     request.headers.addAll(headers);
+
     try {
       http.StreamedResponse response = await request.send();
       final responseBody = await response.stream.bytesToString();
@@ -74,8 +93,9 @@ class NearbyRestaurantData {
           //       return 'https://places.googleapis.com/v1/$photoName/media?key=googApikey&maxHeightPx=$maxHeight&maxWidthPx=$maxWidth';
           //     }
           //   }
-          //   return ''; // 返回空字符串或者默认图片 URL
+          //   return 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; // 返回空字符串或者默认图片 URL
           // }
+
 
           return {
             'id': place['id'] as String? ?? '',
@@ -88,7 +108,6 @@ class NearbyRestaurantData {
             //'photo': getPhotoUrl(place),
 
             // 'types': (place['types'] as List<dynamic>?)?.cast<String>() ?? [],
-            // 'priceLevel': place['priceLevel'] as String? ?? 'N/A',
             // 'openingHours': place['regularOpeningHours'] as Map<String, dynamic>? ?? {},
             // 'businessStatus': place['businessStatus'] as String? ?? 'N/A',
             // 'googleMapsUri': place['googleMapsUri'] as String? ?? '',

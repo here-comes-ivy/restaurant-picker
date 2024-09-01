@@ -49,23 +49,23 @@ class SearchFilterRow extends StatelessWidget {
             child: Icon(
               Icons.tune,
             ),
-            widget: SearchBottomSheet(),
+            widget: FilterBottomSheet(),
           ),
           SearchFilter(
             child: Text('RestaurantType'),
-            widget: SearchBottomSheet(),
+            widget: FilterBottomSheet(),
           ),
           SearchFilter(
             child: Text('Distance'),
-            widget: SearchBottomSheet(),
+            widget: FilterBottomSheet(),
           ),
           SearchFilter(
             child: Text('OpeningHour'),
-            widget: SearchBottomSheet(),
+            widget: FilterBottomSheet(),
           ),
           SearchFilter(
             child: Text('Price Range'),
-            widget: SearchBottomSheet(),
+            widget: FilterBottomSheet(),
           ),
         ],
       ),

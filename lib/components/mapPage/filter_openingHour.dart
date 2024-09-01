@@ -10,7 +10,7 @@ List<int> convertDaysToNumbers(List<String> days) {
     'F': 5, // Friday
     'S': 6, // Saturday
   };
-  
+
   return days.map((day) => dayToNumber[day] ?? -1).toList();
 }
 
@@ -25,7 +25,7 @@ class _OpeningHourFilterState extends State<OpeningHourFilter> {
   int? _index = 1;
 
   int selectedHour = DateTime.now().hour;
-  int? selectedMinute = DateTime.now().minute;
+  int selectedMinute = 0; // Changed this line
 
   final Set<int> _selectedDays = {DateTime.now().weekday % 7};
   final List<String> days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
@@ -35,6 +35,9 @@ class _OpeningHourFilterState extends State<OpeningHourFilter> {
   void initState() {
     super.initState();
     convertedDays = convertDaysToNumbers(days);
+    // Round the current minute to the nearest 15-minute interval
+    int currentMinute = DateTime.now().minute;
+    selectedMinute = (currentMinute ~/ 15) * 15;
   }
 
   @override
@@ -126,12 +129,12 @@ class _OpeningHourFilterState extends State<OpeningHourFilter> {
                       }).toList(),
                     ),
                     SizedBox(width: 20),
-                    DropdownButton(
+                    DropdownButton<int>(
                       value: selectedMinute,
                       hint: Text('Select minute'),
                       onChanged: (int? newValue) {
                         setState(() {
-                          selectedMinute = newValue;
+                          selectedMinute = newValue!;
                         });
                       },
                       items: [0, 15, 30, 45]

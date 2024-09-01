@@ -12,7 +12,7 @@ class ResponsiveSize {
   static double spinButtonHeight(BuildContext context) => _getScreenSize(context).height * 0.3;
 
   static double spinDialogWidth(BuildContext context) => _getScreenSize(context).width * 0.6;
-  static double spinDialogHeight(BuildContext context) => _getScreenSize(context).height * 0.4;
+  static double spinDialogHeight(BuildContext context) => _getScreenSize(context).height * 0.3;
 
   static double onBoardingSlideWidth(BuildContext context) => _getScreenSize(context).width * 1;
   static double onBoardingSlideHeight(BuildContext context) => _getScreenSize(context).height * 0.6;
