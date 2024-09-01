@@ -6,7 +6,6 @@ import 'filter_optionSwitchList.dart';
 import 'filter_ratingFilter.dart';
 import 'filter_openingHour.dart';
 import 'spinner_spinBottomSheet.dart';
-import 'addressTextField.dart';
 
 class FilterBottomSheet extends StatelessWidget {
   const FilterBottomSheet({Key? key}) : super(key: key);
@@ -25,7 +24,6 @@ class FilterBottomSheet extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.symmetric(horizontal: 16),
               children: [
-                AddressTextFiled(),
                 OpeningHourFilter(),
                 FilterDivider,
                 RadiusSlider(),
@@ -74,6 +72,18 @@ class FilterBottomSheet extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  static void show(BuildContext context) {
+    showModalBottomSheet(
+      backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(0.8),
+      useRootNavigator: true,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      context: context,
+      builder: (context) => FilterBottomSheet(),
     );
   }
 }

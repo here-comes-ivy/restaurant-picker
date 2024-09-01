@@ -48,6 +48,7 @@ dependencies:
   choice: ^2.3.2
   weekday_selector: ^1.1.0
   flutter_google_maps_webservices: ^1.1.1
+  modal_bottom_sheet: ^3.0.0
 
 dev_dependencies:
   flutter_test:

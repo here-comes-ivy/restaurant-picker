@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
-// https://pub.dev/packages/flutter_fortune_wheel/example
 import '/utils/responsiveSize.dart';
 import 'spinner_spinnerCard.dart';
 import '../../services/getNearbyRestaurants.dart';
@@ -19,7 +18,7 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
   List<Map<String, dynamic>> allRestaurants = [];
   List<Map<String, dynamic>> displayedRestaurants = [];
   int spinCount = 0;
-  final int maxSpinBeforeRefresh = 5; 
+  final int maxSpinBeforeRefresh = 10; 
   int? lastSelectedIndex;
 
   @override
@@ -37,13 +36,12 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
 
   Future<void> _refreshData() async {
     setState(() {
-      nearbyRestaurantsFuture = placesService.fetchData(context);
+      nearbyRestaurantsFuture = placesService.fetchData();
     });
     allRestaurants = await nearbyRestaurantsFuture;
     _selectRandomRestaurants();
     spinCount = 0;
   }
-
 
   void _selectRandomRestaurants() {
     if (allRestaurants.length <= 5) {
@@ -52,8 +50,8 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
       displayedRestaurants = List.from(allRestaurants)..shuffle();
       displayedRestaurants = displayedRestaurants.take(5).toList();
     }
-    lastSelectedIndex = null;  // 重置上次選中的索引
-    setState(() {});
+    lastSelectedIndex = null;  
+
   }
 
   void spinAgain() {
@@ -61,9 +59,11 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
     if (spinCount >= maxSpinBeforeRefresh) {
       _refreshData();
     } else {
+      // 如果不需要刷新數據，只需要重新洗牌當前顯示的餐廳
       displayedRestaurants.shuffle();
     }
 
+    // 選擇一個不同於上次的隨機索引
     int newIndex;
     do {
       newIndex = Random().nextInt(displayedRestaurants.length);
@@ -75,22 +75,15 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    NearbyRestaurantData placesService = NearbyRestaurantData();
-    late Future<List<Map<String, dynamic>>> nearbyRestaurantsFuture =
-        placesService.fetchData(context);
-
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: nearbyRestaurantsFuture,
       builder: (context, snapshot) {
-        print(snapshot.data);
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
-        } else if (snapshot.hasData) {
-          final nearbyRestaurants = snapshot.data!;
-
-          List<FortuneItem> fortuneItems = nearbyRestaurants
+        } else if (snapshot.hasData && displayedRestaurants.isNotEmpty) {
+          List<FortuneItem> fortuneItems = displayedRestaurants
               .map((restaurant) => buildRestaurantData(restaurant))
               .toList();
 

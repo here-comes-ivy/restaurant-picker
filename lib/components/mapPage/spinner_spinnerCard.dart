@@ -32,7 +32,7 @@ FortuneItem buildRestaurantData(Map<String, dynamic> restaurant) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  restaurant['name']?? 'Unknown Restaurant',
+                  restaurant['name'] ?? 'Unknown Restaurant',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
@@ -50,28 +50,18 @@ FortuneItem buildRestaurantData(Map<String, dynamic> restaurant) {
                 Text(restaurant['priceLevel']),
                 Expanded(
                   child: Image.network(
-                    'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-                    //restaurant['photo'],
-                  ),
+                      'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=至ㄚ&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                      //restaurant['photo'],
+                      ),
                 ),
-                ElevatedButton(
-                  child: Row(
-                    children: [
-                      Icon(Icons.open_in_full),
-                      SizedBox(width: 8),
-                      Text('Details'),
-                    ],
-                  ),
+                ActionChip(
+                  avatar: Icon(Icons.open_in_full),
+                  label: Text('Details'),
                   onPressed: () {},
                 ),
-                ElevatedButton(
-                  child: Row(
-                    children: [
-                      Icon(Icons.directions),
-                      SizedBox(width: 8),
-                      Text('Direction'),
-                    ],
-                  ),
+                ActionChip(
+                  avatar: Icon(Icons.directions),
+                  label: Text('Direction'),
                   onPressed: () {},
                 ),
               ],

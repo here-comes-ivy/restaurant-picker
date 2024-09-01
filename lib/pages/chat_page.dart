@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:restaurant_picker/utils/colorSetting.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../components/chatPage/messageTile.dart';
+
+import '../services/userDataProvider.dart';
+
+
+final _firestore = FirebaseFirestore.instance;
+
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -14,6 +20,8 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+
+
 
   List<Content> history = [];
   late final GenerativeModel _model;
@@ -50,6 +58,10 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+
+      UserProvider userProvider = UserProvider();
+  String? userEmail = userProvider.loggedinUserEmail;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ask AI Anything'),
@@ -107,6 +119,7 @@ class _ChatPageState extends State<ChatPage> {
                                 borderRadius: BorderRadius.circular(10)
                             )
                         ),
+                        
                       ),
                     ),
                   ),
@@ -117,6 +130,11 @@ class _ChatPageState extends State<ChatPage> {
                         history.add(Content('user', [TextPart(_textController.text)]));
                       });
                       _sendChatMessage(_textController.text, history.length);
+                      _firestore.collection('messages').add({
+                        'text': _textController.text,
+                        'sender': userEmail,
+                      });
+                    
                     },
                     child: Container(
                       width: 50, height: 50,

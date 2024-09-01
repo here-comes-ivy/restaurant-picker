@@ -13,13 +13,13 @@ class SaveFirestoreUser {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     // 确保 userID 和 email 不为空
-    if (userProvider.userID != null && userProvider.email != null) {
-      final userRef = firestore.collection('users').doc(userProvider.userID);
+    if (userProvider.loggedinUserID != null && userProvider.loggedinUserEmail != null) {
+      final userRef = firestore.collection('users').doc(userProvider.loggedinUserID);
 
       await userRef.set({
-        'email': userProvider.email,
+        'email': userProvider.loggedinUserEmail,
         'lastSignIn': FieldValue.serverTimestamp(),
-        'name': userProvider.name ?? '', 
+        'name': userProvider.loggedinUserName ?? '', 
       }, SetOptions(merge: true));
     } else {
       print('User ID or email is null');

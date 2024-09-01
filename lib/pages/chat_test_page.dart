@@ -165,7 +165,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future<void> _sendChatMessage(String message, int historyIndex) async {
-    final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+    final timestamp = DateTime.now().toString();
 
     setState(() {
       _loading = true;

@@ -27,8 +27,8 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
 
     final userProvider = Provider.of<UserProvider>(context);
-    String userName = (userProvider.name ?? '').isEmpty ? 'Anonymous User' : userProvider.name!;
-    String userEmail = (userProvider.email ?? '').isEmpty ? 'No email' : userProvider.email!;
+    String userName = (userProvider.loggedinUserName ?? '').isEmpty ? 'Anonymous User' : userProvider.loggedinUserName!;
+    String userEmail = (userProvider.loggedinUserEmail ?? '').isEmpty ? 'No email' : userProvider.loggedinUserEmail!;
 
     return Scaffold(
       appBar: AppBar(

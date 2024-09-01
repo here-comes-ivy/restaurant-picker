@@ -35,7 +35,7 @@ class NearbyRestaurantData {
       'Content-Type': 'application/json',
       'X-Goog-Api-Key': googApikey,
       'X-Goog-FieldMask':
-          'places.id,places.displayName,places.rating,places.userRatingCount,places.shortFormattedAddress,places.photos'
+          'places.id,places.displayName,places.rating,places.userRatingCount,places.shortFormattedAddress,places.photos,places.priceLevel'
       //可能會用到的欄位: 
       //Advanced Filter: places.priceLevel,places.types,places.regularOpeningHours,places.businessStatus,
 
@@ -105,6 +105,7 @@ class NearbyRestaurantData {
             'rating': (place['rating'] as num?)?.toDouble() ?? 0.0,
             'ratingCount': place['userRatingCount'] as int? ?? 0,
             'photo': 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            'priceLevel': place['priceLevel'] as String? ?? 'N/A',
             //'photo': getPhotoUrl(place),
 
             // 'types': (place['types'] as List<dynamic>?)?.cast<String>() ?? [],

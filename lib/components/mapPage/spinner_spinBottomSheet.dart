@@ -1,29 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'spinner_spinnerBuilder.dart';
 
 class SpinnerBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.8,
-      width: MediaQuery.of(context).size.width * 0.8,
+      height: MediaQuery.of(context).size.height * 0.4,
+      width: MediaQuery.of(context).size.width * 0.9,
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      child: Column(
-        children: [
-          SizedBox(height: 10),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(2.5),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              height: 4,
+              width: 40,
+              margin: EdgeInsets.symmetric(vertical: 8),
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
-          ),
-          Expanded(
-            child: SpinnerBuilder(),
-          ),
-        ],
+            SpinnerBuilder(),
+          ],
+        ),
       ),
     );
   }
@@ -31,11 +35,12 @@ class SpinnerBottomSheet extends StatelessWidget {
   static void show(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      useRootNavigator: true,
       isScrollControlled: true,
+      isDismissible: true, 
+      enableDrag: true,
       backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return SpinnerBottomSheet();
-      },
+      builder: (context) => SpinnerBottomSheet(),
     );
   }
 }
