@@ -2,21 +2,25 @@ import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'landing_page.dart';
-import '../services/saveFirestoreData.dart';
+import '../services/firestoreService.dart';
+
+import '../services/userDataProvider.dart';
+import 'package:provider/provider.dart';
 
 class AuthGate extends StatelessWidget {
-  final String clientId = '311208916992-sennaidp9rigi5nmngpljm8doqe6odeb.apps.googleusercontent.com';
+  final String clientId =
+      '311208916992-sennaidp9rigi5nmngpljm8doqe6odeb.apps.googleusercontent.com';
 
   final auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
 
-  final currentUser = auth.currentUser;
-  print("Current user: $currentUser");
+    final currentUser = auth.currentUser;
+    print("Current user: $currentUser");
 
     return StreamBuilder<User?>(
       stream: auth.authStateChanges(),
@@ -74,12 +78,16 @@ class AuthGate extends StatelessWidget {
             actions: [
               AuthStateChangeAction<SignedIn>((context, state) {
                 if (state.user != null) {
-                  SaveFirestoreUser().updateUserData(context);
+                  FirestoreService().updateUserData(context);
+                  print('User ID: ${userProvider.loggedinUserID}');
+                  print('User Email: ${userProvider.loggedinUserEmail}');
                 }
               }),
               AuthStateChangeAction<UserCreated>((context, state) {
                 if (state.credential.user != null) {
-                  SaveFirestoreUser().updateUserData(context);
+                  FirestoreService().updateUserData(context);
+                  print('User ID: ${userProvider.loggedinUserID}');
+                  print('User Email: ${userProvider.loggedinUserEmail}');
                 }
               }),
             ],

@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'services/userDataProvider.dart';
 import 'services/locationDataProvider.dart';
 import 'services/mapFilterProvider.dart';
+import 'services/favoriteStateProvider.dart';
+import 'services/restaurantDataProvider.dart';
 
 
 import 'pages/onboarding_page.dart';
@@ -26,8 +28,12 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => LocationDataProvider(),
         ),
-            ChangeNotifierProvider(
-      create: (context) => FilterProvider()),
+        ChangeNotifierProvider(create: (context) => FilterProvider()),
+        ChangeNotifierProvider(create: (context) => FavoriteStateProvider()),
+        ChangeNotifierProvider(create: (context) => RestaurantProvider()),
+
+        
+
       ],
       child: MyApp(),
     ),
@@ -43,7 +49,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          
           seedColor: Colors.deepOrange,
           brightness: Brightness.dark,
         ),

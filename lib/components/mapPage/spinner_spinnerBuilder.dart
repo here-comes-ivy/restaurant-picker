@@ -59,11 +59,9 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
     if (spinCount >= maxSpinBeforeRefresh) {
       _refreshData();
     } else {
-      // 如果不需要刷新數據，只需要重新洗牌當前顯示的餐廳
       displayedRestaurants.shuffle();
     }
 
-    // 選擇一個不同於上次的隨機索引
     int newIndex;
     do {
       newIndex = Random().nextInt(displayedRestaurants.length);
@@ -71,6 +69,7 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
 
     lastSelectedIndex = newIndex;
     controller.add(newIndex);
+    setState(() {});
   }
 
   @override

@@ -48,13 +48,13 @@ class NearbyRestaurantData {
 
     var requestBody = {
       "includedTypes": ["restaurant"],
-      "maxResultCount": 10,
+      "maxResultCount": 20,
       "locationRestriction": {
         "circle": {
           "center": {
         "latitude": lat,
         "longitude": lng},
-          "radius": 1000
+          "radius": radius
         }
       }
     };

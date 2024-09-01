@@ -5,7 +5,7 @@ class FilterProvider with ChangeNotifier {
   String? apiPriceLevel;
 
   double? userSelectedRadius;
-  double? apiRadius;
+  double? apiRadius = 3000.0;
 
 
   void updatePriceRange(int? newPriceRange) {

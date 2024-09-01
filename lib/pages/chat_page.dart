@@ -107,7 +107,6 @@ class _ChatPageState extends State<ChatPage> {
                         style:TextStyle(color: Colors.grey[900]),
                         cursorColor: Colors.grey,
                         controller: _textController,
-                        autofocus: true,
                         focusNode: _textFieldFocus,
                         decoration: InputDecoration(
                             hintText: 'Ask me anything...',

@@ -3,6 +3,8 @@ import '../utils/cardStyles.dart';
 import '../components/profilePage/cardslider.dart';
 import '../utils/decorationStyles.dart';
 import '../components/profilePage/paymentGrid.dart';
+import '../components/profilePage/favoriteList.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import '../services/getFirestoreData.dart';
 import '../services/userDataProvider.dart';
@@ -52,23 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ProfileTitle(text: 'Recommended'),
               SliverToBoxAdapter(child: CardSlider(),),
               ProfileTitle(text: 'Browse History'),
-              SliverFixedExtentList(
-                itemExtent: 100.0,
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return RestaurantCard(
-                      cardChild: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('List Item ${index + 1}'),
-                          Text('Details of Item${index + 1}'),
-                        ],
-                      ),
-                    );
-                  },
-                  childCount: 5, // 設置列表項目數量
-                ),
-              ),
+              FavoritedList(),
               ProfileTitle(text: 'Support Us'),
               PaymentGrid(),
             ],

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class UserProvider with ChangeNotifier {
-  // Firebase 用户实例
-  User? loggedinUser;
 
+  User? loggedinUser;
   String? loggedinUserName;
   String? loggedinUserEmail;
   String? loggedinUserID;
