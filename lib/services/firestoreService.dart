@@ -28,7 +28,7 @@ class FirestoreService {
     }
   }
 
-  Future<void> updateBrowseHistory({
+  Future<void> updateFavoriteList({
     required String? loggedinUserID,
     required String? restaurantID,
     required String? restaurantName,
@@ -66,6 +66,15 @@ class FirestoreService {
       print('Failed to check if restaurant is favorited: $e');
       return false;
     }
+  }
+
+    Stream<QuerySnapshot> fetchFavoriteRestaurants(String? loggedinUserID) {
+    return firestore
+        .collection('users')
+        .doc(loggedinUserID)
+        .collection('favoriteRestaurant')
+        .where('savedAsFavorite', isEqualTo: true)
+        .snapshots();
   }
 
 }

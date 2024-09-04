@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'favoriteitems.dart';
 import '../components/favoritePage/editAndDeleteDialog.dart';
 import '../utils/cardStyles.dart';
+
 
 class SavedItem {
   final String title;

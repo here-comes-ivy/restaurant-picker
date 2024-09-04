@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import '/utils/responsiveSize.dart';
 import 'spinner_spinnerCard.dart';
-import '../../services/getNearbyRestaurants.dart';
+import '../../services/googAPI_getNearbyRestaurants.dart';
 
 class SpinnerBuilder extends StatefulWidget {
   @override
@@ -18,7 +18,7 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
   List<Map<String, dynamic>> allRestaurants = [];
   List<Map<String, dynamic>> displayedRestaurants = [];
   int spinCount = 0;
-  final int maxSpinBeforeRefresh = 10; 
+  final int maxSpinBeforeRefresh = 15; 
   int? lastSelectedIndex;
 
   @override
@@ -59,6 +59,7 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
     if (spinCount >= maxSpinBeforeRefresh) {
       _refreshData();
     } else {
+      _selectRandomRestaurants();
       displayedRestaurants.shuffle();
     }
 

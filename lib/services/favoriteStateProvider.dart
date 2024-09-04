@@ -21,7 +21,7 @@ class FavoriteStateProvider extends ChangeNotifier {
     _favorites[restaurantID] = newState;
     notifyListeners();
 
-    await _firestoreService.updateBrowseHistory(
+    await _firestoreService.updateFavoriteList(
       loggedinUserID: loggedinUserID,
       restaurantID: restaurantID,
       restaurantName: restaurantName,

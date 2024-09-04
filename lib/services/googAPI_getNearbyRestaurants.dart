@@ -21,7 +21,6 @@ class NearbyRestaurantData {
   }
 
   NearbyRestaurantData._internal();
-
   Future<List<Map<String, dynamic>>> fetchData() async {
 
     await locationProvider.getLocation();

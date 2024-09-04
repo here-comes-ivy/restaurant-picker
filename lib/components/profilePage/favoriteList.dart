@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_picker/utils/cardStyles.dart';
+import 'package:restaurant_picker/components/favoritePage/favoriteitems.dart';
+import 'package:restaurant_picker/services/userDataProvider.dart';
+import 'package:provider/provider.dart';
+
 
 class FavoritedList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return SliverFixedExtentList(
                 itemExtent: 100.0,
                 delegate: SliverChildBuilderDelegate(
@@ -19,7 +24,8 @@ class FavoritedList extends StatelessWidget {
                       ),
                     );
                   },
-                  childCount: 5, // 設置列表項目數量
+                  childCount: 5,
+
                 ),
               );
   }

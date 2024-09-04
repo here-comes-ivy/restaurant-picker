@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_picker/services/userDataProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_picker/services/firestoreService.dart';
-import 'package:restaurant_picker/services/favoriteStateProvider.dart';
 
 
 class FavoriteFAB extends StatefulWidget {
@@ -34,7 +33,7 @@ class FavoriteFABState extends State<FavoriteFAB> {
   void initState() {
     super.initState();
     firestoreService = FirestoreService();
-    // checkIfFavorited();
+
   }
 
   // Future<void> checkIfFavorited() async {
@@ -61,7 +60,7 @@ class FavoriteFABState extends State<FavoriteFAB> {
           ? Theme.of(context).colorScheme.primaryContainer
           : Theme.of(context).colorScheme.secondaryContainer,
       onPressed: () async {
-        await firestoreService.updateBrowseHistory(
+        await firestoreService.updateFavoriteList(
           loggedinUserID: userProvider.loggedinUserID,
           restaurantID: widget.restaurantID,
           restaurantName: widget.restaurantName,
