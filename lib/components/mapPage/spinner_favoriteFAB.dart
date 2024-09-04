@@ -26,9 +26,8 @@ class FavoriteFAB extends StatefulWidget {
 }
 
 class FavoriteFABState extends State<FavoriteFAB> {
-  bool isFavorited = false;
   late FirestoreService firestoreService;
-
+    bool isFavorited = false;
   @override
   void initState() {
     super.initState();
@@ -36,22 +35,13 @@ class FavoriteFABState extends State<FavoriteFAB> {
 
   }
 
-  // Future<void> checkIfFavorited() async {
-  //   final userProvider = Provider.of<UserProvider>(context, listen: false);
-  //   final favoriteState = Provider.of<FavoriteStateProvider>(context);
-
-  //   bool favorited = await firestoreService.isRestaurantFavorited(
-  //     loggedinUserID: userProvider.loggedinUserID,
-  //     restaurantID: widget.restaurantID,
-  //   );
-  //   setState(() {
-  //     isFavorited = favorited;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
+    String? loggedinUserID = userProvider.loggedinUserID;
+    //bool isFavorited = firestoreService.isRestaurantFavorited(loggedinUserID: loggedinUserID, restaurantID: widget.restaurantID);
+
     return FloatingActionButton(
       shape: const CircleBorder(),
       mini: true,
@@ -61,14 +51,14 @@ class FavoriteFABState extends State<FavoriteFAB> {
           : Theme.of(context).colorScheme.secondaryContainer,
       onPressed: () async {
         await firestoreService.updateFavoriteList(
-          loggedinUserID: userProvider.loggedinUserID,
+          loggedinUserID: loggedinUserID,
           restaurantID: widget.restaurantID,
           restaurantName: widget.restaurantName,
           rating: widget.restaurantRating,
           ratingCount: widget.restaurantRatingCount,
           address: widget.restaurantAddress,
           priceLevel: widget.restaurantPriceLevel,
-          savedAsFavorite: !isFavorited, // Toggle the favorite status
+          savedAsFavorite: !isFavorited, 
         );
         setState(() {
           isFavorited = !isFavorited;

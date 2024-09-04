@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'services/userDataProvider.dart';
 import 'services/locationDataProvider.dart';
 import 'services/mapFilterProvider.dart';
-import 'services/favoriteStateProvider.dart';
+import 'services/temp_favoriteStateProvider.dart';
 import 'services/restaurantDataProvider.dart';
 
 
@@ -15,7 +15,7 @@ import 'pages/landing_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/chat_test_page.dart';
 import 'pages/map_page.dart';
-import 'pages/favorite_page.dart';
+import 'pages/favorite_page_old.dart';
 import 'pages/auth_gate.dart';
 
 void main() async {

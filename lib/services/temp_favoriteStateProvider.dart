@@ -1,12 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_picker/services/firestoreService.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class FavoriteStateProvider extends ChangeNotifier {
   final Map<String, bool> _favorites = {};
   final FirestoreService _firestoreService = FirestoreService();
 
+  final firestore = FirebaseFirestore.instance;
+
+
   bool isFavorite(String restaurantID) => _favorites[restaurantID] ?? false;
+
+  Future<bool> isRestaurantFavorited({
+    required String? loggedinUserID,
+    required String? restaurantID,
+  }) async {
+    try {
+      final doc = await firestore
+          .collection('users')
+          .doc(loggedinUserID)
+          .collection('favoriteRestaurant')
+          .doc(restaurantID)
+          .get();
+      return doc.exists && doc.data()?['savedAsFavorite'] == true;
+    } catch (e) {
+      print('Failed to check if restaurant is favorited: $e');
+      return false;
+    }
+  }
 
   Future<void> toggleFavorite({
     required String loggedinUserID,
@@ -35,7 +58,7 @@ class FavoriteStateProvider extends ChangeNotifier {
 
   Future<void> initializeFavorite(String loggedinUserID, String restaurantID) async {
     if (!_favorites.containsKey(restaurantID)) {
-      final isFavorited = await _firestoreService.isRestaurantFavorited(
+      final isFavorited = await isRestaurantFavorited(
         loggedinUserID: loggedinUserID,
         restaurantID: restaurantID,
       );
@@ -43,4 +66,7 @@ class FavoriteStateProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+    
+
 }

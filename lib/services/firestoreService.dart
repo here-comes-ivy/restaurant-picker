@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'userDataProvider.dart';
 import 'RestaurantDataProvider.dart';
 
-
 class FirestoreService {
   final firestore = FirebaseFirestore.instance;
   Future<void> updateUserData(BuildContext context) async {
@@ -39,15 +38,19 @@ class FirestoreService {
     required bool savedAsFavorite,
   }) async {
     try {
-      await firestore.collection('users').doc(loggedinUserID).collection('favoriteRestaurant').doc(restaurantID).set({
+      await firestore
+          .collection('users')
+          .doc(loggedinUserID)
+          .collection('favoriteRestaurant')
+          .doc(restaurantID)
+          .set({
         'name': restaurantName,
         'rating': rating,
         'ratingCount': ratingCount,
         'address': address,
         'priceLevel': priceLevel,
-        'savedAsFavorite': true,
+        'savedAsFavorite': savedAsFavorite,
         'lastUpdated': FieldValue.serverTimestamp(),
-        
       }, SetOptions(merge: true));
       print('Restaurant ID $restaurantID has been saved to Firestore.');
     } catch (e) {
@@ -55,20 +58,9 @@ class FirestoreService {
     }
   }
 
-  Future<bool> isRestaurantFavorited({
-    required String? loggedinUserID,
-    required String? restaurantID,
-  }) async {
-    try {
-      final doc = await firestore.collection('users').doc(loggedinUserID).collection('favoriteRestaurant').doc(restaurantID).get();
-      return doc.exists && doc.data()?['savedAsFavorite'] == true;
-    } catch (e) {
-      print('Failed to check if restaurant is favorited: $e');
-      return false;
-    }
-  }
 
-    Stream<QuerySnapshot> fetchFavoriteRestaurants(String? loggedinUserID) {
+
+  Stream<QuerySnapshot> fetchFavoriteRestaurants(String? loggedinUserID) {
     return firestore
         .collection('users')
         .doc(loggedinUserID)
@@ -77,4 +69,16 @@ class FirestoreService {
         .snapshots();
   }
 
+  Stream<bool> fetchFavoriteStatus({
+    required String? loggedinUserID,
+    required String? restaurantID,
+  }) {
+    return firestore
+        .collection('users')
+        .doc(loggedinUserID)
+        .collection('favoriteRestaurant')
+        .doc(restaurantID)
+        .snapshots()
+        .map((doc) => doc.exists && doc.data()?['savedAsFavorite'] == true);
+  }
 }
