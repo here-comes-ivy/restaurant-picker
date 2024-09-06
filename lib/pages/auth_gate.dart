@@ -9,7 +9,7 @@ import '../services/firestoreService.dart';
 import '../services/userDataProvider.dart';
 import 'package:provider/provider.dart';
 
-class AuthGate extends StatelessWidget {
+class AuthPage extends StatelessWidget {
   final String clientId =
       '311208916992-sennaidp9rigi5nmngpljm8doqe6odeb.apps.googleusercontent.com';
 

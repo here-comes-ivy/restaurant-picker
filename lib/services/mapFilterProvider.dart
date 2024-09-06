@@ -7,6 +7,10 @@ class FilterProvider with ChangeNotifier {
   double? userSelectedRadius;
   double? apiRadius = 3000.0;
 
+  List? userSelectedRestaurantType;
+  List? apiRestaurantType = ['restaurant'];
+
+
 
   void updatePriceRange(int? newPriceRange) {
     Map<int, String> priceLevelMap = {
@@ -24,13 +28,19 @@ class FilterProvider with ChangeNotifier {
   void updateRadius(double newRadius) {
     userSelectedRadius = newRadius*1000; // km to meters
     apiRadius = userSelectedRadius?? 3000.0;
+    notifyListeners();
   }
 
+  void updateRestaurantType(List newList) {
+    userSelectedRestaurantType = newList; 
+    apiRestaurantType = userSelectedRestaurantType?? ['restaurant'];
+    notifyListeners();
+  }
 
   void resetFilters() {
     userSelectedRadius = 3.0;
     userSelectedPriceLevel = null;
-
+    userSelectedPriceLevel = null;
     notifyListeners();
   }
 }

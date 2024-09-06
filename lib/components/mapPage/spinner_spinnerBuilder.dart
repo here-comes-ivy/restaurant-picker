@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
-import '/utils/responsiveSize.dart';
 import 'spinner_spinnerCard.dart';
+
 import '../../services/googAPI_getNearbyRestaurants.dart';
 
 class SpinnerBuilder extends StatefulWidget {
@@ -18,7 +18,7 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
   List<Map<String, dynamic>> allRestaurants = [];
   List<Map<String, dynamic>> displayedRestaurants = [];
   int spinCount = 0;
-  final int maxSpinBeforeRefresh = 15; 
+  final int maxSpinBeforeRefresh = 15;
   int? lastSelectedIndex;
 
   @override
@@ -50,8 +50,7 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
       displayedRestaurants = List.from(allRestaurants)..shuffle();
       displayedRestaurants = displayedRestaurants.take(5).toList();
     }
-    lastSelectedIndex = null;  
-
+    lastSelectedIndex = null;
   }
 
   void spinAgain() {
@@ -90,9 +89,12 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
           return Column(
             children: [
               FortuneBar(
-                height: ResponsiveSize.spinDialogHeight(context),
-                styleStrategy: const UniformStyleStrategy(
-                  borderColor: Colors.transparent,
+                height: MediaQuery.of(context).size.height * 0.3,
+                styleStrategy: UniformStyleStrategy(                 
+                  color:
+                      Theme.of(context).colorScheme.surface.withOpacity(0.8),
+                  borderColor:
+                      Theme.of(context).colorScheme.surface.withOpacity(0.8),    
                 ),
                 selected: controller.stream,
                 visibleItemCount: 1,

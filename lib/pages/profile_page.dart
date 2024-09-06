@@ -4,6 +4,9 @@ import '../components/profilePage/cardslider.dart';
 import '../utils/decorationStyles.dart';
 import '../components/profilePage/paymentGrid.dart';
 import '../components/profilePage/favoriteList.dart';
+import '../components/profilePage/profileUserDetails.dart';
+
+import 'auth_gate.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import '../services/getFirestoreData.dart';
@@ -18,7 +21,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
   @override
   void initState() {
     super.initState();
@@ -27,32 +29,44 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-
     final userProvider = Provider.of<UserProvider>(context);
-    String userName = (userProvider.loggedinUserName ?? '').isEmpty ? 'Anonymous User' : userProvider.loggedinUserName!;
-    String userEmail = (userProvider.loggedinUserEmail ?? '').isEmpty ? 'No email' : userProvider.loggedinUserEmail!;
+    String userName = (userProvider.loggedinUserName ?? '').isEmpty
+        ? 'Anonymous User'
+        : userProvider.loggedinUserName!;
+    String userEmail = (userProvider.loggedinUserEmail ?? '').isEmpty
+        ? 'No email'
+        : userProvider.loggedinUserEmail!;
+    String userPhoto = (userProvider.loggedinUserPhoto ?? '').isEmpty
+        ? 'No Photo'
+        : userProvider.loggedinUserPhoto!;
 
     return Scaffold(
       appBar: AppBar(
-        actions:[
+        actions: [
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
-              Navigator.pop(context);
               FireStoreUser.clearUser();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => AuthPage()),
+              );
             },
           ),
-        ],),
+        ],
+      ),
       //drawer: profileDrawer(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: CustomScrollView(
             slivers: <Widget>[
-              ProfileUserData(userName: userName, userEmail: userEmail),
+              ProfileUserData(userName: userName, userEmail: userEmail, userPhoto: userPhoto),
               ProfileTitle(text: 'Recommended'),
-              SliverToBoxAdapter(child: CardSlider(),),
+              SliverToBoxAdapter(
+                child: CardSlider(),
+              ),
               ProfileTitle(text: 'Browse History'),
               FavoritedList(),
               ProfileTitle(text: 'Support Us'),
@@ -65,58 +79,10 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-class ProfileUserData extends StatelessWidget {
-  const ProfileUserData({
-    super.key,
-    required this.userName,
-    required this.userEmail,
-  });
 
-  final String userName;
-  final String userEmail;
-
-  @override
-  Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: EdgeInsets.only(
-            top: 10.0, left: 30.0, right: 30.0, bottom: 30.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            CircleAvatar(
-              child: Icon(
-                Icons.account_circle,
-              ),
-              backgroundColor: Colors.white,
-              radius: 30.0,
-            ),
-            SizedBox(
-              width: 20.0,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  userName,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Text(userEmail),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class ProfileTitle extends StatelessWidget {
-
-  ProfileTitle({required this.text});  
+  ProfileTitle({required this.text});
   String text;
 
   @override

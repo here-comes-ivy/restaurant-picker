@@ -35,7 +35,7 @@ class _RatingFilterState extends State<RatingFilter> {
                 },
                 child: Icon(
                   index < _rating ? Icons.star : Icons.star_border,
-                  color: Colors.amber,
+                  color: Colors.amber[600],
                   size: 30,
                 ),
               );

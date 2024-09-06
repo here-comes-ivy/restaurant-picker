@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 
 Row buildStars(double rating) {
   List<Widget> stars = [];
+  Color? starColor = Colors.amber[600];
   for (int i = 0; i < 5; i++) {
     if (rating.floor() > i) {
-      stars.add(Icon(Icons.star));
+      stars.add(Icon(Icons.star, color: starColor));
     } else if (rating.floor() - i >= 0.5) {
-      stars.add(Icon(Icons.star_half));
+      stars.add(Icon(Icons.star_half, color: starColor));
     } else {
-      stars.add(Icon(Icons.star_border));
+      stars.add(Icon(Icons.star_border, color: starColor));
     }
   }
   return Row(
@@ -39,7 +40,7 @@ String buildPriceLevel(String priceLevel) {
       dollarSigns += ('\$');
     }
   } else {
-    dollarSigns = ('N/A');
+    dollarSigns = ('');
   }
 
   return dollarSigns.toString();

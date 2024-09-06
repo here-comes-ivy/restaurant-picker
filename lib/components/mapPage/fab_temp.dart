@@ -16,8 +16,8 @@ class FavoriteFAB extends StatefulWidget {
 
   final String restaurantID;
   final String restaurantName;
-  final String restaurantRating;
-  final String restaurantRatingCount;
+  final double restaurantRating;
+  final int restaurantRatingCount;
   final String restaurantAddress;
   final String restaurantPriceLevel;
 

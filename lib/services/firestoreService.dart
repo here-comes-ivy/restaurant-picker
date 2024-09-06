@@ -31,8 +31,8 @@ class FirestoreService {
     required String? loggedinUserID,
     required String? restaurantID,
     required String? restaurantName,
-    required String? rating,
-    required String? ratingCount,
+    required double? rating,
+    required int? ratingCount,
     required String? address,
     required String? priceLevel,
     required bool savedAsFavorite,
@@ -48,7 +48,7 @@ class FirestoreService {
         'rating': rating,
         'ratingCount': ratingCount,
         'address': address,
-        'priceLevel': priceLevel,
+        'priceLevel': (priceLevel != '')? priceLevel: 'N/A',
         'savedAsFavorite': savedAsFavorite,
         'lastUpdated': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
@@ -60,14 +60,20 @@ class FirestoreService {
 
 
 
-  Stream<QuerySnapshot> fetchFavoriteRestaurants(String? loggedinUserID) {
+Stream<QuerySnapshot> fetchFavoriteRestaurants(String? loggedinUserID) {
+  try {
     return firestore
         .collection('users')
         .doc(loggedinUserID)
         .collection('favoriteRestaurant')
         .where('savedAsFavorite', isEqualTo: true)
         .snapshots();
+  } catch (e) {
+    print('Error starting stream: $e');
+    return Stream.empty();
   }
+}
+
 
   Stream<bool> fetchFavoriteStatus({
     required String? loggedinUserID,

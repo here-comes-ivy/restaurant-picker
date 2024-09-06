@@ -29,6 +29,8 @@ class NearbyRestaurantData {
     double lng = location.longitude;
     double? radius = filterProvider.apiRadius;
     String? priceLevel = filterProvider.apiPriceLevel;
+    List? restaurantType = filterProvider.apiRestaurantType;
+
 
     var headers = {
       'Content-Type': 'application/json',
@@ -46,7 +48,8 @@ class NearbyRestaurantData {
         Uri.parse('https://places.googleapis.com/v1/places:searchNearby'));
 
     var requestBody = {
-      "includedTypes": ["restaurant"],
+      "languageCode": 'zh-TW',
+      "includedTypes": restaurantType,
       "maxResultCount": 20,
       "locationRestriction": {
         "circle": {

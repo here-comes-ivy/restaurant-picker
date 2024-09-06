@@ -15,7 +15,7 @@ import 'pages/landing_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/chat_test_page.dart';
 import 'pages/map_page.dart';
-import 'pages/favorite_page_old.dart';
+import 'components/favoritePage/personalList.dart';
 import 'pages/auth_gate.dart';
 
 void main() async {
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
       ),
-      home: LandingPage(),
+      home: AuthPage(),
     );
   }
 }

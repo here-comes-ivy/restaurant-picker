@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:choice/choice.dart';
+import 'package:restaurant_picker/services/mapFilterProvider.dart';
+import 'package:provider/provider.dart';
+
+
 
 class RestaurantTypeMultipleChoice extends StatefulWidget {
   const RestaurantTypeMultipleChoice({super.key});
@@ -9,6 +13,8 @@ class RestaurantTypeMultipleChoice extends StatefulWidget {
 }
 
 class RestaurantTypeMultipleChoiceState extends State<RestaurantTypeMultipleChoice> {
+
+
 List<String> typeList = [
   'American',
   'Bakery',
@@ -53,12 +59,22 @@ List<String> typeList = [
 
   List<String> multipleSelected = [];
 
-  void setMultipleSelected(List<String> value) {
-    setState(() => multipleSelected = value);
+  @override
+  void initState() {
+    super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
+
+    final filterProvider = Provider.of<FilterProvider>(context);
+  void setMultipleSelected(List<String> value) {
+    setState(() => multipleSelected = value);
+    filterProvider.updateRestaurantType(value);
+  }
+
+
     return Card(
       child: Column(
         children: [
@@ -69,7 +85,7 @@ List<String> typeList = [
             multiple: true,
             clearable: true,
             value: multipleSelected,
-            onChanged: setMultipleSelected,
+            onChanged: setMultipleSelected,   
             itemCount: typeList.length,
             itemBuilder: (selection, i) {
               return ChoiceChip(

@@ -7,18 +7,20 @@ class UserProvider with ChangeNotifier {
   String? loggedinUserName;
   String? loggedinUserEmail;
   String? loggedinUserID;
+  String? loggedinUserPhoto;
 
   UserProvider() {
-    FirebaseAuth.instance.authStateChanges().listen(_onAuthStateChanged);
+    FirebaseAuth.instance.authStateChanges().listen(onAuthStateChanged);
   }
 
 
-  void _onAuthStateChanged(User? firebaseUser) {
+  void onAuthStateChanged(User? firebaseUser) {
     if (firebaseUser != null) {
       loggedinUser = firebaseUser;
       loggedinUserName = firebaseUser.displayName ?? "No name"; 
       loggedinUserEmail = firebaseUser.email;
       loggedinUserID = firebaseUser.uid;
+      loggedinUserPhoto = firebaseUser.photoURL?.toString()?? null;
     } else {
       loggedinUser = null;
       loggedinUserName = null;
@@ -41,6 +43,14 @@ class UserProvider with ChangeNotifier {
     if (loggedinUser != null) {
       await loggedinUser!.verifyBeforeUpdateEmail(newEmail);
       loggedinUserEmail = newEmail;
+      notifyListeners();
+    }
+  }
+
+    Future<void> updatePhotoUrl(String newPhoto) async {
+    if (loggedinUser != null) {
+      await loggedinUser!.verifyBeforeUpdateEmail(newPhoto);
+      loggedinUserPhoto = newPhoto;
       notifyListeners();
     }
   }

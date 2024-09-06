@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_picker/utils/cardStyles.dart';
-import 'package:restaurant_picker/components/favoritePage/favoriteitems.dart';
+import 'package:restaurant_picker/components/favoritePage/favoriteItems.dart';
 import 'package:restaurant_picker/services/userDataProvider.dart';
 import 'package:provider/provider.dart';
 

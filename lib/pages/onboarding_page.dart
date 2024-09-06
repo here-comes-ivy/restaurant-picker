@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-
 import 'auth_gate.dart';
-import '../utils/responsiveSize.dart';
-
-import 'package:firebase_auth/firebase_auth.dart';
 
 
 class OnboardingPage extends StatelessWidget {
@@ -22,16 +18,16 @@ class OnboardingPage extends StatelessWidget {
       indicatorAbove: true,
       trailing: Text('Login'),
       trailingFunction: ()async{
-        Navigator.push(context, MaterialPageRoute(builder: (context) => AuthGate()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => AuthPage()));
       },
       background: [
         Padding(
           padding: const EdgeInsets.only(top: 50),
-          child: Image.asset('assets/slide1.png', height:ResponsiveSize.onBoardingSlideHeight(context), width: ResponsiveSize.onBoardingSlideWidth(context),),
+          child: Image.asset('assets/slide1.png', height:MediaQuery.of(context).size.height*0.6, width: MediaQuery.of(context).size.width,),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 50),
-          child: Image.asset('assets/slide2.png', height:ResponsiveSize.onBoardingSlideHeight(context), width: ResponsiveSize.onBoardingSlideWidth(context),),
+          child: Image.asset('assets/slide2.png', height:MediaQuery.of(context).size.height*0.6, width: MediaQuery.of(context).size.width,),
         ),
       ],
       pageBackgroundColor: Color.fromRGBO(237, 58, 39, 1),
@@ -39,7 +35,7 @@ class OnboardingPage extends StatelessWidget {
       speed: 1.8,
       onFinish: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => AuthGate()));
+            MaterialPageRoute(builder: (context) => AuthPage()));
       },
       pageBodies: [
         Container(

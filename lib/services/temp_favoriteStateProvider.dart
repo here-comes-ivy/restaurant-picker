@@ -35,8 +35,8 @@ class FavoriteStateProvider extends ChangeNotifier {
     required String loggedinUserID,
     required String restaurantID,
     required String restaurantName,
-    required String rating,
-    required String ratingCount,
+    required double rating,
+    required int ratingCount,
     required String address,
     required String priceLevel,
   }) async {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import '../components/favoritePage/editAndDeleteDialog.dart';
-import '../utils/cardStyles.dart';
-
+import 'editAndDeleteDialog.dart';
+import '../../utils/cardStyles.dart';
 
 class SavedItem {
   final String title;
@@ -24,12 +23,12 @@ List<SavedItem> savedItems = [
   ),
 ];
 
-class FavoritePage extends StatefulWidget {
+class PersonalFavoriteList extends StatefulWidget {
   @override
-  _FavoritePageState createState() => _FavoritePageState();
+  _PersonalFavoriteListState createState() => _PersonalFavoriteListState();
 }
 
-class _FavoritePageState extends State<FavoritePage> {
+class _PersonalFavoriteListState extends State<PersonalFavoriteList> {
   void _addNewList() {
     showDialog(
       context: context,
@@ -73,11 +72,8 @@ class _FavoritePageState extends State<FavoritePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Favorites'),
-      ),
-      body: ListView.builder(
+    return Expanded(
+      child: ListView.builder(
         itemCount: savedItems.length,
         itemBuilder: (context, index) {
           return Dismissible(
@@ -116,7 +112,8 @@ class _FavoritePageState extends State<FavoritePage> {
                       fontStyle: FontStyle.italic),
                 ),
                 children: <Widget>[
-                  Column(
+                  ListView(
+                    shrinkWrap: true,
                     children: _buildExpandableContent(savedItems[index]),
                   ),
                 ],
@@ -124,10 +121,6 @@ class _FavoritePageState extends State<FavoritePage> {
             ),
           );
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: _addNewList,
       ),
     );
   }
@@ -147,8 +140,7 @@ class _FavoritePageState extends State<FavoritePage> {
             children: [
               IconButton(
                 icon: Icon(Icons.edit),
-                onPressed: () {
-                },
+                onPressed: () {},
               ),
               IconButton(
                 icon: Icon(Icons.delete),
