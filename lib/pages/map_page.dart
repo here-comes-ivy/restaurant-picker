@@ -23,6 +23,8 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   late GoogleMapController _mapController;
+  Set<Circle> circles = Set<Circle>();
+
   final LatLng defaultLocation =
       LatLng(25.0340637447189, 121.56452691031619); // 台北101
 
@@ -36,13 +38,30 @@ class _MapPageState extends State<MapPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<LocationDataProvider>().getLocation();
     });
+    addCircle();
   }
 
   @override
   void dispose() {
     _mapController.dispose();
     super.dispose();
+
   }
+
+    void addCircle() {
+    Circle circle = Circle(
+      circleId: CircleId("myCircle"),
+      center: defaultLocation,
+      radius: 1000, // 半徑，單位是米
+      fillColor: Colors.blue.withOpacity(0.1),
+      strokeColor: Colors.blue,
+      strokeWidth: 2,
+    );
+    
+    setState(() {
+      circles.add(circle);
+    });
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +85,7 @@ class _MapPageState extends State<MapPage> {
                   onMapCreated: (GoogleMapController controller) {
                     _mapController = controller;
                   },
+                  circles: circles,
                 ),
                 SafeArea(
                   child: Padding(

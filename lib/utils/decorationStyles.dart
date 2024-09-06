@@ -4,7 +4,8 @@ import '../utils/colorSetting.dart';
 
 const kSearchAddressInputDecoration = InputDecoration(
   filled: true,
-  fillColor: Colors.white,
+  fillColor:Colors.white, 
+
   prefixIcon: Icon(Icons.search, color: Colors.grey),
   hintText: 'Search Location',
   hintStyle: TextStyle(color: Colors.grey),
