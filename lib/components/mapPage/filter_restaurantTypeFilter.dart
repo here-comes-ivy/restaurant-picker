@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:choice/choice.dart';
 import 'package:restaurant_picker/services/mapFilterProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_picker/utils/cardStyles.dart';
+
 
 
 
@@ -17,7 +19,6 @@ class RestaurantTypeMultipleChoiceState extends State<RestaurantTypeMultipleChoi
 
 List<String> typeList = [
   'American',
-  'Bakery',
   'Bar',
   'Barbecue',
   'Brazilian',
@@ -37,14 +38,11 @@ List<String> typeList = [
   'Japanese',
   'Korean',
   'Lebanese',
-  'Meal Delivery',
-  'Meal Takeaway',
   'Mediterranean',
   'Mexican',
   'Middle Eastern',
   'Pizza',
   'Ramen',
-  'Restaurant',
   'Sandwich Shop',
   'Seafood',
   'Spanish',
@@ -75,12 +73,10 @@ List<String> typeList = [
   }
 
 
-    return Card(
-      child: Column(
+    return FilterCard(
+      title: 'Restaurant Type',
+      cardChild: Column(
         children: [
-           Text(
-            'Restaurant Type',
-          ),
           InlineChoice<String>(
             multiple: true,
             clearable: true,

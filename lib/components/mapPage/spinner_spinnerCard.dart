@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'spinner_favoriteFAB.dart';
-import 'package:restaurant_picker/utils/restaurantSymbolsBuilder.dart';
+import 'package:restaurant_picker/utils/smallWidgetBuilder.dart';
 
 FortuneItem buildRestaurantData(Map<String, dynamic> restaurant) {
   String restaurantID = restaurant['id'];

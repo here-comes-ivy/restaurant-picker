@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_picker/utils/cardStyles.dart';
 
 
 class OptionSwitchList extends StatefulWidget {
@@ -20,10 +21,10 @@ class _OptionSwitchListState extends State<OptionSwitchList> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
+    return FilterCard(
+      title: 'More options',
+      cardChild: Column(
           children: <Widget>[
-            Text('More options'),
             SwitchListTile(
               value: deliverySwitch,
               onChanged: (bool? value) {

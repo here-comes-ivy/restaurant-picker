@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'spinner_spinnerBuilder.dart';
+import 'package:restaurant_picker/utils/smallWidgetBuilder.dart';
 
 class SpinnerBottomSheet extends StatelessWidget {
   @override
@@ -16,15 +17,7 @@ class SpinnerBottomSheet extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              height: 4,
-              width: 40,
-              margin: EdgeInsets.symmetric(vertical: 8),
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
+            BottomSheetHandler(),
             SpinnerBuilder(),
           ],
         ),

@@ -14,8 +14,6 @@ import '../components/mapPage/spinner_spinBottomSheet.dart';
 import '../components/mapPage/filter_FilterRow.dart';
 import '../components/mapPage/spinner_spinbutton.dart';
 
-
-
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
 
@@ -29,8 +27,8 @@ class _MapPageState extends State<MapPage> {
       LatLng(25.0340637447189, 121.56452691031619); // 台北101
 
   void _onMapCreated(GoogleMapController controller) {
-  _mapController = controller;
-}
+    _mapController = controller;
+  }
 
   @override
   void initState() {
@@ -55,43 +53,50 @@ class _MapPageState extends State<MapPage> {
         } else {
           LatLng mapCenter =
               locationProvider.currentLocation ?? defaultLocation;
-          return Stack(
-            children: [
-              GoogleMap(
-                myLocationEnabled: true,
-                myLocationButtonEnabled: true,
-                initialCameraPosition: CameraPosition(
-                  target: mapCenter,
-                  zoom: 15,
+          return Scaffold(
+            body: Stack(
+              children: [
+                GoogleMap(
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                  initialCameraPosition: CameraPosition(
+                    target: mapCenter,
+                    zoom: 15,
+                  ),
+                  onMapCreated: (GoogleMapController controller) {
+                    _mapController = controller;
+                  },
                 ),
-                onMapCreated: (GoogleMapController controller) {
-                  _mapController = controller;
-                },
-              ),
-              SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          TextField(
-                            style: TextStyle(color: Colors.black),
-                            decoration: kSearchAddressInputDecoration,
-                            onTap: () {
-                            },
-                          ),
-                          SizedBox(height: 5),
-                          SearchFilterRow(),
-                        ],
-                      ),
-                      SpinButton(),
-                    ],
+                SafeArea(
+                  child: Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            TextField(
+                              style: TextStyle(color: Colors.black),
+                              decoration: kSearchAddressInputDecoration,
+                              onTap: () {},
+                            ),
+                            SizedBox(height: 5),
+                            SearchFilterRow(),
+                          ],
+                        ),
+                        Positioned(
+                          bottom: 40,
+                          left: 0,
+                          right: 0,
+                          child: Center(child: SpinButton()),
+                        ),
+                      ],
+                    ),
+
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         }
       },

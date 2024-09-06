@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 Row buildStars(double rating) {
   List<Widget> stars = [];
   Color? starColor = Colors.amber[600];
@@ -18,7 +17,6 @@ Row buildStars(double rating) {
     children: stars,
   );
 }
-
 
 String buildPriceLevel(String priceLevel) {
   String dollarSigns = '';
@@ -44,4 +42,22 @@ String buildPriceLevel(String priceLevel) {
   }
 
   return dollarSigns.toString();
+}
+
+
+
+class BottomSheetHandler extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+  height: 4,
+  width: 40,
+  margin: EdgeInsets.symmetric(vertical: 8),
+  decoration: BoxDecoration(
+    color: Colors.grey[300],
+    borderRadius: BorderRadius.circular(2),
+  ),
+);
+  }
 }

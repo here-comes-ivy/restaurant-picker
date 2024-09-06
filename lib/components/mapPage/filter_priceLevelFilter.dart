@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_picker/utils/cardStyles.dart';
 
 import 'package:restaurant_picker/services/mapFilterProvider.dart';
 
@@ -19,12 +20,12 @@ class _PriceRangeChoiceChipsState extends State<PriceRangeChoiceChips> {
     final filterProvider = Provider.of<FilterProvider>(context);
 
 
-    return  Card(
-        child: Column(
+    return  FilterCard(
+        title: 'Price range',
+        cardChild: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Price range'),
             Wrap(
               spacing: 5.0,
               children: List<Widget>.generate(

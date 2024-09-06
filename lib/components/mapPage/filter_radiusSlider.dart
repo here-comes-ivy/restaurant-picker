@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_picker/services/mapFilterProvider.dart';
+import 'package:restaurant_picker/utils/cardStyles.dart';
+
 
 
 class RadiusSlider extends StatefulWidget {
@@ -24,13 +26,12 @@ class _RadiusSliderState extends State<RadiusSlider> {
   Widget build(BuildContext context) {
     final filterProvider = Provider.of<FilterProvider>(context);
 
-    return Card(
-      child: Column(
+    return FilterCard(
+      title: 'Distance',
+      cardChild:  Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text(
-            'Distance',
-          ),
+          
           SliderTheme(
             data: SliderTheme.of(context).copyWith(
               activeTrackColor: Colors.deepOrangeAccent,

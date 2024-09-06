@@ -6,6 +6,7 @@ import 'filter_optionSwitchList.dart';
 import 'filter_ratingFilter.dart';
 import 'filter_openingHour.dart';
 import 'spinner_spinBottomSheet.dart';
+import 'package:restaurant_picker/utils/smallWidgetBuilder.dart';
 
 class FilterBottomSheet extends StatelessWidget {
   const FilterBottomSheet({Key? key}) : super(key: key);
@@ -19,10 +20,19 @@ class FilterBottomSheet extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Padding(child: Text("Set Filter"), padding: EdgeInsets.all(10)),
+          BottomSheetHandler(),
+          Padding(
+              child: Text(
+                "Set Filter",
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20.0,
+                ),
+              ),
+              padding: EdgeInsets.all(10)),
           Expanded(
             child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 12),
               children: [
                 OpeningHourFilter(),
                 FilterDivider,
@@ -65,7 +75,6 @@ class FilterBottomSheet extends StatelessWidget {
                   onPressed: () {
                     Navigator.pop(context);
                     SpinnerBottomSheet.show(context);
-                    
                   },
                 ),
               ],
@@ -90,6 +99,6 @@ class FilterBottomSheet extends StatelessWidget {
 }
 
 Widget FilterDivider = Padding(
-  padding: const EdgeInsets.all(10.0),
+  padding: const EdgeInsets.all(6.0),
   child: Divider(),
 );

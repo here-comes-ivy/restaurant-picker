@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_picker/utils/cardStyles.dart';
 
 List<int> convertDaysToNumbers(List<String> days) {
   final Map<String, int> dayToNumber = {
@@ -42,12 +43,12 @@ class _OpeningHourFilterState extends State<OpeningHourFilter> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
+    return FilterCard(
+      title: 'Opening Hour',
+      cardChild: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text('Opening Hour'),
           SizedBox(height: 10.0),
           Wrap(
             spacing: 5.0,

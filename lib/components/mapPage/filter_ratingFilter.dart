@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_picker/utils/cardStyles.dart';
+
 
 class RatingFilter extends StatefulWidget {
   final int starCount;
@@ -19,10 +21,10 @@ class _RatingFilterState extends State<RatingFilter> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
+    return FilterCard(
+      title: 'Rating',
+      cardChild: Column(
         children: [
-          Text('Rating'),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: List.generate(widget.starCount, (index) {

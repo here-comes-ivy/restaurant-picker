@@ -4,7 +4,7 @@ import 'package:restaurant_picker/services/firestoreService.dart';
 import 'package:restaurant_picker/services/userDataProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_picker/utils/cardStyles.dart';
-import 'package:restaurant_picker/utils/restaurantSymbolsBuilder.dart';
+import 'package:restaurant_picker/utils/smallWidgetBuilder.dart';
 import '../components/favoritePage/editAndDeleteDialog.dart';
 import '../components/favoritePage/personalList.dart';
 import '../components/favoritePage/favoriteItems.dart';

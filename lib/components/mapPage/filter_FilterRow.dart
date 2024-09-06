@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'filter_filterBottomSheet.dart';
-import 'filter_restaurantTypeFilter.dart';
 
 
 class SearchFilter extends StatelessWidget {
