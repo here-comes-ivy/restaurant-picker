@@ -1,12 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:restaurant_picker/utils/colorSetting.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../components/chatPage/messageTile.dart';
-import '../services/getFirestoreData.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -16,10 +11,6 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final firestore = FirebaseFirestore.instance;
-  late String _userId;
-  String? messageText;
-
   List<Content> history = [];
   late final GenerativeModel _model;
   late final ChatSession _chat;
@@ -27,19 +18,8 @@ class _ChatPageState extends State<ChatPage> {
   final TextEditingController _textController = TextEditingController();
   final FocusNode _textFieldFocus = FocusNode();
   bool _loading = false;
-  static const _apiKey = 'AIzaSyDt-IJTvGWC75LnKxIfUI90SErWpePN8c4';
-
-  void _scrollDown() {
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => _scrollController.animateTo(
-        _scrollController.position.minScrollExtent,
-        duration: const Duration(
-          milliseconds: 750,
-        ),
-        curve: Curves.easeOutCirc,
-      ),
-    );
-  }
+  static const _apiKey =
+      'AIzaSyDt-IJTvGWC75LnKxIfUI90SErWpePN8c4'; // https://ai.google.dev/ (Get API key from this link)
 
   @override
   void initState() {
@@ -49,8 +29,13 @@ class _ChatPageState extends State<ChatPage> {
       apiKey: _apiKey,
     );
     _chat = _model.startChat();
-    FireStoreUser();
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+      setAIRole();
+      sendAIGreeting();
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +84,6 @@ class _ChatPageState extends State<ChatPage> {
                         style: TextStyle(color: Colors.grey[900]),
                         cursorColor: Colors.grey,
                         controller: _textController,
-                        autofocus: true,
                         focusNode: _textFieldFocus,
                         decoration: InputDecoration(
                             hintText: 'Ask me anything...',
@@ -111,9 +95,6 @@ class _ChatPageState extends State<ChatPage> {
                             border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
                                 borderRadius: BorderRadius.circular(10))),
-                        onChanged: (value) {
-                          messageText = value;
-                        },
                       ),
                     ),
                   ),
@@ -164,9 +145,58 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  Future<void> _sendChatMessage(String message, int historyIndex) async {
-    final timestamp = DateTime.now().toString();
+void _scrollDown() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _scrollController.animateTo(
+        _scrollController.position.minScrollExtent,
+        duration: const Duration(
+          milliseconds: 750,
+        ),
+        curve: Curves.easeOutCirc,
+      ),
+    );
+  }
 
+
+Future<void> setAIRole() async {
+    try {
+      await _chat.sendMessage(Content.text(
+        "You are a professional restaurant recommendation specialist. Your task is to help users find the right restaurant for them and answer their questions about various cuisines, ingredients, and cooking methods. You should be friendly, professional, and always ready to provide insightful suggestions and interesting food knowledge. If users ask questions that are not related to restaurants or food, please politely steer the conversation back to your area of expertise."
+      ));
+    } catch (e) {
+      print("Error setting AI role: $e");
+    }
+  }
+
+
+  Future<void> sendAIGreeting() async {
+    setState(() {
+      _loading = true;
+    });
+
+    try {
+      var response = await _chat.sendMessage(Content.text(
+        "With less than 30 words, please greet me as a restaurant recommendation specialist, briefly introduce your role, and ask what type of cuisine I am in the mood for today or if I have any special dining needs so you can provide the most suitable dining recommendations. Make sure to be friendly and approachable in your greeting."
+      ));
+      var greeting = response.text;
+      if (greeting != null) {
+        setState(() {
+          history.add(Content('model', [TextPart(greeting)]));
+          _loading = false;
+        });
+        _scrollDown();
+      }
+    } catch (e) {
+      print("Error sending AI greeting: $e");
+      setState(() {
+        _loading = false;
+        history.add(Content('model', [TextPart("Hello! I'm your AI dining assistant, here to help you discover restaurants you'll love. Based on your preferences and past choices, I’ve curated some personalized recommendations just for you. Let's find your next favorite spot!")]));
+      });
+      _scrollDown();
+    }
+  }
+
+  Future<void> _sendChatMessage(String message, int historyIndex) async {
     setState(() {
       _loading = true;
       _textController.clear();
@@ -174,16 +204,6 @@ class _ChatPageState extends State<ChatPage> {
       _scrollDown();
     });
 
-    try {
-      await firestore.collection('users').doc(_userId).collection('chats').add({
-        'text': message,
-        'lastUpdated': FieldValue.serverTimestamp(),
-        'sender': 'user',
-      });
-    } catch (e) {
-      print('Error saving user message to Firestore: $e');
-      // 錯誤處理邏輯
-    }
     List<Part> parts = [];
 
     try {
@@ -204,23 +224,12 @@ class _ChatPageState extends State<ChatPage> {
             }
             history.insert(historyIndex, Content('model', parts));
           });
-
-          try {
-            await firestore
-                .collection('users')
-                .doc(_userId)
-                .collection('chats')
-                .add({
-              'text': text,
-              'timestamp': FieldValue.serverTimestamp(),
-              'sender': 'AI',
-            });
-          } catch (e) {
-            print('Error saving AI response to Firestore: $e');
-            // 錯誤處理邏輯
-          }
         }
       }
+      await _chat.sendMessage(Content.text(
+        "Please answer the questions as a restaurant recommendation specialist, with a professional yet friendly tone. Make sure all responses are focused on related to dining choices or related culinary information. Provide restaurant recommendations or food suggestions when appropriate."
+
+      ));
     } catch (e, t) {
       print(e);
       print(t);

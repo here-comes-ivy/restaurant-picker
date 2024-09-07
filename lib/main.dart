@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'services/userDataProvider.dart';
 import 'services/locationDataProvider.dart';
 import 'services/mapFilterProvider.dart';
-import 'services/temp_favoriteStateProvider.dart';
+import 'temp/temp_favoriteStateProvider.dart';
 import 'services/restaurantDataProvider.dart';
 
 

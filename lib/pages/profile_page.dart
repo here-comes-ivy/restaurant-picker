@@ -3,11 +3,9 @@ import '../utils/cardStyles.dart';
 import '../components/profilePage/cardslider.dart';
 import '../utils/decorationStyles.dart';
 import '../components/profilePage/paymentGrid.dart';
-import '../components/profilePage/favoriteList.dart';
+import '../components/profilePage/featuresToUnlockList.dart';
 import '../components/profilePage/profileUserDetails.dart';
-
 import 'auth_gate.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import '../services/getFirestoreData.dart';
 import '../services/userDataProvider.dart';
@@ -56,19 +54,16 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
       ),
-      //drawer: profileDrawer(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: CustomScrollView(
-            slivers: <Widget>[
+          child: ListView(
+            children: <Widget>[
               ProfileUserData(userName: userName, userEmail: userEmail, userPhoto: userPhoto),
               ProfileTitle(text: 'Recommended'),
-              SliverToBoxAdapter(
-                child: CardSlider(),
-              ),
+              CardSlider(),
               ProfileTitle(text: 'Browse History'),
-              FavoritedList(),
+              FeaturesToUnlock(),
               ProfileTitle(text: 'Support Us'),
               PaymentGrid(),
             ],
@@ -79,21 +74,17 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-
-
 class ProfileTitle extends StatelessWidget {
   ProfileTitle({required this.text});
-  String text;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Text(
-          text,
-          style: kProfileTitleStyle,
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Text(
+        text,
+        style: kProfileTitleStyle,
       ),
     );
   }
