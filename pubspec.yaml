@@ -50,11 +50,13 @@ dependencies:
   flutter_google_maps_webservices: ^1.1.1
   modal_bottom_sheet: ^3.0.0
   google_maps_flutter_platform_interface: ^2.9.0
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+  flutter_native_splash: ^2.4.1
 
 flutter:
   uses-material-design: true
@@ -62,6 +64,7 @@ flutter:
     - assets/
     - assets/food/
     - assets/banners/
+    - .env
   fonts:
     - family: Pacifico
       fonts:
@@ -69,3 +72,12 @@ flutter:
     - family: Poppins
       fonts:
         - asset: fonts/Poppins-Regular.ttf
+    - family: AbrilFatface
+      fonts:
+        - asset: fonts/AbrilFatface-Regular.ttf
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/splash.gif
+  android: true
+  ios: true

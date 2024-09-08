@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'networking.dart';
 import 'locationDataProvider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:provider/provider.dart';
 import 'mapFilterProvider.dart';
@@ -12,7 +13,7 @@ class NearbyRestaurantData {
   LocationDataProvider locationProvider = LocationDataProvider();
   FilterProvider filterProvider = FilterProvider();
 
-  String googApikey = 'AIzaSyBvCYfs_gzMM3iKU1NpW2XTOlPuwG13b1s';
+  String googApikey = dotenv.env['googApikey']!;
 
   static final NearbyRestaurantData _instance =
       NearbyRestaurantData._internal();

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:restaurant_picker/utils/colorSetting.dart';
 import '../components/chatPage/messageTile.dart';
 
@@ -18,15 +20,14 @@ class _ChatPageState extends State<ChatPage> {
   final TextEditingController _textController = TextEditingController();
   final FocusNode _textFieldFocus = FocusNode();
   bool _loading = false;
-  static const _apiKey =
-      'AIzaSyDt-IJTvGWC75LnKxIfUI90SErWpePN8c4'; // https://ai.google.dev/ (Get API key from this link)
+  String geminiApiKey = dotenv.env['geminiApiKey']!; 
 
   @override
   void initState() {
     super.initState();
     _model = GenerativeModel(
       model: 'gemini-pro',
-      apiKey: _apiKey,
+      apiKey: geminiApiKey,
     );
     _chat = _model.startChat();
 
@@ -176,7 +177,7 @@ Future<void> setAIRole() async {
 
     try {
       var response = await _chat.sendMessage(Content.text(
-        "With less than 30 words, please greet me as a restaurant recommendation specialist, briefly introduce your role, and ask what type of cuisine I am in the mood for today or if I have any special dining needs so you can provide the most suitable dining recommendations. Make sure to be friendly and approachable in your greeting."
+        "With less than 30 words, please send a greeting as a restaurant recommendation specialist, briefly introduce your role, and ask what type of cuisine I am in the mood for today or if I have any special dining needs so you can provide the most suitable dining recommendations. Make sure to be friendly and approachable in your greeting."
       ));
       var greeting = response.text;
       if (greeting != null) {

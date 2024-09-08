@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RestaurantList {
 
@@ -22,7 +23,7 @@ class RestaurantList {
   }
 
   Future<String> getRandomImageUrl(String query) async {
-    final apiKey = 'YOUR_UNSPLASH_API_KEY';
+    final apiKey = dotenv.env['unsplashApiKey'];
     final url = Uri.parse('https://api.unsplash.com/photos/random?query=$query&client_id=$apiKey');
 
     final response = await http.get(url);

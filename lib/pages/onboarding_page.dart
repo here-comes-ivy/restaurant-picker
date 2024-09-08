@@ -52,6 +52,7 @@ class OnboardingPage extends StatelessWidget {
                         textStyle: const TextStyle(
                           fontSize: 35.0,
                           fontWeight: FontWeight.bold,
+                          fontFamily: 'AbrilFatface'
                         ),
                         speed: const Duration(milliseconds: 100),
                       ),
@@ -80,6 +81,7 @@ class OnboardingPage extends StatelessWidget {
                         textStyle: const TextStyle(
                           fontSize: 35.0,
                           fontWeight: FontWeight.bold,
+                          fontFamily: 'AbrilFatface'
                         ),
                         speed: const Duration(milliseconds: 100),
                       ),

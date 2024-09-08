@@ -86,9 +86,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   SliverToBoxAdapter(
                     child: ProfileTitle(text: 'Features To Unlock'),
                   ),
-                  SliverToBoxAdapter(
-                    child: FeaturesToUnlock(),
-                  ),
+                  // SliverToBoxAdapter(
+                  //   child: FeaturesToUnlock(),
+                  // ),
                   SliverToBoxAdapter(
                     child: ProfileTitle(text: 'Support Us'),
                   ),
