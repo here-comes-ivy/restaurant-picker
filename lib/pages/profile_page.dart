@@ -78,17 +78,20 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: ProfileTitle(text: 'Recommended'),
                   ),
                   SliverToBoxAdapter(
-                    child: AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: CardSlider(),
+                    child: Container(
+                      height: 100,
+                      child: AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: CardSlider(),
+                      ),
                     ),
                   ),
                   SliverToBoxAdapter(
                     child: ProfileTitle(text: 'Features To Unlock'),
                   ),
-                  // SliverToBoxAdapter(
-                  //   child: FeaturesToUnlock(),
-                  // ),
+                  SliverToBoxAdapter(
+                    child: FeaturesToUnlock(),
+                  ),
                   SliverToBoxAdapter(
                     child: ProfileTitle(text: 'Support Us'),
                   ),

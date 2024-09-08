@@ -2,36 +2,53 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_picker/utils/cardStyles.dart';
 
 class FeaturesToUnlock extends StatelessWidget {
-  final List<Map<String, String>> unlockFeatureList = [
+  final List<Map<String, dynamic>> unlockFeatureList = [
     {
       'title': 'Unlimited Spins',
-      'description': 'Unlock endless possibilities by enabling unlimited spins. Discover a new dining experience every time without any restrictions!'
-    },
-    {
-      'title': 'Group Chat Feature',
-      'description': 'Coordinate with friends and family in real-time. Share restaurant options, vote on favorites, and finalize your dining plans seamlessly within the app.'
+      'description':
+          'Unlock to explore endless restaurant options within 24 hours.',
+      'price': 3.99
     },
     {
       'title': 'Advanced Filtering',
-      'description': 'Tailor your search with precision using advanced filters. Whether you\'re craving a specific cuisine, need a quiet spot, or have dietary restrictions, find the perfect restaurant that meets all your criteria.'
-    },
-    {
-      'title': 'Loyalty Program',
-      'description': 'Earn rewards every time you dine! Our integrated loyalty program lets you collect points and unlock exclusive discounts at your favorite restaurants, making every meal more rewarding.'
+      'description':
+          'Tailor your search with precision using advanced filters.',
+      'price': 5.99
     },
     {
       'title': 'In-App Reservations',
-      'description': 'Easily book a table at your selected restaurant without leaving the app. Check availability in real-time and receive instant confirmation for a seamless dining experience.'
-    }
+      'description':
+          'Easily book a table without leaving the app.',
+      'price': 6.99
+    },
+    {
+      'title': 'Group Chat Feature',
+      'description':
+          'Plan dining with friends and family in real-time by group chats.',
+      'price': 7.99
+    },
+    {
+      'title': 'Loyalty Program',
+      'description':
+          'Earn rewards and unlock exclusive discounts every time you dine.',
+      'price': 10.99
+    },
   ];
 
   @override
   Widget build(BuildContext context) {
+
+
     return ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: unlockFeatureList.length,
       itemBuilder: (BuildContext context, int index) {
+
+      String displayPrice = unlockFeatureList[index]['price']!.toString();
+      String featureTitle = unlockFeatureList[index]['title']!;
+      String featureDescription = unlockFeatureList[index]['description']!;
+
         return RestaurantCard(
           cardChild: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -44,23 +61,30 @@ class FeaturesToUnlock extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        unlockFeatureList[index]['title']!,
+                        featureTitle,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
                       ),
                       SizedBox(height: 4),
-                      Flexible(
-                        child: Text(
-                          unlockFeatureList[index]['description']!,
-                          style: TextStyle(fontSize: 14),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                        ),
+                      Text(
+                        featureDescription,
+                        style: TextStyle(fontSize: 12),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                       ),
                     ],
                   ),
+                ),
+                FilledButton(
+                  style: ButtonStyle(
+                    minimumSize: WidgetStateProperty.all(Size(40, 15)),
+                    padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 6))
+                    
+                  ),
+                  onPressed: () {},
+                  child: Text('\$$displayPrice',style: TextStyle(fontWeight:FontWeight.bold),),
                 ),
               ],
             ),
