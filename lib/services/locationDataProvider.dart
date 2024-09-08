@@ -3,12 +3,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
-class LocationDataProvider extends ChangeNotifier {
-  LatLng? _currentLocation;
-  bool _isLoading = true;
+class LocationProvider extends ChangeNotifier {
+  LatLng? currentLocation;
+  bool isLoading = true;
 
-  LatLng? get currentLocation => _currentLocation;
-  bool get isLoading => _isLoading;
 
   Future<void> getLocation() async {
     try {
@@ -17,7 +15,7 @@ class LocationDataProvider extends ChangeNotifier {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
           // Permissions are denied, handle this case
-          _isLoading = false;
+          isLoading = false;
           notifyListeners();
           return;
         }
@@ -26,12 +24,12 @@ class LocationDataProvider extends ChangeNotifier {
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.low
       );
-      _currentLocation = LatLng(position.latitude, position.longitude);
-      _isLoading = false;
+      currentLocation = LatLng(position.latitude, position.longitude);
+      isLoading = false;
       print('Latitude: ${position.latitude}, Longitude: ${position.longitude}');
       notifyListeners();
     } catch (e) { 
-      _isLoading = false;
+      isLoading = false;
       print('Error getting location: $e');
       notifyListeners();
     }

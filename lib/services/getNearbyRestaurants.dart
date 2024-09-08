@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'mapFilterProvider.dart';
 
 class NearbyRestaurantData {
-  LocationDataProvider locationProvider = LocationDataProvider();
+  LocationProvider locationProvider = LocationProvider();
   FilterProvider filterProvider = FilterProvider();
 
   String googApikey = dotenv.env['googApikey']!;
@@ -62,13 +62,6 @@ class NearbyRestaurantData {
       }
     };
 
-    // [WIP] Seems not working: 添加條件
-    //"businessStatus": "OPERATIONAL",
-
-    // if (priceLevel != null) {
-    //   requestBody["priceLevel"] = priceLevel;
-    // }
-
     request.body = json.encode(requestBody);
     request.headers.addAll(headers);
 
@@ -85,19 +78,19 @@ class NearbyRestaurantData {
           return [];
         }
 
+        print('Radius:$radius, Restaurant type:$restaurantType');
         return (restaurantData['places'] as List<dynamic>)
             .map<Map<String, dynamic>>((place) {
 
-          // [WIP] Photo URL for the restaurant
-          // String getPhotoUrl(dynamic place, {int maxWidth = 400, int maxHeight = 400}) {
-          //   if (place['photos'].isNotEmpty) {
-          //     String photoName = place['photos'][0]['name'] as String? ?? '';
-          //     if (photoName.isNotEmpty) {
-          //       return 'https://places.googleapis.com/v1/$photoName/media?key=googApikey&maxHeightPx=$maxHeight&maxWidthPx=$maxWidth';
-          //     }
-          //   }
-          //   return 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; // 返回空字符串或者默认图片 URL
-          // }
+          String getPhotoUrl(dynamic place, {int maxWidth = 400, int maxHeight = 400}) {
+            if (place['photos'].isNotEmpty) {
+              String photoName = place['photos'][0]['name'] as String? ?? '';
+              if (photoName.isNotEmpty) {
+                return 'https://places.googleapis.com/v1/$photoName/media?key=googApikey&maxHeightPx=$maxHeight&maxWidthPx=$maxWidth';
+              }
+            }
+            return 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; // 返回空字符串或者默认图片 URL
+          }
 
 
           return {
@@ -107,9 +100,9 @@ class NearbyRestaurantData {
                 place['shortFormattedAddress'] as String? ?? 'No Address',
             'rating': (place['rating'] as num?)?.toDouble() ?? 0.0,
             'ratingCount': place['userRatingCount'] as int? ?? 0,
-            'photo': 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            //'photo': 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
             'priceLevel': place['priceLevel'] as String? ?? 'N/A',
-            //'photo': getPhotoUrl(place),
+            'photo': getPhotoUrl(place),
 
             // 'types': (place['types'] as List<dynamic>?)?.cast<String>() ?? [],
             // 'openingHours': place['regularOpeningHours'] as Map<String, dynamic>? ?? {},

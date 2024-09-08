@@ -4,56 +4,53 @@ import 'package:restaurant_picker/services/mapFilterProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_picker/utils/cardStyles.dart';
 
-
-
-
 class RestaurantTypeMultipleChoice extends StatefulWidget {
   const RestaurantTypeMultipleChoice({super.key});
 
   @override
-  State<RestaurantTypeMultipleChoice> createState() => RestaurantTypeMultipleChoiceState();
+  State<RestaurantTypeMultipleChoice> createState() =>
+      RestaurantTypeMultipleChoiceState();
 }
 
-class RestaurantTypeMultipleChoiceState extends State<RestaurantTypeMultipleChoice> {
-
-
-List<String> typeList = [
-  'American',
-  'Bar',
-  'Barbecue',
-  'Brazilian',
-  'Breakfast',
-  'Brunch',
-  'Cafe',
-  'Chinese',
-  'Coffee Shop',
-  'Fast Food',
-  'French',
-  'Greek',
-  'Hamburger',
-  'Ice Cream Shop',
-  'Indian',
-  'Indonesian',
-  'Italian',
-  'Japanese',
-  'Korean',
-  'Lebanese',
-  'Mediterranean',
-  'Mexican',
-  'Middle Eastern',
-  'Pizza',
-  'Ramen',
-  'Sandwich Shop',
-  'Seafood',
-  'Spanish',
-  'Steak House',
-  'Sushi',
-  'Thai',
-  'Turkish',
-  'Vegan',
-  'Vegetarian',
-  'Vietnamese',
-];
+class RestaurantTypeMultipleChoiceState
+    extends State<RestaurantTypeMultipleChoice> {
+  List<String> typeList = [
+    'American',
+    'Bar',
+    'Barbecue',
+    'Brazilian',
+    'Breakfast',
+    'Brunch',
+    'Cafe',
+    'Chinese',
+    'Coffee Shop',
+    'Fast Food',
+    'French',
+    'Greek',
+    'Hamburger',
+    'Ice Cream Shop',
+    'Indian',
+    'Indonesian',
+    'Italian',
+    'Japanese',
+    'Korean',
+    'Lebanese',
+    'Mediterranean',
+    'Mexican',
+    'Middle Eastern',
+    'Pizza',
+    'Ramen',
+    'Sandwich Shop',
+    'Seafood',
+    'Spanish',
+    'Steak House',
+    'Sushi',
+    'Thai',
+    'Turkish',
+    'Vegan',
+    'Vegetarian',
+    'Vietnamese',
+  ];
 
   List<String> multipleSelected = [];
 
@@ -62,16 +59,13 @@ List<String> typeList = [
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     final filterProvider = Provider.of<FilterProvider>(context);
-  void setMultipleSelected(List<String> value) {
-    setState(() => multipleSelected = value);
-    filterProvider.updateRestaurantType(value);
-  }
-
+    void setMultipleSelected(List<String> value) {
+      setState(() => multipleSelected = value);
+      filterProvider.updateRestaurantType(value);
+    }
 
     return FilterCard(
       title: 'Restaurant Type',
@@ -81,7 +75,7 @@ List<String> typeList = [
             multiple: true,
             clearable: true,
             value: multipleSelected,
-            onChanged: setMultipleSelected,   
+            onChanged: setMultipleSelected,
             itemCount: typeList.length,
             itemBuilder: (selection, i) {
               return ChoiceChip(

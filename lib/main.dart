@@ -27,7 +27,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(
-          create: (context) => LocationDataProvider(),
+          create: (context) => LocationProvider(),
         ),
         ChangeNotifierProvider(create: (context) => FilterProvider()),
         ChangeNotifierProvider(create: (context) => FavoriteStateProvider()),

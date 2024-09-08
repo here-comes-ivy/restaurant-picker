@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'spinner_spinnerCard.dart';
 
-import '../../services/googAPI_getNearbyRestaurants.dart';
+import '../../services/getNearbyRestaurants.dart';
 
 class SpinnerBuilder extends StatefulWidget {
   @override

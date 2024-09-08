@@ -6,7 +6,8 @@ import '../utils/decorationStyles.dart';
 // https://pub.dev/packages/modal_bottom_sheet
 import '../components/mapPage/filter_FilterRow.dart';
 import '../components/mapPage/spinner_spinbutton.dart';
-import '../components/mapPage/mapWidget.dart';
+//import '../components/mapPage/mapWidget.dart';
+import '../components/mapPage/temp_mapWidget.dart';
 import '../components/mapPage/filter_filterBottomSheet.dart';
 
 class MapPage extends StatefulWidget {
@@ -24,13 +25,13 @@ class _MapPageState extends State<MapPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<LocationDataProvider>().getLocation();
+      context.read<LocationProvider>().getLocation();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LocationDataProvider>(
+    return Consumer<LocationProvider>(
       builder: (context, locationProvider, child) {
         if (locationProvider.isLoading) {
           return Center(child: CircularProgressIndicator());
