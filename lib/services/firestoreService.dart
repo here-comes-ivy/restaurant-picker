@@ -58,6 +58,26 @@ class FirestoreService {
     }
   }
 
+ Future<void> updateFavoriteStatus({
+    required String? loggedinUserID,
+    required String? restaurantID,
+    required bool savedAsFavorite,
+  }) async {
+    try {
+      await firestore
+          .collection('users')
+          .doc(loggedinUserID)
+          .collection('favoriteRestaurant')
+          .doc(restaurantID)
+          .set({
+        'savedAsFavorite': savedAsFavorite,
+        'lastUpdated': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+      print('Favorite status of Restaurant ID $restaurantID has been updated to Firestore.');
+    } catch (e) {
+      print('Failed to update favorite status: $e');
+    }
+  }
 
 
 Stream<QuerySnapshot> fetchFavoriteRestaurants(String? loggedinUserID) {

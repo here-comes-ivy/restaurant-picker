@@ -1,11 +1,11 @@
-
 import 'package:flutter/material.dart';
+import 'package:restaurant_picker/services/firestoreService.dart';
 
-class DeleteBackground extends StatelessWidget {
+class DeleteWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.red,
+      color: Color.fromRGBO(237, 58, 39, 1),
       alignment: Alignment.centerRight,
       padding: EdgeInsets.only(right: 20.0),
       child: Icon(Icons.delete, color: Colors.white),
@@ -13,7 +13,7 @@ class DeleteBackground extends StatelessWidget {
   }
 }
 
-class EditBackground extends StatelessWidget {
+class EditWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,6 +25,46 @@ class EditBackground extends StatelessWidget {
   }
 }
 
+class DeleteFavoriteConfirmationDialog extends StatelessWidget {
+  late FirestoreService firestoreService;
+
+  final String itemName;
+  final VoidCallback onDelete;
+  String restaurantID;
+  String loggedinUserID;
+
+  DeleteFavoriteConfirmationDialog(
+      {required this.itemName,
+      required this.onDelete,
+      required this.restaurantID,
+      required this.loggedinUserID});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: Text("Are you sure you want to delete $itemName?"),
+      actions: <Widget>[
+        ElevatedButton(
+          child: Text("Cancel",),
+          onPressed: () => Navigator.of(context).pop(false),
+        ),
+        ElevatedButton(
+          child: Text("Delete",
+              style: TextStyle(color: Color.fromRGBO(237, 58, 39, 1))),
+          onPressed: () async {
+            onDelete();
+            Navigator.of(context).pop(true);
+            await firestoreService.updateFavoriteStatus(
+              loggedinUserID: loggedinUserID,
+              restaurantID: restaurantID,
+              savedAsFavorite: false,
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
 
 class AddListDialog extends StatelessWidget {
   final Function(String) onAdd;
@@ -124,4 +164,3 @@ class DeleteConfirmationDialog extends StatelessWidget {
     );
   }
 }
-

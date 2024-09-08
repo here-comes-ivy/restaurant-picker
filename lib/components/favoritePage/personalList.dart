@@ -78,8 +78,8 @@ class _PersonalFavoriteListState extends State<PersonalFavoriteList> {
         itemBuilder: (context, index) {
           return Dismissible(
             key: Key(savedItems[index].title),
-            secondaryBackground: DeleteBackground(),
-            background: EditBackground(),
+            secondaryBackground: DeleteWidget(),
+            background: EditWidget(),
             dismissThresholds: {
               DismissDirection.endToStart: 0.2,
               DismissDirection.startToEnd: 0.2,
