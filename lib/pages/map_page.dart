@@ -7,6 +7,7 @@ import '../utils/decorationStyles.dart';
 import '../components/mapPage/filter_FilterRow.dart';
 import '../components/mapPage/spinner_spinbutton.dart';
 import '../components/mapPage/mapWidget.dart';
+import '../components/mapPage/filter_filterBottomSheet.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -43,21 +44,36 @@ class _MapPageState extends State<MapPage> {
                 SafeArea(
                   child: Padding(
                     padding: EdgeInsets.all(20.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            TextField(
-                              style: TextStyle(color: Colors.black),
-                              decoration: kSearchAddressInputDecoration,
-                              onTap: () {},
+                    child: Expanded(
+                      child: TextField(
+                        style: TextStyle(color: Colors.black),
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          prefixIcon: Icon(Icons.search, color: Colors.grey),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              Icons.tune,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .surface
+                                  .withOpacity(0.8),
                             ),
-                            SizedBox(height: 5),
-                            SearchFilterRow(),
-                          ],
+                            onPressed: () {
+                              FilterBottomSheet.show(context);
+                            },
+                          ),
+                          hintText: 'Search on Map',
+                          hintStyle: TextStyle(color: Colors.grey),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8.0),
+                            ),
+                            borderSide: BorderSide.none,
+                          ),
                         ),
-                      ],
+                        onTap: () {},
+                      ),
                     ),
                   ),
                 ),

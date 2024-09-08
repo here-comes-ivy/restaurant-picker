@@ -21,7 +21,6 @@ class SearchFilter extends StatelessWidget {
         ),
         onPressed: () {
           FilterBottomSheet.show(context);
-
         },
         child: child,
       ),

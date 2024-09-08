@@ -2,21 +2,6 @@ import 'package:flutter/material.dart';
 import '../utils/colorSetting.dart';
 
 
-const kSearchAddressInputDecoration = InputDecoration(
-  filled: true,
-  fillColor:Colors.white, 
-
-  prefixIcon: Icon(Icons.search, color: Colors.grey),
-  hintText: 'Search Location',
-  hintStyle: TextStyle(color: Colors.grey),
-  border: OutlineInputBorder(
-    borderRadius: 
-    BorderRadius.all(
-      Radius.circular(8.0),),
-    borderSide: BorderSide.none,
-  ),
-);
-
 
 var kProfileTitleStyle = TextStyle(
     color: Colors.white,
