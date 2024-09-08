@@ -70,7 +70,6 @@ class FeaturesToUnlock extends StatelessWidget {
                       SizedBox(height: 4),
                       Text(
                         featureDescription,
-                        style: TextStyle(fontSize: 12),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                       ),

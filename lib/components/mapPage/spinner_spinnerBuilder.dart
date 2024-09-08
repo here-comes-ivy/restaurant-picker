@@ -115,6 +115,7 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20.0,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 onPressed: spinAgain,

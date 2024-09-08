@@ -26,7 +26,7 @@ class EditWidget extends StatelessWidget {
 }
 
 class DeleteFavoriteConfirmationDialog extends StatelessWidget {
-  late FirestoreService firestoreService;
+  FirestoreService firestoreService = FirestoreService();
 
   final String itemName;
   final VoidCallback onDelete;

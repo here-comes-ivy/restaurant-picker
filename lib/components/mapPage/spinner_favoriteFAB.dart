@@ -27,7 +27,6 @@ class FavoriteFAB extends StatefulWidget {
 
 class FavoriteFABState extends State<FavoriteFAB> {
   late FirestoreService firestoreService;
-    bool isFavorited = false;
   @override
   void initState() {
     super.initState();
@@ -37,39 +36,48 @@ class FavoriteFABState extends State<FavoriteFAB> {
 
 
   @override
-  Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context);
-    String? loggedinUserID = userProvider.loggedinUserID;
-    //bool isFavorited = firestoreService.isRestaurantFavorited(loggedinUserID: loggedinUserID, restaurantID: widget.restaurantID);
+Widget build(BuildContext context) {
+  final userProvider = Provider.of<UserProvider>(context);
+  String? loggedinUserID = userProvider.loggedinUserID;
 
-    return FloatingActionButton(
-      shape: const CircleBorder(),
-      mini: true,
-      elevation: 20,
-      backgroundColor: isFavorited
-          ? Theme.of(context).colorScheme.primaryContainer
-          : Theme.of(context).colorScheme.secondaryContainer,
-      onPressed: () async {
-        await firestoreService.updateFavoriteList(
-          loggedinUserID: loggedinUserID,
-          restaurantID: widget.restaurantID,
-          restaurantName: widget.restaurantName,
-          rating: widget.restaurantRating,
-          ratingCount: widget.restaurantRatingCount,
-          address: widget.restaurantAddress,
-          priceLevel: widget.restaurantPriceLevel,
-          savedAsFavorite: !isFavorited, 
-        );
-        setState(() {
-          isFavorited = !isFavorited;
-        });
-      },
-      child: Icon(
-        isFavorited ? Icons.favorite : Icons.favorite_border,
-        color: isFavorited
-            ? Theme.of(context).colorScheme.onPrimaryContainer
-            : Theme.of(context).colorScheme.onSecondaryContainer,
-      ),
-    );
-  }
+  return StreamBuilder<bool>(
+    stream: firestoreService.fetchFavoriteStatus(
+      loggedinUserID: loggedinUserID,
+      restaurantID: widget.restaurantID,
+    ),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return CircularProgressIndicator(); // 或者你可以顯示一個佔位的圖標
+      }
+      bool isFavorited = snapshot.data ?? false;
+
+      return FloatingActionButton(
+        shape: const CircleBorder(),
+        mini: true,
+        elevation: 20,
+        backgroundColor: isFavorited
+            ? Theme.of(context).colorScheme.primaryContainer
+            : Theme.of(context).colorScheme.secondaryContainer,
+        onPressed: () async {
+          await firestoreService.updateFavoriteList(
+            loggedinUserID: loggedinUserID,
+            restaurantID: widget.restaurantID,
+            restaurantName: widget.restaurantName,
+            rating: widget.restaurantRating,
+            ratingCount: widget.restaurantRatingCount,
+            address: widget.restaurantAddress,
+            priceLevel: widget.restaurantPriceLevel,
+            savedAsFavorite: !isFavorited,
+          );
+        },
+        child: Icon(
+          isFavorited ? Icons.favorite : Icons.favorite_border,
+          color: isFavorited
+              ? Theme.of(context).colorScheme.onPrimaryContainer
+              : Theme.of(context).colorScheme.onSecondaryContainer,
+        ),
+      );
+    },
+  );
+}
 }
