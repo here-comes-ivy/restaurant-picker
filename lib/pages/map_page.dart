@@ -16,7 +16,6 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-
   final LatLng defaultLocation =
       LatLng(25.0340637447189, 121.56452691031619); // 台北101
 
@@ -40,7 +39,7 @@ class _MapPageState extends State<MapPage> {
           return Scaffold(
             body: Stack(
               children: [
-                MapWidget(initialPosition:mapCenter),
+                MapWidget(initialPosition: mapCenter),
                 SafeArea(
                   child: Padding(
                     padding: EdgeInsets.all(20.0),
@@ -58,16 +57,15 @@ class _MapPageState extends State<MapPage> {
                             SearchFilterRow(),
                           ],
                         ),
-                        Positioned(
-                          bottom: 40,
-                          left: 0,
-                          right: 0,
-                          child: Center(child: SpinButton()),
-                        ),
                       ],
                     ),
-
                   ),
+                ),
+                Positioned(
+                  bottom: 40,
+                  left: 0,
+                  right: 0,
+                  child: Center(child: SpinButton()),
                 ),
               ],
             ),

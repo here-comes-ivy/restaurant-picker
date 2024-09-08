@@ -7,11 +7,9 @@ class PaymentGrid extends StatelessWidget {
   final List<String> prices = ["\$0.99", "\$1.99", "\$2.99", "\$3.99"];
 
   void onGooglePayResult(paymentResult) {
-    // 處理 Google Pay 結果
   }
 
   void onApplePayResult(paymentResult) {
-    // 處理 Apple Pay 結果
   }
 
   @override

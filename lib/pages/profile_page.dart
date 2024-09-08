@@ -12,17 +12,26 @@ import '../services/userDataProvider.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
-    FireStoreUser.initUser();
+    _initUser();
+  }
+
+  Future<void> _initUser() async {
+    await FireStoreUser.initUser();
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -55,20 +64,39 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: ListView(
-            children: <Widget>[
-              ProfileUserData(userName: userName, userEmail: userEmail, userPhoto: userPhoto),
-              ProfileTitle(text: 'Recommended'),
-              CardSlider(),
-              ProfileTitle(text: 'Browse History'),
-              FeaturesToUnlock(),
-              ProfileTitle(text: 'Support Us'),
-              PaymentGrid(),
-            ],
-          ),
-        ),
+        child: _isLoading
+            ? Center(child: CircularProgressIndicator())
+            : CustomScrollView(
+                slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    child: ProfileUserData(
+                        userName: userName,
+                        userEmail: userEmail,
+                        userPhoto: userPhoto),
+                  ),
+                  SliverToBoxAdapter(
+                    child: ProfileTitle(text: 'Recommended'),
+                  ),
+                  SliverToBoxAdapter(
+                    child: AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: CardSlider(),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: ProfileTitle(text: 'Features To Unlock'),
+                  ),
+                  SliverToBoxAdapter(
+                    child: FeaturesToUnlock(),
+                  ),
+                  SliverToBoxAdapter(
+                    child: ProfileTitle(text: 'Support Us'),
+                  ),
+                  SliverToBoxAdapter(
+                    child: PaymentGrid(),
+                  ),
+                ],
+              ),
       ),
     );
   }

@@ -14,7 +14,7 @@ class RadiusSlider extends StatefulWidget {
 
 class _RadiusSliderState extends State<RadiusSlider> {
 
-  double displayRadius = 3.0; 
+  double displayRadiusInKM = 3.0; 
 
   @override
   void initState() {
@@ -41,15 +41,15 @@ class _RadiusSliderState extends State<RadiusSlider> {
               overlayShape: RoundSliderOverlayShape(overlayRadius: 30.0),
             ),
             child: Slider(
-              value: displayRadius,
+              value: displayRadiusInKM,
               min: 1.0,
               max: 20.0,
               divisions: 19,
-              label: '${displayRadius.toStringAsFixed(1)} km',
+              label: '${displayRadiusInKM.toStringAsFixed(1)} km',
               onChanged: (double newRadius) {
                 setState(() {
-                  displayRadius = newRadius;
-                  filterProvider.updateRadius(displayRadius); 
+                  displayRadiusInKM = newRadius;
+                  filterProvider.updateRadius(displayRadiusInKM); 
                 });
               },
             ),
