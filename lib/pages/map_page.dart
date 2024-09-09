@@ -52,10 +52,16 @@ class _MapPageState extends State<MapPage> {
                   child: Padding(
                     padding: EdgeInsets.all(20.0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(child: AddressAutoCompleteTextField()),
-                        SizedBox(height:10.0),
+                        Expanded(child: Column(
+                          children: [
+                            AddressAutoCompleteTextField(),
+                            SizedBox(height:10.0),
                         RestaurantTypeFilterRow(),
+                          ],
+                        )),
+                        
                       ],
                     ),
                   ),

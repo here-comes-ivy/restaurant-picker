@@ -38,15 +38,15 @@ class _AddressAutoCompleteTextFieldState extends State<AddressAutoCompleteTextFi
     return Column(
       children: [
         TextField(
-          style: TextStyle(color: Colors.black),
+          
           decoration: InputDecoration(
             filled: true,
-            fillColor: Colors.white,
-            prefixIcon: Icon(Icons.search, color: Colors.grey),
+            fillColor: Theme.of(context).colorScheme.surface.withOpacity(0.8),
+            prefixIcon: Icon(Icons.search),
             suffixIcon: IconButton(
               icon: Icon(
                 Icons.tune,
-                color: Theme.of(context).colorScheme.surface,
+                //color: Colors.white,
               ),
               onPressed: () {
                 FilterBottomSheet.show(context);
