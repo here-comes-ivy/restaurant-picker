@@ -26,13 +26,15 @@ class RestaurantTypeFilterRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: typeList.map((type) => TypeItem(
-          name: type,
-          img: 'assets/foodType/$type.png',
-        )).toList(),
+    return Container(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: typeList.map((type) => TypeItem(
+            name: type,
+            img: 'assets/foodType/$type.png',
+          )).toList(),
+        ),
       ),
     );
   }

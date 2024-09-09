@@ -53,9 +53,9 @@ class _MapPageState extends State<MapPage> {
                     padding: EdgeInsets.all(20.0),
                     child: Column(
                       children: [
-                        AddressAutoCompleteTextField(),
-                        // SizedBox(height:10.0),
-                        // RestaurantTypeFilterRow(),
+                        Expanded(child: AddressAutoCompleteTextField()),
+                        SizedBox(height:10.0),
+                        RestaurantTypeFilterRow(),
                       ],
                     ),
                   ),
