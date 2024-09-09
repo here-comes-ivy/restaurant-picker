@@ -24,7 +24,7 @@ class _AddressTextFieldState extends State<AddressTextField> {
   void _onSearchChanged(String searchText) {
     if (searchText.isNotEmpty) {
       setState(() {
-        _predictions = AddressAutoCompletion().getPlacesAutocomplete(searchText);
+        _predictions = AddressAutoCompletion().getPlacesAutocomplete(input: searchText);
       });
     } else {
       setState(() {
