@@ -6,12 +6,15 @@ import 'dart:math';
 
 class PhotoCreator {
 
+  String ApiKey = dotenv.env['unsplashApiKey']!;
+
+
   Future<String?> getRandomImageUrl(String query) async {
  
   var request = http.Request(
     'GET',
     Uri.parse(
-        'https://api.unsplash.com/search/photos?query=$query&client_id=YOUR_ACCESS_KEY&per_page=30')
+        'https://api.unsplash.com/search/photos?query=$query&client_id=$ApiKey&per_page=30')
   );
 
   http.StreamedResponse response = await request.send();
