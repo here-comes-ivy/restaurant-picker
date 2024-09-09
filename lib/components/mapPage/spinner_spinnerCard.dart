@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
-import 'spinner_favoriteFAB.dart';
 import 'package:restaurant_picker/utils/smallWidgetBuilder.dart';
+import 'spinner_FavoriteButton.dart';
 
 FortuneItem buildRestaurantData(Map<String, dynamic> restaurant) {
   String restaurantID = restaurant['id'];
@@ -64,21 +64,6 @@ FortuneItem buildRestaurantData(Map<String, dynamic> restaurant) {
                     SizedBox(height: height * 0.01),
                     Text(restaurantAddress, style: kSpinnerCardTextStyle,),
                     SizedBox(height: height * 0.01),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //   children: [
-                    //     ActionChip(
-                    //       avatar: Icon(Icons.open_in_full),
-                    //       label: Text('Details'),
-                    //       onPressed: () {},
-                    //     ),
-                    //     ActionChip(
-                    //       avatar: Icon(Icons.directions),
-                    //       label: Text('Direction'),
-                    //       onPressed: () {},
-                    //     ),
-                    //   ],
-                    // ),
                   ],
                 ),
               ),

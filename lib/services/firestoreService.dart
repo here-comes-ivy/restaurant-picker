@@ -52,7 +52,7 @@ class FirestoreService {
         'savedAsFavorite': savedAsFavorite,
         'lastUpdated': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
-      print('Restaurant ID $restaurantID has been saved to Firestore.');
+      print('Restaurant ID $restaurantID has been saved to Firestore with savedAsFavorite status set to $savedAsFavorite' );
     } catch (e) {
       print('Failed to save restaurant ID: $e');
     }

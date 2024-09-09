@@ -63,7 +63,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
-    - assets/food/
+    - assets/foodType/
     - assets/banners/
     - .env
   fonts:

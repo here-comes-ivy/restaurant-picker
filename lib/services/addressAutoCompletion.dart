@@ -3,7 +3,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class PlaceAutoComplete {
+
+// Known issue: unable to fetch predictions with input
+class AddressAutoCompletion {
   Future<List<String>> getPlacesAutocomplete(String input,
       {double? latitude, double? longitude, double? radius}) async {
     var headers = {
@@ -14,7 +16,7 @@ class PlaceAutoComplete {
     var request = http.Request('POST',
         Uri.parse('https://places.googleapis.com/v1/places:autocomplete'));
     request.body = json.encode({
-      "input": input,
+      "input": "pizza",
       "locationBias": {
         "circle": {
           "center": {"latitude": latitude, "longitude": longitude},

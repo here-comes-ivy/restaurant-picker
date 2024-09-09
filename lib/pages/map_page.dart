@@ -10,6 +10,8 @@ import '../components/mapPage/spinner_spinbutton.dart';
 import '../components/mapPage/temp_mapWidget.dart';
 import '../components/mapPage/filter_filterBottomSheet.dart';
 import '../components/mapPage/addressAutoCompleteTextField.dart';
+import '../components/mapPage/filter_restaurantTypeRow.dart';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MapPage extends StatefulWidget {
@@ -49,7 +51,13 @@ class _MapPageState extends State<MapPage> {
                 SafeArea(
                   child: Padding(
                     padding: EdgeInsets.all(20.0),
-                    child: AddressAutoCompleteTextField(),
+                    child: Column(
+                      children: [
+                        AddressAutoCompleteTextField(),
+                        // SizedBox(height:10.0),
+                        // RestaurantTypeFilterRow(),
+                      ],
+                    ),
                   ),
                 ),
                 Positioned(
