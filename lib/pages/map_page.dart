@@ -9,6 +9,8 @@ import '../components/mapPage/spinner_spinbutton.dart';
 //import '../components/mapPage/mapWidget.dart';
 import '../components/mapPage/temp_mapWidget.dart';
 import '../components/mapPage/filter_filterBottomSheet.dart';
+import '../components/mapPage/addressAutoCompleteTextField.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -20,6 +22,8 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   final LatLng defaultLocation =
       LatLng(25.0340637447189, 121.56452691031619); // 台北101
+
+  String googApikey = dotenv.env['googApikey']!;
 
   @override
   void initState() {
@@ -45,37 +49,7 @@ class _MapPageState extends State<MapPage> {
                 SafeArea(
                   child: Padding(
                     padding: EdgeInsets.all(20.0),
-                    child: Expanded(
-                      child: TextField(
-                        style: TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          prefixIcon: Icon(Icons.search, color: Colors.grey),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              Icons.tune,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .surface
-                                  .withOpacity(0.8),
-                            ),
-                            onPressed: () {
-                              FilterBottomSheet.show(context);
-                            },
-                          ),
-                          hintText: 'Search on Map',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(8.0),
-                            ),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                        onTap: () {},
-                      ),
-                    ),
+                    child: AddressAutoCompleteTextField(),
                   ),
                 ),
                 Positioned(

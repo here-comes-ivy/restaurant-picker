@@ -5,11 +5,6 @@ import 'package:restaurant_picker/services/firestoreService.dart';
 import 'package:rxdart/rxdart.dart';
 
 
-
-/// 已知: FAB 狀態似乎與 Firestore 中有誤差
-/// 
-/// 
-/// 
 class FavoriteFAB extends StatefulWidget {
   FavoriteFAB({
     required this.restaurantID,

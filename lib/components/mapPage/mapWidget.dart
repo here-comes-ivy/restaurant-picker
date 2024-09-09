@@ -19,10 +19,10 @@ class _MapWidgetState extends State<MapWidget> {
   late GoogleMapController _mapController;
   Set<Circle> circles = Set<Circle>();
 
-
   @override
   void initState() {
     super.initState();
+    addCircle(widget.initialPosition, Provider.of<FilterProvider>(context, listen: false).apiRadius);
   }
 
   @override
@@ -31,7 +31,7 @@ class _MapWidgetState extends State<MapWidget> {
     super.dispose();
   }
 
-  void addCircle(LatLng position, double radius) async {
+  void addCircle(LatLng position, double radius) {
     Circle circle = Circle(
       circleId: CircleId("myCircle"),
       center: position,
@@ -40,24 +40,15 @@ class _MapWidgetState extends State<MapWidget> {
       strokeColor: Colors.blue,
       strokeWidth: 2,
     );
-    
+
     setState(() {
-      circles.add(circle);
-
+      circles.clear();  
+      circles.add(circle); 
     });
-
-    if (_mapController != null) {
-        LatLngBounds visibleRegion = await _mapController.getVisibleRegion();
-              _mapController.animateCamera(CameraUpdate.newLatLngBounds(visibleRegion, 50));
-      }
   }
-
 
   @override
   Widget build(BuildContext context) {
-    final filterProvider = Provider.of<FilterProvider>(context);
-    double apiRadius = filterProvider.apiRadius;
-
     return GoogleMap(
       myLocationEnabled: true,
       myLocationButtonEnabled: true,
@@ -67,9 +58,9 @@ class _MapWidgetState extends State<MapWidget> {
       ),
       onMapCreated: (GoogleMapController controller) {
         _mapController = controller;
-        addCircle(widget.initialPosition, apiRadius);
       },
-      circles: circles,
+
+      circles: circles,  
     );
   }
 }

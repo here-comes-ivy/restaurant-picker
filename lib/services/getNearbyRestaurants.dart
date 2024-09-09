@@ -78,7 +78,7 @@ class NearbyRestaurantData {
           return [];
         }
 
-        print('Radius:$radius, Restaurant type:$restaurantType');
+        print('Fetching data with criteria: Radius:$radius, Restaurant type:$restaurantType');
         return (restaurantData['places'] as List<dynamic>)
             .map<Map<String, dynamic>>((place) {
 
