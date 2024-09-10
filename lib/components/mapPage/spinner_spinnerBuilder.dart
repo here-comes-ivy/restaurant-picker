@@ -3,8 +3,9 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'spinner_spinnerCard.dart';
+import '../../services/getRestaurantData_test.dart';
 
-import '../../services/getNearbyRestaurants.dart';
+//import '../../services/getRestaurantData.dart';
 
 class SpinnerBuilder extends StatefulWidget {
   @override
@@ -36,7 +37,7 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
 
   Future<void> _refreshData() async {
     setState(() {
-      nearbyRestaurantsFuture = placesService.fetchData();
+      nearbyRestaurantsFuture = placesService.fetchData(context);
     });
     allRestaurants = await nearbyRestaurantsFuture;
     _selectRandomRestaurants();
@@ -80,7 +81,7 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Text('Unable to fetch restaurant data. Error message: ${snapshot.error}');
         } else if (snapshot.hasData && displayedRestaurants.isNotEmpty) {
           List<FortuneItem> fortuneItems = displayedRestaurants
               .map((restaurant) => buildRestaurantData(restaurant))
@@ -123,7 +124,7 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
             ],
           );
         } else {
-          return Text('No data found');
+          return Text('No data found at the specified conditions. Please try again later. ');
         }
       },
     );

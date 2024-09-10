@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'map_page.dart';
 //import 'chat_page.dart';
 import 'chat_test_page.dart';
-
 import 'profile_page.dart';
-import '../components/mapPage/spinner_spinBottomSheet.dart';
-import '../services/getFirestoreData.dart';
-import '../services/firestoreService.dart';
-
 import 'favorite_page.dart';
 
 

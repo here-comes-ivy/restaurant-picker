@@ -5,10 +5,10 @@ class FilterProvider with ChangeNotifier {
   String? apiPriceLevel;
 
   double? userSelectedRadius;
-  double apiRadius = 1000.0;
+  double? apiRadius;
 
-  List? userSelectedRestaurantType;
-  List? apiRestaurantType = ['restaurant'];
+  List<String>? userSelectedRestaurantType;
+  List<String>? apiRestaurantType;
 
 
 
@@ -31,7 +31,7 @@ class FilterProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateRestaurantType(List newList) {
+  void updateRestaurantType(List<String> newList) {
     userSelectedRestaurantType = newList; 
     apiRestaurantType = userSelectedRestaurantType?? ['restaurant'];
     notifyListeners();

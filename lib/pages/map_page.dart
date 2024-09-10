@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import '../services/locationDataProvider.dart';
-import '../utils/decorationStyles.dart';
-// https://pub.dev/packages/modal_bottom_sheet
-import '../components/mapPage/filter_FilterRow.dart';
 import '../components/mapPage/spinner_spinbutton.dart';
-//import '../components/mapPage/mapWidget.dart';
-import '../components/mapPage/temp_mapWidget.dart';
+import '../components/mapPage/mapWidget.dart'; 
 import '../components/mapPage/filter_filterBottomSheet.dart';
-import '../components/mapPage/addressAutoCompleteTextField.dart';
+import '../components/mapPage/addressTextField.dart';
 import '../components/mapPage/filter_restaurantTypeRow.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -22,14 +18,17 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  final LatLng defaultLocation =
-      LatLng(25.0340637447189, 121.56452691031619); // 台北101
+  final LatLng defaultLocation = LatLng(25.0340637447189, 121.56452691031619);
 
-  String googApikey = dotenv.env['googApikey']!;
+  String? googApikey;
 
   @override
   void initState() {
     super.initState();
+    googApikey = dotenv.env['googApikey'];
+    if (googApikey == null) {
+      print('Warning: Google API key is not set');
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<LocationProvider>().getLocation();
     });
@@ -40,39 +39,60 @@ class _MapPageState extends State<MapPage> {
     return Consumer<LocationProvider>(
       builder: (context, locationProvider, child) {
         if (locationProvider.isLoading) {
-          return Center(child: CircularProgressIndicator());
+          return Scaffold(body: Center(child: CircularProgressIndicator()));
         } else {
-          LatLng mapCenter =
-              locationProvider.currentLocation ?? defaultLocation;
+          LatLng mapCenter = locationProvider.currentLocation ?? defaultLocation;
           return Scaffold(
-            body: Stack(
-              children: [
-                MapWidget(initialPosition: mapCenter),
-                SafeArea(
-                  child: Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+            body: SafeArea(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Row(
                       children: [
-                        Expanded(child: Column(
-                          children: [
-                            AddressAutoCompleteTextField(),
-                            SizedBox(height:10.0),
-                        RestaurantTypeFilterRow(),
-                          ],
-                        )),
-                        
+                        IconButton(
+                          icon: Icon(Icons.tune),
+                          onPressed: () => FilterBottomSheet.show(context),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(child: RestaurantTypeFilterRow()),
                       ],
                     ),
                   ),
-                ),
-                Positioned(
-                  bottom: 40,
-                  left: 0,
-                  right: 0,
-                  child: Center(child: SpinButton()),
-                ),
-              ],
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Stack(
+                          children: [
+                            MapWidget(initialPosition: mapCenter),
+                            Padding(
+                              padding: EdgeInsets.all(20.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AddressAutoCompleteTextField(),
+                                  SizedBox(height: 10.0),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 40,
+                              left: 0,
+                              right: 0,
+                              child: Center(child: SpinButton()),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         }

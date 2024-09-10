@@ -6,7 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'services/userDataProvider.dart';
 import 'services/locationDataProvider.dart';
 import 'services/mapFilterProvider.dart';
-import 'temp/temp_favoriteStateProvider.dart';
+import 'wip/temp_favoriteStateProvider.dart';
 import 'services/restaurantDataProvider.dart';
 
 
@@ -15,7 +15,7 @@ import 'pages/landing_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/chat_test_page.dart';
 import 'pages/map_page.dart';
-import 'components/favoritePage/personalList.dart';
+import 'wip/fav_personalList.dart';
 import 'pages/auth_gate.dart';
 
 void main() async {

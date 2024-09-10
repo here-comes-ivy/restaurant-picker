@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'networking.dart';
 import 'locationDataProvider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
-import 'package:provider/provider.dart';
 import 'mapFilterProvider.dart';
 
 class NearbyRestaurantData {
@@ -30,7 +27,7 @@ class NearbyRestaurantData {
     double lng = location.longitude;
     double? radius = filterProvider.apiRadius;
     String? priceLevel = filterProvider.apiPriceLevel;
-    List? restaurantType = filterProvider.apiRestaurantType;
+    List? restaurantType = filterProvider.apiRestaurantType?? ['restaurant'];
 
 
     var headers = {
@@ -86,10 +83,10 @@ class NearbyRestaurantData {
             if (place['photos'].isNotEmpty) {
               String photoName = place['photos'][0]['name'] as String? ?? '';
               if (photoName.isNotEmpty) {
-                return 'https://places.googleapis.com/v1/$photoName/media?maxHeightPx=$maxHeight&maxWidthPx=$maxWidth&key=googApikey';
+                return 'https://places.googleapis.com/v1/$photoName/media?maxHeightPx=$maxHeight&maxWidthPx=$maxWidth&key=$googApikey';
               }
             }
-            return 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; // 返回空字符串或者默认图片 URL
+            return 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; 
           }
 
 
@@ -100,7 +97,6 @@ class NearbyRestaurantData {
                 place['shortFormattedAddress'] as String? ?? 'No Address',
             'rating': (place['rating'] as num?)?.toDouble() ?? 0.0,
             'ratingCount': place['userRatingCount'] as int? ?? 0,
-            //'photo': 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
             'priceLevel': place['priceLevel'] as String? ?? 'N/A',
             'photo': getPhotoUrl(place),
 

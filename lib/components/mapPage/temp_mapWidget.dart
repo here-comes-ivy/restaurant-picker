@@ -92,7 +92,6 @@ class _MapWidgetState extends State<MapWidget> {
             _updateCircle(_lastCameraPosition);
           },
           onCameraIdle: () {
-            // 当相机停止移动时，检查是否需要更新到用户位置
             if (_currentPosition != _lastCameraPosition) {
               _updateCircle(_currentPosition!);
             }

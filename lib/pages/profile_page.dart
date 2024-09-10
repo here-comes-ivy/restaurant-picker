@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../utils/cardStyles.dart';
 import '../components/profilePage/cardslider.dart';
 import '../utils/decorationStyles.dart';
 import '../components/profilePage/paymentGrid.dart';

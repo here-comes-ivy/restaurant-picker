@@ -50,6 +50,8 @@ class AddressAutoCompletion {
       return suggestions.map<String>((suggestion) {
         var placePrediction = suggestion['placePrediction'];
         return '${placePrediction['structuredFormat']['mainText']['text']}, ${placePrediction['structuredFormat']['secondaryText']['text']}';
+        
+
       }).toList();
     } else {
       print(

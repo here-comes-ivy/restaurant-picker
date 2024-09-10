@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:restaurant_picker/utils/colorSetting.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

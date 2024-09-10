@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:restaurant_picker/services/firestoreService.dart';
 import 'package:restaurant_picker/services/userDataProvider.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_picker/utils/cardStyles.dart';
-import 'package:restaurant_picker/utils/smallWidgetBuilder.dart';
-import '../components/favoritePage/editAndDeleteDialog.dart';
-import '../components/favoritePage/personalList.dart';
 import '../components/favoritePage/favoriteItems.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -29,10 +24,6 @@ class _FavoritePageState extends State<FavoritePage> {
 
     return Scaffold(
       appBar: AppBar(title: Text('Favorites')),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {},
-      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),

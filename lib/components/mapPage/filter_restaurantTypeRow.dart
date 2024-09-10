@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_picker/services/mapFilterProvider.dart';
+import 'spinner_spinBottomSheet.dart';
 
-class TypeItem extends StatelessWidget {
+
+class TypeItem extends StatefulWidget {
   TypeItem({required this.name, required this.img});
   final String name;
   final String img;
 
   @override
+  State<TypeItem> createState() => _TypeItemState();
+}
+
+class _TypeItemState extends State<TypeItem> {
+
+bool isSelected = false;
+
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<FilterProvider>(
       builder: (context, filterProvider, child) {
-        bool isSelected = filterProvider.apiRestaurantType?.contains(name.toLowerCase()) ?? false;
+        
         return Padding(
           padding: const EdgeInsets.all(5.0),
           child: GestureDetector(
@@ -20,7 +31,7 @@ class TypeItem extends StatelessWidget {
               width: 70,
               margin: EdgeInsets.only(right: 2.0),
               decoration: BoxDecoration(
-                color: isSelected ? Colors.blue.withOpacity(0.3) : Colors.white.withOpacity(0.7),
+                color: isSelected ? Theme.of(context).colorScheme.surface.withOpacity(0.3) : Colors.transparent,
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: Padding(
@@ -29,12 +40,13 @@ class TypeItem extends StatelessWidget {
                   children: [
                     SizedBox(
                       height: 40,
-                      child: Image.asset(img),
+                      child: Image.asset(widget.img),
                     ),
+                    SizedBox(height:5,),
                     Text(
-                      name,
+                      widget.name,
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.surface,
+                          
                           fontWeight: FontWeight.bold,
                           fontSize: 10.0),
                     ),
@@ -45,11 +57,14 @@ class TypeItem extends StatelessWidget {
             onTap: () {
               List<String> updatedList = List<String>.from(filterProvider.apiRestaurantType ?? []);
               if (isSelected) {
-                updatedList.remove(name.toLowerCase());
+                updatedList.remove(widget.name.toUpperCase());
               } else {
-                updatedList.add(name.toLowerCase());
+                updatedList.add(widget.name.toUpperCase());
               }
               filterProvider.updateRestaurantType(updatedList);
+              SpinnerBottomSheet.show(context);
+              setState(() => isSelected = !isSelected);
+
             },
           ),
         );

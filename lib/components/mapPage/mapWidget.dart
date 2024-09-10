@@ -22,7 +22,7 @@ class _MapWidgetState extends State<MapWidget> {
   @override
   void initState() {
     super.initState();
-    addCircle(widget.initialPosition, Provider.of<FilterProvider>(context, listen: false).apiRadius);
+    addCircle(widget.initialPosition, Provider.of<FilterProvider>(context, listen: false).apiRadius??3000);
   }
 
   @override

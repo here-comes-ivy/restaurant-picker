@@ -4,7 +4,6 @@ import 'package:restaurant_picker/services/userDataProvider.dart';
 import 'package:restaurant_picker/services/firestoreService.dart';
 import 'package:rxdart/rxdart.dart';
 
-
 class FavoriteFAB extends StatefulWidget {
   FavoriteFAB({
     required this.restaurantID,
@@ -14,25 +13,32 @@ class FavoriteFAB extends StatefulWidget {
     required this.restaurantAddress,
     required this.restaurantPriceLevel,
   });
+
   final String restaurantID;
   final String restaurantName;
   final double restaurantRating;
   final int restaurantRatingCount;
   final String restaurantAddress;
   final String restaurantPriceLevel;
+
   @override
   FavoriteFABState createState() => FavoriteFABState();
 }
+
 class FavoriteFABState extends State<FavoriteFAB> {
   late FirestoreService firestoreService;
   late Stream<bool> favoriteStream;
   final _favoriteSubject = BehaviorSubject<bool>();
+  late ValueNotifier<bool> _favoriteNotifier;
+
   @override
   void initState() {
     super.initState();
     firestoreService = FirestoreService();
     _setupFavoriteStream();
+    _favoriteNotifier = ValueNotifier<bool>(false);
   }
+
   void _setupFavoriteStream() {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     String? loggedinUserID = userProvider.loggedinUserID;
@@ -40,14 +46,20 @@ class FavoriteFABState extends State<FavoriteFAB> {
       loggedinUserID: loggedinUserID,
       restaurantID: widget.restaurantID,
     );
-    // 設置防抖動
+
     _favoriteSubject
-        .debounceTime(Duration(milliseconds: 100))
+        .debounceTime(Duration(milliseconds: 500))
         .distinct()
         .listen((isFavorite) {
       _updateFavoriteStatus(isFavorite);
+      _favoriteNotifier.value = isFavorite;
+    });
+
+    favoriteStream.listen((isFavorite) {
+      _favoriteSubject.add(isFavorite);
     });
   }
+
   Future<void> _updateFavoriteStatus(bool isFavorite) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     String? loggedinUserID = userProvider.loggedinUserID;
@@ -66,21 +78,12 @@ class FavoriteFABState extends State<FavoriteFAB> {
       print('Failed to update favorite status: $e');
     }
   }
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<bool>(
-      stream: favoriteStream,
-      builder: (context, snapshot) {
-          print("Stream data: ${snapshot.data}");
-
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return FloatingActionButton(
-            onPressed: null,
-            child: CircularProgressIndicator(),
-          );
-        }
-        bool isFavorited = snapshot.data ?? false;
-
+    return ValueListenableBuilder<bool>(
+      valueListenable: _favoriteNotifier,
+      builder: (context, isFavorited, child) {
         return FloatingActionButton(
           shape: const CircleBorder(),
           mini: true,
@@ -89,9 +92,7 @@ class FavoriteFABState extends State<FavoriteFAB> {
               ? Theme.of(context).colorScheme.primaryContainer
               : Theme.of(context).colorScheme.secondaryContainer,
           onPressed: () async {
-            await _updateFavoriteStatus(!isFavorited);
-            print('isFavorited: $isFavorited');
-
+            _favoriteSubject.add(!isFavorited);
           },
           child: Icon(
             isFavorited ? Icons.favorite : Icons.favorite_border,
@@ -104,10 +105,10 @@ class FavoriteFABState extends State<FavoriteFAB> {
     );
   }
 
-  
   @override
   void dispose() {
     _favoriteSubject.close();
+    _favoriteNotifier.dispose();
     super.dispose();
   }
 }
