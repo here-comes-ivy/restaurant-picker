@@ -69,43 +69,71 @@ class FavoriteFABState extends State<FavoriteFAB> {
       print('Failed to update favorite status: $e');
     }
   }
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<bool>(
-      stream: favoriteStream,
-      builder: (context, snapshot) {
-          print("Stream data: ${snapshot.data}");
+  // @override
+  // Widget build(BuildContext context) {
+  //   return StreamBuilder<bool>(
+  //     stream: favoriteStream,
+  //     builder: (context, snapshot) {
+  //         print("Stream data: ${snapshot.data}");
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return FloatingActionButton(
-            onPressed: null,
-            child: CircularProgressIndicator(),
-          );
-        }
-        bool isFavorited = snapshot.data ?? false;
+  //       if (snapshot.connectionState == ConnectionState.waiting) {
+  //         return FloatingActionButton(
+  //           onPressed: null,
+  //           child: CircularProgressIndicator(),
+  //         );
+  //       }
+  //       bool isFavorited = snapshot.data ?? false;
 
-        return FloatingActionButton(
-          shape: const CircleBorder(),
-          mini: true,
-          elevation: 20,
-          backgroundColor: isFavorited
-              ? Theme.of(context).colorScheme.primaryContainer
-              : Theme.of(context).colorScheme.secondaryContainer,
-          onPressed: () async {
-            await _updateFavoriteStatus(!isFavorited);
-            print('isFavorited: $isFavorited');
+  //       return FloatingActionButton(
+  //         shape: const CircleBorder(),
+  //         mini: true,
+  //         elevation: 20,
+  //         backgroundColor: isFavorited
+  //             ? Theme.of(context).colorScheme.primaryContainer
+  //             : Theme.of(context).colorScheme.secondaryContainer,
+  //         onPressed: () async {
+  //           await _updateFavoriteStatus(!isFavorited);
+  //           print('isFavorited: $isFavorited');
 
-          },
-          child: Icon(
-            isFavorited ? Icons.favorite : Icons.favorite_border,
-            color: isFavorited
-                ? Theme.of(context).colorScheme.onPrimaryContainer
-                : Theme.of(context).colorScheme.onSecondaryContainer,
-          ),
-        );
-      },
-    );
-  }
+  //         },
+  //         child: Icon(
+  //           isFavorited ? Icons.favorite : Icons.favorite_border,
+  //           color: isFavorited
+  //               ? Theme.of(context).colorScheme.onPrimaryContainer
+  //               : Theme.of(context).colorScheme.onSecondaryContainer,
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
+@override
+Widget build(BuildContext context) {
+  return ValueListenableBuilder<bool>(
+    valueListenable: _favoriteSubject,
+    builder: (context, isFavorited, child) {
+      return FloatingActionButton(
+        shape: const CircleBorder(),
+        mini: true,
+        elevation: 20,
+        backgroundColor: isFavorited
+            ? Theme.of(context).colorScheme.primaryContainer
+            : Theme.of(context).colorScheme.secondaryContainer,
+        onPressed: () async {
+          await _updateFavoriteStatus(!isFavorited);
+          print('isFavorited: $isFavorited');
+        },
+        child: Icon(
+          isFavorited ? Icons.favorite : Icons.favorite_border,
+          color: isFavorited
+              ? Theme.of(context).colorScheme.onPrimaryContainer
+              : Theme.of(context).colorScheme.onSecondaryContainer,
+        ),
+      );
+    },
+  );
+}
+  
   @override
   void dispose() {
     _favoriteSubject.close();
