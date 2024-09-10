@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
 
 class FilterProvider with ChangeNotifier {
-  int? userSelectedPriceLevel;
   String? apiPriceLevel;
-
-  double? userSelectedRadius;
   double? apiRadius;
-
+  double? apiRating;
   List<String>? userSelectedRestaurantType;
   List<String>? apiRestaurantType;
 
+
+  void updateRating(double newRating) {
+    apiRating = newRating; // km to meters
+    notifyListeners();
+  }
+
+  void updateRadius(double newRadius) {
+    apiRadius = newRadius*1000; // km to meters
+    notifyListeners();
+  }
+
+  void updateRestaurantType(List<String> newList) {
+    userSelectedRestaurantType = newList; 
+    apiRestaurantType = userSelectedRestaurantType?? ['restaurant'];
+    notifyListeners();
+  }
 
 
   void updatePriceRange(int? newPriceRange) {
@@ -20,27 +33,15 @@ class FilterProvider with ChangeNotifier {
       3: 'PRICE_LEVEL_EXPENSIVE',
       4: 'PRICE_LEVEL_VERY_EXPENSIVE',
     };
-    userSelectedPriceLevel = newPriceRange;
-    apiPriceLevel = priceLevelMap[userSelectedPriceLevel];
+    apiPriceLevel = priceLevelMap[newPriceRange];
     notifyListeners();
   }
 
-  void updateRadius(double newRadius) {
-    userSelectedRadius = newRadius*1000; // km to meters
-    apiRadius = userSelectedRadius?? 1000.0;
-    notifyListeners();
-  }
-
-  void updateRestaurantType(List<String> newList) {
-    userSelectedRestaurantType = newList; 
-    apiRestaurantType = userSelectedRestaurantType?? ['restaurant'];
-    notifyListeners();
-  }
 
   void resetFilters() {
-    userSelectedRadius = 3.0;
-    userSelectedPriceLevel = null;
-    userSelectedPriceLevel = null;
+    apiRadius = 3.0;
+    apiPriceLevel = null;
+    apiRestaurantType = ['restaurant'];
     notifyListeners();
   }
 }

@@ -95,7 +95,7 @@ class RestaurantTypeFilterRow extends StatelessWidget {
         child: Row(
           children: displayTypeList
               .map((type) => TypeItem(
-                    name: type,
+                    name: type.toUpperCase(),
                     img: 'assets/foodType/$type.png',
                   ))
               .toList(),

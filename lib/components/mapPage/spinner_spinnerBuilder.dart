@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'spinner_spinnerCard.dart';
 import '../../services/getRestaurantData_test.dart';
-
+import 'package:provider/provider.dart';
+import '../../services/locationDataProvider.dart';
+import '../../services/mapFilterProvider.dart';
 //import '../../services/getRestaurantData.dart';
 
 class SpinnerBuilder extends StatefulWidget {
@@ -35,10 +38,22 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
     super.dispose();
   }
 
-  Future<void> _refreshData() async {
+   Future<void> _refreshData() async {
+    final locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    final filterProvider = Provider.of<FilterProvider>(context, listen: false);
+    
+    LatLng searchedLocation = locationProvider.searchedLocation ?? locationProvider.currentLocation!;
+    double radius = filterProvider.apiRadius!;
+    List<String> restaurantType = filterProvider.apiRestaurantType ?? ['restaurant'];
+
     setState(() {
-      nearbyRestaurantsFuture = placesService.fetchData(context);
+      nearbyRestaurantsFuture = placesService.fetchData(
+        location: searchedLocation,
+        radius: radius,
+        restaurantType: restaurantType,
+      );
     });
+
     allRestaurants = await nearbyRestaurantsFuture;
     _selectRandomRestaurants();
     spinCount = 0;
@@ -81,7 +96,8 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          return Text('Unable to fetch restaurant data. Error message: ${snapshot.error}');
+          return Text(
+              'Unable to fetch restaurant data. Error message: ${snapshot.error}');
         } else if (snapshot.hasData && displayedRestaurants.isNotEmpty) {
           List<FortuneItem> fortuneItems = displayedRestaurants
               .map((restaurant) => buildRestaurantData(restaurant))
@@ -91,11 +107,10 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
             children: [
               FortuneBar(
                 height: MediaQuery.of(context).size.height * 0.3,
-                styleStrategy: UniformStyleStrategy(                 
-                  color:
-                      Theme.of(context).colorScheme.surface.withOpacity(0.8),
+                styleStrategy: UniformStyleStrategy(
+                  color: Theme.of(context).colorScheme.surface.withOpacity(0.8),
                   borderColor:
-                      Theme.of(context).colorScheme.surface.withOpacity(0.8),    
+                      Theme.of(context).colorScheme.surface.withOpacity(0.8),
                 ),
                 selected: controller.stream,
                 visibleItemCount: 1,
@@ -124,7 +139,8 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
             ],
           );
         } else {
-          return Text('No data found at the specified conditions. Please try again later. ');
+          return Text(
+              'No data found at the specified conditions. Please try again later. ');
         }
       },
     );

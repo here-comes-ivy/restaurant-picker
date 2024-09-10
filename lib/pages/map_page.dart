@@ -3,11 +3,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import '../services/locationDataProvider.dart';
 import '../components/mapPage/spinner_spinbutton.dart';
-import '../components/mapPage/mapWidget.dart'; 
+import '../components/mapPage/mapWidget.dart';
 import '../components/mapPage/filter_filterBottomSheet.dart';
 import '../components/mapPage/addressTextField.dart';
 import '../components/mapPage/filter_restaurantTypeRow.dart';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MapPage extends StatefulWidget {
@@ -19,8 +18,9 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   final LatLng defaultLocation = LatLng(25.0340637447189, 121.56452691031619);
-
   String? googApikey;
+  bool isMapReady = false;
+  bool areImagesReady = false;
 
   @override
   void initState() {
@@ -30,7 +30,26 @@ class _MapPageState extends State<MapPage> {
       print('Warning: Google API key is not set');
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<LocationProvider>().getLocation();
+      context.read<LocationProvider>().getCurrentLocation();
+    });
+    _preloadImages();
+  }
+
+  Future<void> _preloadImages() async {
+    try {
+      // Preload your images here
+      await precacheImage(AssetImage('path_to_your_image'), context);
+      setState(() {
+        areImagesReady = true;
+      });
+    } catch (e) {
+      print('Error preloading images: $e');
+    }
+  }
+
+  void _onMapCreated(GoogleMapController controller) {
+    setState(() {
+      isMapReady = true;
     });
   }
 
@@ -50,12 +69,19 @@ class _MapPageState extends State<MapPage> {
                     padding: EdgeInsets.all(8.0),
                     child: Row(
                       children: [
-                        IconButton(
-                          icon: Icon(Icons.tune),
-                          onPressed: () => FilterBottomSheet.show(context),
+                        SizedBox(
+                          height: 70,
+                          child: IconButton(
+                            icon: Icon(Icons.tune),
+                            onPressed: () => FilterBottomSheet.show(context),
+                          ),
                         ),
                         SizedBox(width: 10),
-                        Expanded(child: RestaurantTypeFilterRow()),
+                        Expanded(
+                          child: areImagesReady
+                              ? RestaurantTypeFilterRow()
+                              : Center(child: CircularProgressIndicator()),
+                        ),
                       ],
                     ),
                   ),
@@ -69,23 +95,24 @@ class _MapPageState extends State<MapPage> {
                         borderRadius: BorderRadius.circular(20),
                         child: Stack(
                           children: [
-                            MapWidget(initialPosition: mapCenter),
-                            Padding(
-                              padding: EdgeInsets.all(20.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  AddressAutoCompleteTextField(),
-                                  SizedBox(height: 10.0),
-                                ],
+                            MapWidget(
+                              initialPosition: mapCenter,
+                              
+                            ),
+                            if (isMapReady)
+                              Positioned(
+                                top: 20,
+                                left: 20,
+                                right: 20,
+                                child: AddressAutoCompleteTextField(),
                               ),
-                            ),
-                            Positioned(
-                              bottom: 40,
-                              left: 0,
-                              right: 0,
-                              child: Center(child: SpinButton()),
-                            ),
+                            if (isMapReady)
+                              Positioned(
+                                bottom: 40,
+                                left: 0,
+                                right: 0,
+                                child: Center(child: SpinButton()),
+                              ),
                           ],
                         ),
                       ),

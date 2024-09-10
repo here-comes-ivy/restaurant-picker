@@ -37,7 +37,7 @@ class _MapWidgetState extends State<MapWidget> {
 
   void _onLocationChange() {
     final locationProvider = Provider.of<LocationProvider>(context, listen: false);
-    final newPosition = locationProvider.currentLocation;
+    final newPosition = locationProvider.searchedLocation;
     if (newPosition != null && newPosition != _currentPosition) {
       setState(() {
         _currentPosition = newPosition;
@@ -58,7 +58,7 @@ class _MapWidgetState extends State<MapWidget> {
     Circle circle = Circle(
       circleId: CircleId("myCircle"),
       center: center,
-      radius: filterProvider.apiRadius,
+      radius: filterProvider.apiRadius!,
       fillColor: Colors.blue.withOpacity(0.1),
       strokeColor: Colors.blue,
       strokeWidth: 2,
@@ -72,7 +72,7 @@ class _MapWidgetState extends State<MapWidget> {
   Widget build(BuildContext context) {
     return Consumer<LocationProvider>(
       builder: (context, locationProvider, child) {
-        _currentPosition = locationProvider.currentLocation ?? widget.initialPosition;
+        _currentPosition = locationProvider.searchedLocation ?? widget.initialPosition;
         
         return GoogleMap(
           myLocationEnabled: true,

@@ -4,11 +4,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
 class LocationProvider extends ChangeNotifier {
-  LatLng? currentLocation;
+  LatLng? searchedLocation;
   bool isLoading = true;
+  LatLng? currentLocation;
 
-
-  Future<void> getLocation() async {
+  Future<void> getCurrentLocation() async {
     try {
       LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
@@ -25,8 +25,11 @@ class LocationProvider extends ChangeNotifier {
         desiredAccuracy: LocationAccuracy.low
       );
       currentLocation = LatLng(position.latitude, position.longitude);
+
+      searchedLocation = currentLocation;
+
       isLoading = false;
-      print('Latitude: ${position.latitude}, Longitude: ${position.longitude}');
+      print('Searching current location: Latitude: ${position.latitude}, Longitude: ${position.longitude}');
       notifyListeners();
     } catch (e) { 
       isLoading = false;

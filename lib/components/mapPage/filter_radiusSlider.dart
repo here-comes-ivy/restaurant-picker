@@ -43,13 +43,12 @@ class _RadiusSliderState extends State<RadiusSlider> {
             child: Slider(
               value: displayRadiusInKM,
               min: 1.0,
-              max: 20.0,
+              max: 10.0,
               divisions: 19,
               label: '${displayRadiusInKM.toStringAsFixed(1)} km',
               onChanged: (double newRadius) {
                 setState(() {
-                  displayRadiusInKM = newRadius;
-                  filterProvider.updateRadius(displayRadiusInKM); 
+                  filterProvider.updateRadius(newRadius); 
                 });
               },
             ),

@@ -5,7 +5,7 @@ import 'package:restaurant_picker/services/mapFilterProvider.dart';
 
 class MapWidget extends StatefulWidget {
   final LatLng initialPosition;
-
+  
   const MapWidget({
     Key? key,
     required this.initialPosition,
@@ -59,7 +59,7 @@ class _MapWidgetState extends State<MapWidget> {
       onMapCreated: (GoogleMapController controller) {
         _mapController = controller;
       },
-
+    
       circles: circles,  
     );
   }

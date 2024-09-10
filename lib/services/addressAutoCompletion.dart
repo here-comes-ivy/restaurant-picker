@@ -18,7 +18,7 @@ class AddressAutoCompletion {
   }) async {
     String? input;
 
-    await locationProvider.getLocation();
+    await locationProvider.getCurrentLocation();
     LatLng location = locationProvider.currentLocation!;
     double lat = location.latitude;
     double lng = location.longitude;

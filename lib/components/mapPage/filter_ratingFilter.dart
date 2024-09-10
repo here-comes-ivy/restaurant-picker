@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_picker/utils/cardStyles.dart';
-
+import 'package:provider/provider.dart';
+import 'package:restaurant_picker/services/mapFilterProvider.dart';
 
 class RatingFilter extends StatefulWidget {
   final int starCount;
- // final Function(int)? onRatingSelected;
 
   RatingFilter({
     Key? key,
     this.starCount = 5,
-  //  this.onRatingSelected,
   }) : super(key: key);
 
   @override
@@ -17,10 +16,14 @@ class RatingFilter extends StatefulWidget {
 }
 
 class _RatingFilterState extends State<RatingFilter> {
-  int _rating = 0;
+
+  int selectedRating = 0;
 
   @override
   Widget build(BuildContext context) {
+
+    final filterProvider = Provider.of<FilterProvider>(context);
+
     return FilterCard(
       title: 'Rating',
       cardChild: Column(
@@ -31,12 +34,13 @@ class _RatingFilterState extends State<RatingFilter> {
               return GestureDetector(
                 onTap: () {
                   setState(() {
-                    _rating = index + 1;
+                    selectedRating = index + 1;
+                    filterProvider.updateRating(index.toDouble());
                   });
                   //widget.onRatingSelected(_rating);
                 },
                 child: Icon(
-                  index < _rating ? Icons.star : Icons.star_border,
+                  index < selectedRating ? Icons.star : Icons.star_border,
                   color: Colors.amber[600],
                   size: 30,
                 ),
