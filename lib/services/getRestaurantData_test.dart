@@ -77,8 +77,23 @@ class NearbyRestaurantData {
             'Fetching data with criteria: Radius: $radius, Restaurant type: $restaurantType');
         return (restaurantData['places'] as List<dynamic>)
             .map<Map<String, dynamic>>((place) {
+
+              
           String getPhotoUrl(dynamic place,
               {int maxWidth = 400, int maxHeight = 400}) {
+
+            // Url code from Postman 
+            // var request = http.Request('GET', Uri.parse('https://places.googleapis.com/v1/places/ChIJURDKN2eAhYARN0AMzUEaiKo/photos/AXCi2Q772G_453nik4ZtKeVlka_S_-vYSANHT7B93zB4qht0RtTw4K108QvgI7_J7WHruD2vH_Fp5gjE2EqLn63fxR9zxOdanWn6TQAbL-sucjNUPVMGCO0s8nqN0FfgyI7aTK6pdHmGBuOxYRbz2VqcQhDBi_m1PBEXMv8Z/media?key=AIzaSyBvCYfs_gzMM3iKU1NpW2XTOlPuwG13b1s&maxHeightPx=300'));
+            // http.StreamedResponse response = await request.send();
+
+            // if (response.statusCode == 200) {
+            //   print(await response.stream.bytesToString());
+            // }
+            // else {
+            //   print(response.reasonPhrase);
+            // }      
+
+            
             print(place['photos']);
             if (place['photos'].isNotEmpty) {
               String photoName = place['photos'][0]['name'] as String? ?? '';
@@ -89,6 +104,8 @@ class NearbyRestaurantData {
             return 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
           }
 
+              
+          
           return {
             'id': place['id'] as String? ?? '',
             'name': place['displayName']?['text'] as String? ?? 'No Name',
