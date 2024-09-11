@@ -44,13 +44,14 @@ Creating this app has been an exciting challenge that pushed me to expand my ski
 ## Future Enhancements
 
 I'm committed to continually improving this app. Future plans include:
-- Integration with popular review platforms
-- Enhanced AI capabilities for more nuanced recommendations
-- Social features for sharing and comparing restaurant choices
+- **Enhanced Filtering**: Optimize restaurant filtering to accommodate personalized dietary preferences and more specific user needs.
+- **Advanced AI**: Develop AI capabilities for more accurate and personalized restaurant recommendations.
+- **Social Features**: Introduce group sharing and instant messaging to enhance the social dining experience.
+- **Premium Features**: Tailor features for different user groups, offering exclusive benefits like unlimited spins and loyalty programs for premium members.
 
 ## Conclusion
 
-The Restaurant Picker App represents not just the culmination of my bootcamp experience, but also my passion for creating technology that solves real-world problems. I'm excited about its potential to make dining decisions easier and more fun for users.
+This project has been an incredible journey. I've learned so much, from wrestling with APIs to debugging at 3 AM (pro tip: don't). The Restaurant Picker App represents not just the culmination of my bootcamp experience, but also my passion for creating technology that solves real-world problems. I'm excited about its potential to make dining decisions easier and more fun for users.
 
 Thank you for checking out my project. I hope it inspires you to try new restaurants and enjoy great meals! 🌮✨
 
