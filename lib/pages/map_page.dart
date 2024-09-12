@@ -20,7 +20,6 @@ class _MapPageState extends State<MapPage> {
   final LatLng defaultLocation = LatLng(25.0340637447189, 121.56452691031619);
   String? googApikey;
   bool isMapReady = false;
-  bool areImagesReady = false;
 
   @override
   void initState() {
@@ -32,20 +31,9 @@ class _MapPageState extends State<MapPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<LocationProvider>().getCurrentLocation();
     });
-    _preloadImages();
   }
 
-  Future<void> _preloadImages() async {
-    try {
-      // Preload your images here
-      await precacheImage(AssetImage('path_to_your_image'), context);
-      setState(() {
-        areImagesReady = true;
-      });
-    } catch (e) {
-      print('Error preloading images: $e');
-    }
-  }
+
 
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
@@ -78,9 +66,8 @@ class _MapPageState extends State<MapPage> {
                         ),
                         SizedBox(width: 10),
                         Expanded(
-                          child: areImagesReady
-                              ? RestaurantTypeFilterRow()
-                              : Center(child: CircularProgressIndicator()),
+                          child: RestaurantTypeFilterRow()
+
                         ),
                       ],
                     ),
