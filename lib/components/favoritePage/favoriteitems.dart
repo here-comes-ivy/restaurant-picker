@@ -35,7 +35,6 @@ class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
           }
 
           var favoriteRestaurants = snapshot.data!.docs;
-          print(favoriteRestaurants);
 
           return ListView.builder(
             shrinkWrap: true,
