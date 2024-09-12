@@ -34,13 +34,6 @@ class _MapPageState extends State<MapPage> {
   }
 
 
-
-  void _onMapCreated(GoogleMapController controller) {
-    setState(() {
-      isMapReady = true;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<LocationProvider>(
@@ -60,6 +53,7 @@ class _MapPageState extends State<MapPage> {
                         SizedBox(
                           height: 70,
                           child: IconButton(
+                            color: Color.fromRGBO(255, 181, 160, 1),
                             icon: Icon(Icons.tune),
                             onPressed: () => FilterBottomSheet.show(context),
                           ),
@@ -82,18 +76,18 @@ class _MapPageState extends State<MapPage> {
                         borderRadius: BorderRadius.circular(20),
                         child: Stack(
                           children: [
-                            MapWidget(
-                              initialPosition: mapCenter,
-                              
+                            Expanded(
+                              child: MapWidget(
+                                initialPosition: mapCenter,                              
+                              ),
                             ),
-                            if (isMapReady)
                               Positioned(
                                 top: 20,
                                 left: 20,
                                 right: 20,
                                 child: AddressAutoCompleteTextField(),
                               ),
-                            if (isMapReady)
+
                               Positioned(
                                 bottom: 40,
                                 left: 0,

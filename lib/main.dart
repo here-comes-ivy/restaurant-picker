@@ -9,7 +9,6 @@ import 'services/mapFilterProvider.dart';
 import 'wip/temp_favoriteStateProvider.dart';
 import 'services/restaurantDataProvider.dart';
 
-
 import 'pages/onboarding_page.dart';
 import 'pages/landing_page.dart';
 import 'pages/profile_page.dart';
@@ -25,23 +24,16 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => UserProvider()),
-        ChangeNotifierProvider(
-          create: (context) => LocationProvider(),
-        ),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => LocationProvider()),
         ChangeNotifierProvider(create: (context) => FilterProvider()),
         ChangeNotifierProvider(create: (context) => FavoriteStateProvider()),
         ChangeNotifierProvider(create: (context) => RestaurantProvider()),
-
-        
-
       ],
       child: MyApp(),
     ),
   );
 }
-
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
