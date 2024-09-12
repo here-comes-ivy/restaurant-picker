@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_picker/services/mapFilterProvider.dart';
 import 'spinner_spinBottomSheet.dart';
-
+import 'package:restaurant_picker/utils/restaurantTypeNames.dart';
 
 class TypeItem extends StatefulWidget {
   TypeItem({required this.name, required this.img});
@@ -14,15 +14,12 @@ class TypeItem extends StatefulWidget {
 }
 
 class _TypeItemState extends State<TypeItem> {
-
-bool isSelected = false;
-
+  bool isSelected = false;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<FilterProvider>(
       builder: (context, filterProvider, child) {
-        
         return Padding(
           padding: const EdgeInsets.all(5.0),
           child: GestureDetector(
@@ -31,7 +28,9 @@ bool isSelected = false;
               width: 70,
               margin: EdgeInsets.only(right: 2.0),
               decoration: BoxDecoration(
-                color: isSelected ? Theme.of(context).colorScheme.surface.withOpacity(0.3) : Colors.transparent,
+                color: isSelected
+                    ? Theme.of(context).colorScheme.surface.withOpacity(0.3)
+                    : Colors.transparent,
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: Padding(
@@ -42,29 +41,31 @@ bool isSelected = false;
                       height: 40,
                       child: Image.asset(widget.img),
                     ),
-                    SizedBox(height:5,),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Text(
                       widget.name,
                       style: TextStyle(
-                          
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10.0),
+                          fontWeight: FontWeight.bold, fontSize: 10.0),
                     ),
                   ],
                 ),
               ),
             ),
             onTap: () {
-              List<String> updatedList = List<String>.from(filterProvider.apiRestaurantType ?? []);
+              List<String> updatedList =
+                  List<String>.from(filterProvider.apiRestaurantType);
               if (isSelected) {
-                updatedList.remove(widget.name.toUpperCase());
+                updatedList.remove(convertToAPIName(widget.name));
               } else {
-                updatedList.add(widget.name.toUpperCase());
+                print('${widget.name}, ${convertToAPIName(widget.name)}');
+
+                updatedList = [convertToAPIName(widget.name)!];
               }
               filterProvider.updateRestaurantType(updatedList);
               SpinnerBottomSheet.show(context);
               setState(() => isSelected = !isSelected);
-
             },
           ),
         );
@@ -75,16 +76,16 @@ bool isSelected = false;
 
 class RestaurantTypeFilterRow extends StatelessWidget {
   final List<String> displayTypeList = [
-    'brunch',
-    'cafe',
-    'chinese',
-    'hamburger',
-    'korean',
-    'pizza',
-    'ramen',
-    'sushi',
-    'thai',
-    'vegetarian',
+    'Brunch',
+    'Cafe',
+    'Chinese',
+    'Hamburger',
+    'Korean',
+    'Pizza',
+    'Ramen',
+    'Sushi',
+    'Thai',
+    'Vegetarian',
   ];
 
   @override
@@ -95,8 +96,8 @@ class RestaurantTypeFilterRow extends StatelessWidget {
         child: Row(
           children: displayTypeList
               .map((type) => TypeItem(
-                    name: type.toUpperCase(),
-                    img: 'assets/foodType/$type.png',
+                    name: type,
+                    img: 'assets/foodType/${type.toLowerCase()}.png',
                   ))
               .toList(),
         ),

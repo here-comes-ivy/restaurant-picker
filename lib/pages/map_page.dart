@@ -33,7 +33,6 @@ class _MapPageState extends State<MapPage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Consumer<LocationProvider>(
@@ -41,14 +40,16 @@ class _MapPageState extends State<MapPage> {
         if (locationProvider.isLoading) {
           return Scaffold(body: Center(child: CircularProgressIndicator()));
         } else {
-          LatLng mapCenter = locationProvider.currentLocation ?? defaultLocation;
+          LatLng mapCenter =
+              locationProvider.currentLocation ?? defaultLocation;
           return Scaffold(
             body: SafeArea(
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(12.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
                           height: 70,
@@ -59,10 +60,7 @@ class _MapPageState extends State<MapPage> {
                           ),
                         ),
                         SizedBox(width: 10),
-                        Expanded(
-                          child: RestaurantTypeFilterRow()
-
-                        ),
+                        Expanded(child: RestaurantTypeFilterRow()),
                       ],
                     ),
                   ),
@@ -78,22 +76,21 @@ class _MapPageState extends State<MapPage> {
                           children: [
                             Expanded(
                               child: MapWidget(
-                                initialPosition: mapCenter,                              
+                                initialPosition: mapCenter,
                               ),
                             ),
-                              Positioned(
-                                top: 20,
-                                left: 20,
-                                right: 20,
-                                child: AddressAutoCompleteTextField(),
-                              ),
-
-                              Positioned(
-                                bottom: 40,
-                                left: 0,
-                                right: 0,
-                                child: Center(child: SpinButton()),
-                              ),
+                            Positioned(
+                              top: 20,
+                              left: 20,
+                              right: 20,
+                              child: AddressAutoCompleteTextField(),
+                            ),
+                            Positioned(
+                              bottom: 40,
+                              left: 0,
+                              right: 0,
+                              child: Center(child: SpinButton()),
+                            ),
                           ],
                         ),
                       ),

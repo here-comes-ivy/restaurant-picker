@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 class FilterProvider with ChangeNotifier {
   String? apiPriceLevel;
-  double? apiRadius = 3000; // in meters
+  double apiRadius = 3000; // in meters
   double? apiRating;
-  List<String>? userSelectedRestaurantType;
-  List<String>? apiRestaurantType;
+  List<String> apiRestaurantType = ['restaurant'];
 
 
   void updateRating(double newRating) {
@@ -18,9 +17,8 @@ class FilterProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateRestaurantType(List<String> newList) {
-    userSelectedRestaurantType = newList; 
-    apiRestaurantType = userSelectedRestaurantType?? ['restaurant'];
+  void updateRestaurantType(List<String>? newList) {
+    apiRestaurantType = newList?? ['restaurant'];
     notifyListeners();
   }
 

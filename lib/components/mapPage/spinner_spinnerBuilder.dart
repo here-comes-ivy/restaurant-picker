@@ -44,7 +44,7 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
     
     LatLng searchedLocation = locationProvider.searchedLocation ?? locationProvider.currentLocation!;
     double radius = filterProvider.apiRadius!;
-    List<String> restaurantType = filterProvider.apiRestaurantType ?? ['restaurant'];
+    List<String> restaurantType = filterProvider.apiRestaurantType;
 
     setState(() {
       nearbyRestaurantsFuture = placesService.fetchData(
