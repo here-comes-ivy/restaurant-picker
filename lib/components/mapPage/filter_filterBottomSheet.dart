@@ -21,15 +21,7 @@ class FilterBottomSheet extends StatelessWidget {
       child: Column(
         children: [
           BottomSheetHandler(),
-          Padding(
-              child: Text(
-                "Set Filter",
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20.0,
-                ),
-              ),
-              padding: EdgeInsets.all(10)),
+          SizedBox(height: 30),
           Expanded(
             child: ListView(
               padding: EdgeInsets.symmetric(horizontal: 12),
@@ -62,7 +54,9 @@ class FilterBottomSheet extends StatelessWidget {
                       fontSize: 15.0,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    
+                  },
                 ),
                 FilledButton(
                   child: Text(

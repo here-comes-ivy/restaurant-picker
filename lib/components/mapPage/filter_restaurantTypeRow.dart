@@ -74,32 +74,78 @@ class _TypeItemState extends State<TypeItem> {
   }
 }
 
-class RestaurantTypeFilterRow extends StatelessWidget {
+
+class RestaurantTypeFilterRow extends StatefulWidget {
+  @override
+  _RestaurantTypeFilterRowState createState() => _RestaurantTypeFilterRowState();
+}
+
+class _RestaurantTypeFilterRowState extends State<RestaurantTypeFilterRow> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Offset> _animation;
+  final ScrollController _scrollController = ScrollController();
+
   final List<String> displayTypeList = [
-    'Brunch',
-    'Cafe',
-    'Chinese',
-    'Hamburger',
-    'Korean',
-    'Pizza',
-    'Ramen',
-    'Sushi',
-    'Thai',
-    'Vegetarian',
+    'Brunch', 'Cafe', 'Chinese', 'Hamburger', 'Korean',
+    'Pizza', 'Ramen', 'Sushi', 'Thai', 'Vegetarian',
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 30),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _animation = Tween<Offset>(
+      begin: Offset.zero,
+      end: Offset(-1.0, 0.0),
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.linear,
+    ));
+
+    // Add listener to manually scroll the SingleChildScrollView
+    _animation.addListener(() {
+      if (_scrollController.hasClients) {
+        final maxScroll = _scrollController.position.maxScrollExtent;
+        final currentScroll = maxScroll * _animation.value.dx.abs();
+        _scrollController.jumpTo(currentScroll);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: displayTypeList
-              .map((type) => TypeItem(
-                    name: type,
-                    img: 'assets/foodType/${type.toLowerCase()}.png',
-                  ))
-              .toList(),
+    return GestureDetector(
+      onTapDown: (_) => _controller.stop(),
+      onTapUp: (_) => _controller.repeat(reverse: true),
+      child: Container(
+        height: 80, // Adjust this value as needed
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          controller: _scrollController,
+          physics: NeverScrollableScrollPhysics(),
+          child: Row(
+            children: [
+              ...displayTypeList.map((type) => TypeItem(
+                name: type,
+                img: 'assets/foodType/${type.toLowerCase()}.png',
+              )),
+              ...displayTypeList.map((type) => TypeItem(
+                name: type,
+                img: 'assets/foodType/${type.toLowerCase()}.png',
+              )),
+            ],
+          ),
         ),
       ),
     );

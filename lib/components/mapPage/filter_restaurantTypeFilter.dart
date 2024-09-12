@@ -15,38 +15,82 @@ class RestaurantTypeMultipleChoice extends StatefulWidget {
 
 class RestaurantTypeMultipleChoiceState
     extends State<RestaurantTypeMultipleChoice> {
-
-
   List<String> displayNames = [
     for (var i in restaurantTypeConversion) i['displayName']!
   ];
-
   List<String> multipleSelected = [];
+  bool isAllSelected = false;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final filterProvider =
+          Provider.of<FilterProvider>(context, listen: false);
+      filterProvider.resetFilters();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final filterProvider = Provider.of<FilterProvider>(context);
-void setMultipleSelected(List<String> value) {
-  setState(() => multipleSelected = value);
 
-  List<String?> apiNames = [
-    for (var i in value) convertToAPIName(i)
-  ];
+    void setMultipleSelected(List<String> value) {
+      setState(() {
+        multipleSelected = value;
+        isAllSelected = value.length == displayNames.length;
+      });
 
-  filterProvider.updateRestaurantType(apiNames.where((apiName) => apiName != null).cast<String>().toList());
-}
+      List<String?> apiNames = [for (var i in value) convertToAPIName(i)];
 
+      filterProvider.updateRestaurantType(
+          apiNames.where((apiName) => apiName != null).cast<String>().toList());
+    }
+
+    void toggleSelectAll() {
+      setState(() {
+        if (isAllSelected) {
+          multipleSelected = [];
+          isAllSelected = false;
+        } else {
+          multipleSelected = List.from(displayNames);
+          isAllSelected = true;
+        }
+      });
+
+      List<String?> apiNames = [
+        for (var i in multipleSelected) convertToAPIName(i)
+      ];
+
+      filterProvider.updateRestaurantType(
+          apiNames.where((apiName) => apiName != null).cast<String>().toList());
+    }
 
     return FilterCard(
       isPremiumFeature: false,
       title: 'Restaurant Type',
       cardChild: Column(
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextButton(
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  minimumSize: Size(0, 0)
+                ),
+                onPressed: toggleSelectAll,
+                child: Text(
+                  'Select All',
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
+            ],
+          ),
           InlineChoice<String>(
             multiple: true,
             clearable: true,

@@ -49,6 +49,7 @@ class _RadiusSliderState extends State<RadiusSlider> {
               label: '${displayRadiusInKM.toStringAsFixed(1)} km',
               onChanged: (double newRadius) {
                 setState(() {
+                  displayRadiusInKM = newRadius;
                   filterProvider.updateRadius(newRadius); 
                 });
               },

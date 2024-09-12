@@ -3,6 +3,7 @@ import 'package:restaurant_picker/services/firestoreService.dart';
 import 'package:restaurant_picker/services/userDataProvider.dart';
 import 'package:provider/provider.dart';
 import '../components/favoritePage/favoriteItems.dart';
+import '../components/mapPage/spinner_spinbutton.dart';
 
 class FavoritePage extends StatefulWidget {
   @override
@@ -28,18 +29,28 @@ class _FavoritePageState extends State<FavoritePage> {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Recently Added',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              FavoriteRestaurantsItems(loggedinUserID: loggedinUserID),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Divider(),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Recently Added',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      FavoriteRestaurantsItems(loggedinUserID: loggedinUserID),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Divider(),
+                      ),
+                      // Text('Favorite Lists',
+                      //     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      // PersonalFavoriteList(),
+                    ],
+                  ),
+                ),
               ),
-              // Text('Favorite Lists',
-              //     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              // PersonalFavoriteList(),
+            Center(child: SpinButton()),  
             ],
           ),
         ),

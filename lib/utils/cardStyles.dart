@@ -27,7 +27,7 @@ class FilterCard extends StatelessWidget {
                     Text(title,
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 14.0,
+                          fontSize: 18.0,
                         )),
                     cardChild,
                   ],
