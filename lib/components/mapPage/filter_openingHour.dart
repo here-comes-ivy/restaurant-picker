@@ -44,6 +44,7 @@ class _OpeningHourFilterState extends State<OpeningHourFilter> {
   @override
   Widget build(BuildContext context) {
     return FilterCard(
+      isPremiumFeature: true,
       title: 'Opening Hour',
       cardChild: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

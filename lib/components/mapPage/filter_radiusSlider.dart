@@ -27,6 +27,7 @@ class _RadiusSliderState extends State<RadiusSlider> {
     final filterProvider = Provider.of<FilterProvider>(context);
 
     return FilterCard(
+      isPremiumFeature: false,
       title: 'Distance',
       cardChild:  Column(
         mainAxisAlignment: MainAxisAlignment.center,

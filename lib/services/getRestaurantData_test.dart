@@ -18,7 +18,6 @@ class NearbyRestaurantData {
     if (place['photos'] != null && place['photos'].isNotEmpty) {
       String photoName = place['photos'][0]['name'] as String;
       if (photoName.isNotEmpty) {
-        print(photoName);
         var url = Uri.parse('https://places.googleapis.com/v1/$photoName/media?maxHeightPx=$maxHeight&maxWidthPx=$maxWidth&key=$googApikey');
         var request = http.Request('GET', url);
         

@@ -22,6 +22,7 @@ class _OptionSwitchListState extends State<OptionSwitchList> {
   @override
   Widget build(BuildContext context) {
     return FilterCard(
+      isPremiumFeature: true,
       title: 'More options',
       cardChild: Column(
           children: <Widget>[

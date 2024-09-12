@@ -43,6 +43,7 @@ void setMultipleSelected(List<String> value) {
 
 
     return FilterCard(
+      isPremiumFeature: false,
       title: 'Restaurant Type',
       cardChild: Column(
         children: [

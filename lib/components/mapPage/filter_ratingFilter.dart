@@ -25,6 +25,7 @@ class _RatingFilterState extends State<RatingFilter> {
     final filterProvider = Provider.of<FilterProvider>(context);
 
     return FilterCard(
+      isPremiumFeature: true,
       title: 'Rating',
       cardChild: Column(
         children: [

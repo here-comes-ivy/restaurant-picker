@@ -33,14 +33,14 @@ class FilterBottomSheet extends StatelessWidget {
           Expanded(
             child: ListView(
               padding: EdgeInsets.symmetric(horizontal: 12),
-              children: [
-                OpeningHourFilter(),
-                FilterDivider,
+              children: [   
                 RadiusSlider(),
                 FilterDivider,
                 RatingFilter(),
                 FilterDivider,
                 PriceRangeChoiceChips(),
+                FilterDivider,
+                OpeningHourFilter(),
                 FilterDivider,
                 RestaurantTypeMultipleChoice(),
                 FilterDivider,
