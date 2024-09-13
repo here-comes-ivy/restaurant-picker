@@ -65,7 +65,7 @@ class FavoriteFABState extends State<FavoriteFAB> {
     String? loggedinUserID = userProvider.loggedinUserID;
     try {
       await firestoreService.updateFavoriteList(
-        loggedinUserID: loggedinUserID,
+        context,
         restaurantID: widget.restaurantID,
         restaurantName: widget.restaurantName,
         rating: widget.restaurantRating,

@@ -8,9 +8,6 @@ import 'package:restaurant_picker/utils/smallWidgetBuilder.dart';
 import 'editAndDeleteDialog.dart';
 
 class FavoriteRestaurantsItems extends StatefulWidget {
-  final String? loggedinUserID;
-
-  FavoriteRestaurantsItems({required this.loggedinUserID});
 
   @override
   State<FavoriteRestaurantsItems> createState() =>
@@ -19,29 +16,50 @@ class FavoriteRestaurantsItems extends StatefulWidget {
 
 class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
   final FirestoreService firestoreService = FirestoreService();
+  late Future<List<Map<String, dynamic>>> _favoritesFuture;
+  List<Map<String, dynamic>> currentFavorites = [];
 
-  @override
+    @override
+  void initState() {
+    super.initState();
+    refreshFavorites();
+  }
+
+  Future<void> refreshFavorites() async {
+    setState(() {
+      _favoritesFuture = firestoreService.fetchFavoriteRestaurants(context);
+    });
+  }
+
+  Future<void> removeRestaurant(String restaurantID) async {
+    await firestoreService.updateFavoriteStatus(context,restaurantID: restaurantID, savedAsFavorite:false);
+    setState(() {
+    });
+  }
+
+ @override
   Widget build(BuildContext context) {
+  final userProvider = Provider.of<UserProvider>(context, listen: false);
+  final String? loggedinUserID = userProvider.loggedinUserID;
+
     return Expanded(
-      child: StreamBuilder<QuerySnapshot>(
-        stream:
-            firestoreService.fetchFavoriteRestaurants(widget.loggedinUserID),
+      child: FutureBuilder<List<Map<String, dynamic>>>(
+        future: _favoritesFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           }
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text('No favorite restaurants saved yet.'));
           }
 
-          var favoriteRestaurants = snapshot.data!.docs;
+          currentFavorites = snapshot.data!;
 
           return ListView.builder(
             shrinkWrap: true,
-            itemCount: favoriteRestaurants.length,
+            itemCount: currentFavorites.length,
             itemBuilder: (context, index) {
-              var restaurant =
-                  favoriteRestaurants[index].data() as Map<String, dynamic>;
+              var restaurant = currentFavorites[index];
               String restaurantName =
                   restaurant['name'] ?? 'Unknown Restaurant';
               double restaurantRating = restaurant['rating'];
@@ -68,8 +86,8 @@ class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
                         onDelete: () {
                           setState(() {});
                         },
-                        restaurantID: favoriteRestaurants[index].id,
-                        loggedinUserID: widget.loggedinUserID!,
+                        restaurantID: currentFavorites[index]['id'],
+                        loggedinUserID: loggedinUserID!,
                       ),
                     );
                   } else {

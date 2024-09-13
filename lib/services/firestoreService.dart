@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'userDataProvider.dart';
 
-class FirestoreService {
+class FirestoreService  {
   final firestore = FirebaseFirestore.instance;
   Future<void> updateUserData(BuildContext context) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
@@ -26,8 +26,7 @@ class FirestoreService {
     }
   }
 
-  Future<void> updateFavoriteList({
-    required String? loggedinUserID,
+  Future<void> updateFavoriteList(context,{
     required String? restaurantID,
     required String? restaurantName,
     required double? rating,
@@ -36,6 +35,11 @@ class FirestoreService {
     required String? priceLevel,
     required bool savedAsFavorite,
   }) async {
+
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    String? loggedinUserID = userProvider.loggedinUserID ;
+
     try {
       await firestore
           .collection('users')
@@ -57,11 +61,14 @@ class FirestoreService {
     }
   }
 
- Future<void> updateFavoriteStatus({
-    required String? loggedinUserID,
-    required String? restaurantID,
-    required bool savedAsFavorite,
-  }) async {
+ Future<void> updateFavoriteStatus(BuildContext context, {required bool savedAsFavorite,required String? restaurantID}) async {
+
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    String? loggedinUserID = userProvider.loggedinUserID ;
+    String? restaurantID;
+    bool? savedAsFavorite;
+
     try {
       await firestore
           .collection('users')
@@ -79,17 +86,32 @@ class FirestoreService {
   }
 
 
-Stream<QuerySnapshot> fetchFavoriteRestaurants(String? loggedinUserID) {
+Future<List<Map<String, dynamic>>> fetchFavoriteRestaurants(BuildContext context) async {
+  final userProvider = Provider.of<UserProvider>(context, listen: false);
+  final String? loggedinUserID = userProvider.loggedinUserID;
+  
+  if (loggedinUserID == null) {
+    print('User ID is null');
+    return [];
+  }
+
   try {
-    return firestore
+    final querySnapshot = await firestore
         .collection('users')
         .doc(loggedinUserID)
         .collection('favoriteRestaurant')
         .where('savedAsFavorite', isEqualTo: true)
-        .snapshots();
+        .get();
+
+return querySnapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data();
+        data['id'] = doc.id; // Add the document ID to the data
+        return data;
+      }).toList();
+      
   } catch (e) {
-    print('Error starting stream: $e');
-    return Stream.empty();
+    print('Error fetching favorite restaurants: $e');
+    return [];
   }
 }
 
@@ -106,4 +128,5 @@ Stream<QuerySnapshot> fetchFavoriteRestaurants(String? loggedinUserID) {
         .snapshots()
         .map((doc) => doc.exists && doc.data()?['savedAsFavorite'] == true);
   }
+
 }

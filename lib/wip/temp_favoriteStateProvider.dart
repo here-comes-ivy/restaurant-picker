@@ -31,7 +31,7 @@ class FavoriteStateProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> toggleFavorite({
+  Future<void> toggleFavorite(BuildContext context, {
     required String loggedinUserID,
     required String restaurantID,
     required String restaurantName,
@@ -45,7 +45,7 @@ class FavoriteStateProvider extends ChangeNotifier {
     notifyListeners();
 
     await _firestoreService.updateFavoriteList(
-      loggedinUserID: loggedinUserID,
+      context,
       restaurantID: restaurantID,
       restaurantName: restaurantName,
       rating: rating,

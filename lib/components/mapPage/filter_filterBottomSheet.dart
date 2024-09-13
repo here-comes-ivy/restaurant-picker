@@ -7,12 +7,17 @@ import 'filter_ratingFilter.dart';
 import 'filter_openingHour.dart';
 import 'spinner_spinBottomSheet.dart';
 import 'package:restaurant_picker/utils/smallWidgetBuilder.dart';
+import 'package:restaurant_picker/services/getRestaurantData.dart';
 
 class FilterBottomSheet extends StatelessWidget {
-  const FilterBottomSheet({Key? key}) : super(key: key);
+  FilterBottomSheet({Key? key}) : super(key: key);
+  final NearbyRestaurantData nearbyRestaurantData = NearbyRestaurantData();
 
   @override
   Widget build(BuildContext context) {
+    final Future<List<Map<String, dynamic>>> dataFuture =
+        nearbyRestaurantData.fetchData();
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.8,
       decoration: BoxDecoration(
@@ -25,7 +30,7 @@ class FilterBottomSheet extends StatelessWidget {
           Expanded(
             child: ListView(
               padding: EdgeInsets.symmetric(horizontal: 12),
-              children: [   
+              children: [
                 RadiusSlider(),
                 FilterDivider,
                 RatingFilter(),
@@ -54,9 +59,7 @@ class FilterBottomSheet extends StatelessWidget {
                       fontSize: 15.0,
                     ),
                   ),
-                  onPressed: () {
-                    
-                  },
+                  onPressed: () {},
                 ),
                 FilledButton(
                   child: Text(
@@ -68,7 +71,7 @@ class FilterBottomSheet extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.pop(context);
-                    SpinnerBottomSheet.show(context);
+                    SpinnerBottomSheet.show(context, dataFuture);
                   },
                 ),
               ],

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_picker/services/mapFilterProvider.dart';
 import 'spinner_spinBottomSheet.dart';
 import 'package:restaurant_picker/utils/restaurantTypeNames.dart';
+import 'package:restaurant_picker/services/getRestaurantData.dart';
 
 class TypeItem extends StatefulWidget {
   TypeItem({required this.name, required this.img});
@@ -15,9 +16,13 @@ class TypeItem extends StatefulWidget {
 
 class _TypeItemState extends State<TypeItem> {
   bool isSelected = false;
+  NearbyRestaurantData nearbyRestaurantData = NearbyRestaurantData();
 
   @override
   Widget build(BuildContext context) {
+    final Future<List<Map<String, dynamic>>> dataFuture =
+        nearbyRestaurantData.fetchData();
+
     return Consumer<FilterProvider>(
       builder: (context, filterProvider, child) {
         return Padding(
@@ -64,7 +69,7 @@ class _TypeItemState extends State<TypeItem> {
                 updatedList = [convertToAPIName(widget.name)!];
               }
               filterProvider.updateRestaurantType(updatedList);
-              SpinnerBottomSheet.show(context);
+              SpinnerBottomSheet.show(context, dataFuture);
               setState(() => isSelected = !isSelected);
             },
           ),
@@ -74,20 +79,29 @@ class _TypeItemState extends State<TypeItem> {
   }
 }
 
-
 class RestaurantTypeFilterRow extends StatefulWidget {
   @override
-  _RestaurantTypeFilterRowState createState() => _RestaurantTypeFilterRowState();
+  _RestaurantTypeFilterRowState createState() =>
+      _RestaurantTypeFilterRowState();
 }
 
-class _RestaurantTypeFilterRowState extends State<RestaurantTypeFilterRow> with SingleTickerProviderStateMixin {
+class _RestaurantTypeFilterRowState extends State<RestaurantTypeFilterRow>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _animation;
   final ScrollController _scrollController = ScrollController();
 
   final List<String> displayTypeList = [
-    'Brunch', 'Cafe', 'Chinese', 'Hamburger', 'Korean',
-    'Pizza', 'Ramen', 'Sushi', 'Thai', 'Vegetarian',
+    'Brunch',
+    'Cafe',
+    'Chinese',
+    'Hamburger',
+    'Korean',
+    'Pizza',
+    'Ramen',
+    'Sushi',
+    'Thai',
+    'Vegetarian',
   ];
 
   @override
@@ -137,13 +151,13 @@ class _RestaurantTypeFilterRowState extends State<RestaurantTypeFilterRow> with 
           child: Row(
             children: [
               ...displayTypeList.map((type) => TypeItem(
-                name: type,
-                img: 'assets/foodType/${type.toLowerCase()}.png',
-              )),
+                    name: type,
+                    img: 'assets/foodType/${type.toLowerCase()}.png',
+                  )),
               ...displayTypeList.map((type) => TypeItem(
-                name: type,
-                img: 'assets/foodType/${type.toLowerCase()}.png',
-              )),
+                    name: type,
+                    img: 'assets/foodType/${type.toLowerCase()}.png',
+                  )),
             ],
           ),
         ),

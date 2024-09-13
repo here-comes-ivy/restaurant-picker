@@ -49,11 +49,9 @@ class FavoriteFABState extends State<FavoriteFAB> {
     });
   }
   Future<void> _updateFavoriteStatus(bool isFavorite) async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    String? loggedinUserID = userProvider.loggedinUserID;
     try {
       await firestoreService.updateFavoriteList(
-        loggedinUserID: loggedinUserID,
+        context,
         restaurantID: widget.restaurantID,
         restaurantName: widget.restaurantName,
         rating: widget.restaurantRating,

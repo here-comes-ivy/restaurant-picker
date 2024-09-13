@@ -55,7 +55,7 @@ class DeleteFavoriteConfirmationDialog extends StatelessWidget {
             onDelete();
             Navigator.of(context).pop(true);
             await firestoreService.updateFavoriteStatus(
-              loggedinUserID: loggedinUserID,
+              context,
               restaurantID: restaurantID,
               savedAsFavorite: false,
             );

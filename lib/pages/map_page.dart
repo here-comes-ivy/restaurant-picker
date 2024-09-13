@@ -8,6 +8,8 @@ import '../components/mapPage/filter_filterBottomSheet.dart';
 import '../components/mapPage/addressTextField.dart';
 import '../components/mapPage/filter_restaurantTypeRow.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:restaurant_picker/services/getRestaurantData.dart';
+
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -17,6 +19,9 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
+    final NearbyRestaurantData nearbyRestaurantData = NearbyRestaurantData();
+
+
   final LatLng defaultLocation = LatLng(25.0340637447189, 121.56452691031619);
   String? googApikey;
   bool isMapReady = false;
@@ -35,6 +40,9 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
+        final Future<List<Map<String, dynamic>>> dataFuture =
+        nearbyRestaurantData.fetchData();
+
     return Consumer<LocationProvider>(
       builder: (context, locationProvider, child) {
         if (locationProvider.isLoading) {
@@ -89,7 +97,7 @@ class _MapPageState extends State<MapPage> {
                               bottom: 40,
                               left: 0,
                               right: 0,
-                              child: Center(child: SpinButton()),
+                              child: Center(child: SpinButton(dataFuture:dataFuture)),
                             ),
                           ],
                         ),

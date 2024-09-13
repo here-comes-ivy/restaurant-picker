@@ -4,6 +4,7 @@ import 'package:restaurant_picker/services/userDataProvider.dart';
 import 'package:provider/provider.dart';
 import '../components/favoritePage/favoriteItems.dart';
 import '../components/mapPage/spinner_spinbutton.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FavoritePage extends StatefulWidget {
   @override
@@ -13,10 +14,14 @@ class FavoritePage extends StatefulWidget {
 class _FavoritePageState extends State<FavoritePage> {
   final FirestoreService firestoreService = FirestoreService();
 
+
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context);
-    final String? loggedinUserID = userProvider.loggedinUserID;
+    final Future<List<Map<String, dynamic>>>dataFuture =
+        firestoreService.fetchFavoriteRestaurants(context);
+  final userProvider = Provider.of<UserProvider>(context, listen: false);
+  final String? loggedinUserID = userProvider.loggedinUserID;
+
     if (loggedinUserID == null) {
       return Center(
           child: Text(
@@ -32,25 +37,40 @@ class _FavoritePageState extends State<FavoritePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Recently Added',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                      FavoriteRestaurantsItems(loggedinUserID: loggedinUserID),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Divider(),
-                      ),
-                      // Text('Favorite Lists',
-                      //     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                      // PersonalFavoriteList(),
-                    ],
-                  ),
+                child: FutureBuilder<List<Map<String, dynamic>>>(
+                  future: dataFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return Center(
+                          child: Text('No favorite restaurants found.'));
+                    } else {
+                      return SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Recently Added',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold)),
+                            FavoriteRestaurantsItems(),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Divider(),
+                            ),
+                            // Text('Favorite Lists',
+                            //     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                            // PersonalFavoriteList(),
+                          ],
+                        ),
+                      );
+                    }
+                  },
                 ),
               ),
-            Center(child: SpinButton()),  
+              Center(child: SpinButton(dataFuture: dataFuture)),
             ],
           ),
         ),
