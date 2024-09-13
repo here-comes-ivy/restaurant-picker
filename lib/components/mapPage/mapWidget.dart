@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_picker/services/mapFilterProvider.dart';
+import 'package:restaurant_picker/services/addressAutoCompletion.dart';
+
 
 class MapWidget extends StatefulWidget {
   final LatLng initialPosition;
+  final PlaceDetails? selectedPlace;
   
   const MapWidget({
     Key? key,
     required this.initialPosition,
+    this.selectedPlace,
   }) : super(key: key);
 
   @override
@@ -18,11 +22,15 @@ class MapWidget extends StatefulWidget {
 class _MapWidgetState extends State<MapWidget> {
   late GoogleMapController _mapController;
   Set<Circle> circles = Set<Circle>();
+  Set<Marker> markers = Set<Marker>();
 
   @override
   void initState() {
     super.initState();
     addCircle(widget.initialPosition, Provider.of<FilterProvider>(context, listen: false).apiRadius??3000);
+    if (widget.selectedPlace != null) {
+      addMarker(widget.selectedPlace!);
+    }
   }
 
   @override
@@ -47,6 +55,19 @@ class _MapWidgetState extends State<MapWidget> {
     });
   }
 
+  void addMarker(PlaceDetails place) {
+    Marker marker = Marker(
+      markerId: MarkerId("selectedLocation"),
+      position: place.location,
+      infoWindow: InfoWindow(title: place.name),
+    );
+
+    setState(() {
+      markers.clear();
+      markers.add(marker);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
@@ -61,6 +82,7 @@ class _MapWidgetState extends State<MapWidget> {
       },
     
       circles: circles,  
+      markers: markers,
     );
   }
 }

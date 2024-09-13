@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'filter_filterBottomSheet.dart';
 import 'package:restaurant_picker/services/addressAutoCompletion.dart';
 
-
 class AddressAutoCompleteTextField extends StatefulWidget {
-  final Function(String)? onAddressSelected;
+  final Function(PlaceDetails)? onAddressSelected;
 
   AddressAutoCompleteTextField({this.onAddressSelected});
 
   @override
-  _AddressAutoCompleteTextFieldState createState() => _AddressAutoCompleteTextFieldState();
+  _AddressAutoCompleteTextFieldState createState() =>
+      _AddressAutoCompleteTextFieldState();
 }
 
-class _AddressAutoCompleteTextFieldState extends State<AddressAutoCompleteTextField> {
-  Future<List<String>>? _predictions;
+class _AddressAutoCompleteTextFieldState
+    extends State<AddressAutoCompleteTextField> {
+  Future<List<Map<String, String>>>? _predictions;
   TextEditingController _controller = TextEditingController();
 
-void _onSearchChanged(String searchText) {
+  void _onSearchChanged(String searchText) {
     if (searchText.isNotEmpty) {
       setState(() {
         _predictions = AddressAutoCompletion().getPlacesAutocomplete(input: searchText);
@@ -28,15 +29,12 @@ void _onSearchChanged(String searchText) {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         TextField(
-          
-          
-          style:TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.black),
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,
@@ -62,16 +60,14 @@ void _onSearchChanged(String searchText) {
           onChanged: _onSearchChanged,
         ),
         if (_predictions != null)
-          FutureBuilder<List<String>>(
+          FutureBuilder<List<Map<String, String>>>(
             future: _predictions,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return CircularProgressIndicator();
               } else if (snapshot.hasError) {
-                print('Error: ${snapshot.error}');
-              
-                return Container();
-              } else if (snapshot.hasData) {
+                return Text('Error: ${snapshot.error}');
+              } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                 final predictions = snapshot.data!;
                 return Container(
                   color: Colors.white,
@@ -80,17 +76,15 @@ void _onSearchChanged(String searchText) {
                     itemCount: predictions.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Text(
-                          predictions[index],
-                          style: TextStyle(color: Theme.of(context).colorScheme.surface),
-                        ),
-                        onTap: () {
+                        title: Text(predictions[index]['description']!),
+                        onTap: () async {
                           setState(() {
-                            _controller.text = predictions[index];
+                            _controller.text = predictions[index]['description']!;
                             _predictions = null;
                           });
                           if (widget.onAddressSelected != null) {
-                            widget.onAddressSelected!(_controller.text);
+                            PlaceDetails details = await AddressAutoCompletion().getPlaceDetails(predictions[index]['placeId']!);
+                            widget.onAddressSelected!(details);
                           }
                         },
                       );
@@ -98,11 +92,11 @@ void _onSearchChanged(String searchText) {
                   ),
                 );
               } else {
-                return SizedBox.shrink();
-                }
-              },
-           ),
-         ],
-       );
-     }
-   }
+                return Text('No results found');
+              }
+            },
+          ),
+      ],
+    );
+  }
+}

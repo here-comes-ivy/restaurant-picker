@@ -70,26 +70,30 @@ class RestaurantTypeMultipleChoiceState
       isPremiumFeature: false,
       title: 'Restaurant Type',
       cardChild: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch, // 添加這行
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextButton(
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  minimumSize: Size(0, 0)
-                ),
-                onPressed: toggleSelectAll,
-                child: Text(
-                  'Select All',
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    fontStyle: FontStyle.italic,
+          Align( // 使用 Align 包裹 Row
+            alignment: Alignment.centerRight,
+            child: Row(
+              mainAxisSize: MainAxisSize.min, // 設置為 min
+              children: [
+                TextButton(
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  onPressed: toggleSelectAll,
+                  child: Text(
+                    'Select All',
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           InlineChoice<String>(
             multiple: true,
@@ -105,8 +109,8 @@ class RestaurantTypeMultipleChoiceState
               );
             },
             listBuilder: ChoiceList.createWrapped(
-              spacing: 6,
-              runSpacing: 6,
+              spacing: 3,
+              runSpacing: 3,
               padding: const EdgeInsets.symmetric(
                 horizontal: 15,
                 vertical: 15,

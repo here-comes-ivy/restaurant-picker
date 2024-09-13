@@ -1,63 +1,67 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:restaurant_picker/services/mapFilterProvider.dart';
-import 'package:restaurant_picker/services/locationDataProvider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+class PlaceDetails {
+  final LatLng location;
+  final String name;
 
-// autocompletion not working for manual input
+  PlaceDetails({required this.location, required this.name});
+}
 
 class AddressAutoCompletion {
-  String googApikey = dotenv.env['googApikey']!;
-  LocationProvider locationProvider = LocationProvider();
-  FilterProvider filterProvider = FilterProvider();
+  final String googApikey = dotenv.env['googApikey']!;
 
-  Future<List<String>> getPlacesAutocomplete({
+  Future<List<Map<String, String>>> getPlacesAutocomplete({
     required String input,
   }) async {
-    String? input;
-
-    await locationProvider.getCurrentLocation();
-    LatLng location = locationProvider.currentLocation!;
-    double lat = location.latitude;
-    double lng = location.longitude;
-    double? radius = filterProvider.apiRadius;
-
-
+    var url = Uri.parse('https://places.googleapis.com/v1/places:autocomplete');
     var headers = {
       'Content-Type': 'application/json',
-      'X-Goog-Api-Key': googApikey
+      'X-Goog-Api-Key': googApikey,
+      'X-Goog-FieldMask': 'suggestions.placePrediction.description,suggestions.placePrediction.placeId,suggestions.placePrediction.structuredFormat'
     };
-    var request = http.Request('POST',
-        Uri.parse('https://places.googleapis.com/v1/places:autocomplete'));
-    request.body = json.encode({
-      "input": "pizza",
-      "locationBias": {
-        "circle": {
-          "center": {"latitude": lat, "longitude": lng},
-          "radius": radius,
-        }
-      }
+
+    var body = json.encode({
+      "textQuery": input,
+      "languageCode": "zh-TW",
     });
-    request.headers.addAll(headers);
-    http.StreamedResponse response = await request.send();
+
+    var response = await http.post(url, headers: headers, body: body);
 
     if (response.statusCode == 200) {
-      String responseBody = await response.stream.bytesToString();
-      Map<String, dynamic> jsonResponse = json.decode(responseBody);
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
       List<dynamic> suggestions = jsonResponse['suggestions'];
-      return suggestions.map<String>((suggestion) {
+      return suggestions.map<Map<String, String>>((suggestion) {
         var placePrediction = suggestion['placePrediction'];
-        return '${placePrediction['structuredFormat']['mainText']['text']}, ${placePrediction['structuredFormat']['secondaryText']['text']}';
-        
-
+        return {
+          'description': '${placePrediction['structuredFormat']['mainText']['text']}, ${placePrediction['structuredFormat']['secondaryText']['text']}',
+          'placeId': placePrediction['placeId'],
+        };
       }).toList();
     } else {
-      print(
-          'Failed to load autocomplete suggestions: ${response.reasonPhrase}');
-      throw Exception('Failed to load autocomplete suggestions');
+      throw Exception('Failed to load predictions');
+    }
+  }
+
+  Future<PlaceDetails> getPlaceDetails(String placeId) async {
+    var url = Uri.parse('https://places.googleapis.com/v1/places/$placeId?fields=location,displayName');
+    var response = await http.get(url, headers: {
+      'X-Goog-Api-Key': googApikey,
+      'Content-Type': 'application/json',
+    });
+
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      var location = data['location'];
+      var name = data['displayName']['text'];
+      return PlaceDetails(
+        location: LatLng(location['latitude'], location['longitude']),
+        name: name,
+      );
+    } else {
+      throw Exception('Failed to get place details');
     }
   }
 }
-  
