@@ -81,20 +81,26 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
 
     return Column(
       children: [
-        FortuneBar(
-          height: MediaQuery.of(context).size.height * 0.3,
-          styleStrategy: UniformStyleStrategy(
-            color: Theme.of(context).colorScheme.surface.withOpacity(0.8),
-            borderColor: Theme.of(context).colorScheme.surface.withOpacity(0.8),
-          ),
-          selected: controller.stream,
-          animateFirst: false,
-          physics: NoPanPhysics(),
-          onAnimationEnd: () {
-            // You can add any post-spin logic here
-          },
-          items: fortuneItems,
-        ),
+                      FortuneBar(
+                height: MediaQuery.of(context).size.height * 0.3,
+                styleStrategy: UniformStyleStrategy(
+                  color: Theme.of(context).colorScheme.surface.withOpacity(0.8),
+                  borderColor:
+                      Theme.of(context).colorScheme.surface.withOpacity(0.8),
+                ),
+                selected: controller.stream,
+                visibleItemCount: 1,
+                items: fortuneItems,
+                indicators: <FortuneIndicator>[
+                  FortuneIndicator(
+                    alignment: Alignment.topCenter,
+                    child: RectangleIndicator(
+                      color: Colors.transparent,
+                      borderColor: Colors.transparent,
+                    ),
+                  ),
+                ],
+              ),
         const SizedBox(height: 20),
         FilledButton(
           child: const Text(
