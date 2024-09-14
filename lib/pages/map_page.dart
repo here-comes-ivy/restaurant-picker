@@ -82,11 +82,9 @@ class _MapPageState extends State<MapPage> {
                         borderRadius: BorderRadius.circular(20),
                         child: Stack(
                           children: [
-                            Expanded(
-                              child: MapWidget(
-                                initialPosition: mapCenter,
-                              ),
-                            ),
+                            Expanded(child:MapWidget(
+                              initialPosition: mapCenter,
+                            ),),
                             Positioned(
                               top: 20,
                               left: 20,

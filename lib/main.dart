@@ -19,7 +19,7 @@ import 'pages/auth_gate.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  Firebase.initializeApp();
   await dotenv.load(fileName: ".env");
   runApp(
     MultiProvider(

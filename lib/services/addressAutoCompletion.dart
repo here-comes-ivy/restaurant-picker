@@ -43,12 +43,28 @@ class AddressAutoCompletion {
       Map<String, dynamic> predictionNames = json.decode(responseBody);
 
       List<Map<String, dynamic>> suggestions = [];
-      for (var suggestion in predictionNames['suggestions']) {
-        suggestions.add({
-          'latlng': suggestion['id'],
-          'name': '${suggestion['structuredFormat']['mainText']['text']} ${suggestion['structuredFormat']['secondaryText']['text']}',
-        });
+      for (var suggestion in predictionNames['suggestions'] ?? []) {
+        var placePrediction = suggestion['placePrediction'];
+        if (placePrediction != null) {
+          String name = '';
+          String? placeId = placePrediction['placeId'];
+
+          if (placePrediction['structuredFormat'] != null) {
+            var mainText = placePrediction['structuredFormat']['mainText']['text'];
+            var secondaryText = placePrediction['structuredFormat']['secondaryText']['text'];
+            name = '$mainText, $secondaryText'.trim();
+          } else {
+            name = placePrediction['text']['text'] ?? '';
+          }
+
+          suggestions.add({
+            'placeId': placeId,
+            'name': name,
+          });
+        }
       }
+
+      print('Final suggestions: $suggestions');
       return suggestions;
     } else {
       print(

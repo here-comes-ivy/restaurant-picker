@@ -19,7 +19,8 @@ class _AddressAutoCompleteTextFieldState extends State<AddressAutoCompleteTextFi
 void _onSearchChanged(String searchText) {
     if (searchText.isNotEmpty) {
       setState(() {
-        _predictions = AddressAutoCompletion().getPlacesAutocomplete(input: searchText);
+        _predictions = AddressAutoCompletion().getPlacesAutocomplete(input: searchText)
+          .then((suggestions) => suggestions.map((suggestion) => suggestion['name'] as String).toList());
       });
     } else {
       setState(() {
