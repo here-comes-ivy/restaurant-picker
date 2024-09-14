@@ -1,67 +1,59 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:restaurant_picker/services/mapFilterProvider.dart';
+import 'package:restaurant_picker/services/locationDataProvider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class PlaceDetails {
-  final LatLng location;
-  final String name;
-
-  PlaceDetails({required this.location, required this.name});
-}
 
 class AddressAutoCompletion {
-  final String googApikey = dotenv.env['googApikey']!;
+  String googApikey = dotenv.env['googApikey']!;
+  LocationProvider locationProvider = LocationProvider();
+  FilterProvider filterProvider = FilterProvider();
 
-  Future<List<Map<String, String>>> getPlacesAutocomplete({
+  Future<List<Map<String, dynamic>>> getPlacesAutocomplete({
     required String input,
   }) async {
-    var url = Uri.parse('https://places.googleapis.com/v1/places:autocomplete');
+    await locationProvider.getCurrentLocation();
+    LatLng location = locationProvider.currentLocation!;
+    double lat = location.latitude;
+    double lng = location.longitude;
+    double? radius = filterProvider.apiRadius;
+
     var headers = {
       'Content-Type': 'application/json',
-      'X-Goog-Api-Key': googApikey,
-      'X-Goog-FieldMask': 'suggestions.placePrediction.description,suggestions.placePrediction.placeId,suggestions.placePrediction.structuredFormat'
+      'X-Goog-Api-Key': googApikey
     };
-
-    var body = json.encode({
-      "textQuery": input,
-      "languageCode": "zh-TW",
+    var request = http.Request('POST',
+        Uri.parse('https://places.googleapis.com/v1/places:autocomplete'));
+    request.body = json.encode({
+      "input": input,
+      "locationBias": {
+        "circle": {
+          "center": {"latitude": lat, "longitude": lng},
+          "radius": radius,
+        }
+      }
     });
-
-    var response = await http.post(url, headers: headers, body: body);
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> jsonResponse = json.decode(response.body);
-      List<dynamic> suggestions = jsonResponse['suggestions'];
-      return suggestions.map<Map<String, String>>((suggestion) {
-        var placePrediction = suggestion['placePrediction'];
-        return {
-          'description': '${placePrediction['structuredFormat']['mainText']['text']}, ${placePrediction['structuredFormat']['secondaryText']['text']}',
-          'placeId': placePrediction['placeId'],
-        };
-      }).toList();
-    } else {
-      throw Exception('Failed to load predictions');
-    }
-  }
+      String responseBody = await response.stream.bytesToString();
+      Map<String, dynamic> predictionNames = json.decode(responseBody);
 
-  Future<PlaceDetails> getPlaceDetails(String placeId) async {
-    var url = Uri.parse('https://places.googleapis.com/v1/places/$placeId?fields=location,displayName');
-    var response = await http.get(url, headers: {
-      'X-Goog-Api-Key': googApikey,
-      'Content-Type': 'application/json',
-    });
-
-    if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      var location = data['location'];
-      var name = data['displayName']['text'];
-      return PlaceDetails(
-        location: LatLng(location['latitude'], location['longitude']),
-        name: name,
-      );
+      List<Map<String, dynamic>> suggestions = [];
+      for (var suggestion in predictionNames['suggestions']) {
+        suggestions.add({
+          'latlng': suggestion['id'],
+          'name': '${suggestion['structuredFormat']['mainText']['text']} ${suggestion['structuredFormat']['secondaryText']['text']}',
+        });
+      }
+      return suggestions;
     } else {
-      throw Exception('Failed to get place details');
+      print(
+          'Failed to load autocomplete suggestions: ${response.reasonPhrase}');
+      throw Exception('Failed to load autocomplete suggestions');
     }
   }
 }
