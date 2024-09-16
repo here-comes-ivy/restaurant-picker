@@ -3,6 +3,7 @@ import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'dart:async';
 import 'dart:math';
 import 'spinner_spinnerCard.dart';
+import 'package:flutter/foundation.dart';
 
 class SpinnerBuilder extends StatefulWidget {
   final List<Map<String, dynamic>> data;
@@ -40,15 +41,20 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
     super.dispose();
   }
 
-  void _selectRandomRestaurants() {
-    if (allRestaurants.length <= 5) {
-      displayedRestaurants = List.from(allRestaurants);
-    } else {
-      displayedRestaurants = List.from(allRestaurants)..shuffle();
-      displayedRestaurants = displayedRestaurants.take(5).toList();
-    }
-    lastSelectedIndex = null;
+static List<Map<String, dynamic>> _getRandomRestaurants(List<Map<String, dynamic>> allRestaurants) {
+  final shuffled = List<Map<String, dynamic>>.from(allRestaurants)..shuffle();
+  return shuffled.take(5).toList();
+}
+
+Future<void> _selectRandomRestaurants() async {
+  if (allRestaurants.length <= 5) {
+    displayedRestaurants = List.from(allRestaurants);
+  } else {
+    displayedRestaurants = await compute(_getRandomRestaurants, allRestaurants);
   }
+  setState(() {}); 
+}
+
 
   void spinAgain() {
     spinCount++;
@@ -76,31 +82,31 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
     }
 
     List<FortuneItem> fortuneItems = displayedRestaurants
-        .map((restaurant) => RestaurantFortuneItemBuilder.buildFortuneItem(restaurant, context))
+        .map((restaurant) =>
+            RestaurantFortuneItemBuilder.buildFortuneItem(restaurant, context))
         .toList();
 
     return Column(
       children: [
-                      FortuneBar(
-                height: MediaQuery.of(context).size.height * 0.3,
-                styleStrategy: UniformStyleStrategy(
-                  color: Theme.of(context).colorScheme.surface.withOpacity(0.8),
-                  borderColor:
-                      Theme.of(context).colorScheme.surface.withOpacity(0.8),
-                ),
-                selected: controller.stream,
-                visibleItemCount: 1,
-                items: fortuneItems,
-                indicators: <FortuneIndicator>[
-                  FortuneIndicator(
-                    alignment: Alignment.topCenter,
-                    child: RectangleIndicator(
-                      color: Colors.transparent,
-                      borderColor: Colors.transparent,
-                    ),
-                  ),
-                ],
+        FortuneBar(
+          height: MediaQuery.of(context).size.height * 0.3,
+          styleStrategy: UniformStyleStrategy(
+            color: Theme.of(context).colorScheme.surface.withOpacity(0.8),
+            borderColor: Theme.of(context).colorScheme.surface.withOpacity(0.8),
+          ),
+          selected: controller.stream,
+          visibleItemCount: 1,
+          items: fortuneItems,
+          indicators: <FortuneIndicator>[
+            FortuneIndicator(
+              alignment: Alignment.topCenter,
+              child: RectangleIndicator(
+                color: Colors.transparent,
+                borderColor: Colors.transparent,
               ),
+            ),
+          ],
+        ),
         const SizedBox(height: 20),
         FilledButton(
           child: const Text(
