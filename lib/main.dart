@@ -9,13 +9,7 @@ import 'services/mapFilterProvider.dart';
 import 'wip/temp_favoriteStateProvider.dart';
 import 'services/restaurantDataProvider.dart';
 
-import 'pages/onboarding_page.dart';
 import 'pages/landing_page.dart';
-import 'pages/profile_page.dart';
-import 'pages/chat_test_page.dart';
-import 'pages/map_page.dart';
-import 'wip/fav_personalList.dart';
-import 'pages/auth_gate.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
