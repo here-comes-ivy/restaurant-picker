@@ -12,6 +12,7 @@ class FavoriteFAB extends StatefulWidget {
     required this.restaurantRatingCount,
     required this.restaurantAddress,
     required this.restaurantPriceLevel,
+    required this.photoUrl,
   });
 
   final String restaurantID;
@@ -20,6 +21,7 @@ class FavoriteFAB extends StatefulWidget {
   final int restaurantRatingCount;
   final String restaurantAddress;
   final String restaurantPriceLevel;
+  final String photoUrl;
 
   @override
   FavoriteFABState createState() => FavoriteFABState();
@@ -61,8 +63,6 @@ class FavoriteFABState extends State<FavoriteFAB> {
   }
 
   Future<void> _updateFavoriteStatus(bool isFavorite) async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    String? loggedinUserID = userProvider.loggedinUserID;
     try {
       await firestoreService.updateFavoriteList(
         context,
@@ -73,6 +73,7 @@ class FavoriteFABState extends State<FavoriteFAB> {
         address: widget.restaurantAddress,
         priceLevel: widget.restaurantPriceLevel,
         savedAsFavorite: isFavorite,
+        photoUrl: widget.photoUrl,
       );
     } catch (e) {
       print('Failed to update favorite status: $e');
