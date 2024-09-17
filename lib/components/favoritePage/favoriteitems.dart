@@ -10,7 +10,6 @@ import 'editAndDeleteDialog.dart';
 class FavoriteRestaurantsItems extends StatefulWidget {
   const FavoriteRestaurantsItems({super.key});
 
-
   @override
   State<FavoriteRestaurantsItems> createState() =>
       _FavoriteRestaurantsItemsState();
@@ -21,7 +20,7 @@ class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
   late Future<List<Map<String, dynamic>>> _favoritesFuture;
   List<Map<String, dynamic>> currentFavorites = [];
 
-    @override
+  @override
   void initState() {
     super.initState();
     refreshFavorites();
@@ -34,72 +33,72 @@ class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
   }
 
   Future<void> removeRestaurant(String restaurantID) async {
-    await firestoreService.updateFavoriteStatus(context,restaurantID: restaurantID, savedAsFavorite:false);
-    setState(() {
-    });
+    await firestoreService.updateFavoriteStatus(context,
+        restaurantID: restaurantID, savedAsFavorite: false);
+    setState(() {});
   }
 
- @override
+  @override
   Widget build(BuildContext context) {
-  final userProvider = Provider.of<UserProvider>(context, listen: false);
-  final String? loggedinUserID = userProvider.loggedinUserID;
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final String? loggedinUserID = userProvider.loggedinUserID;
 
-    return Expanded(
-      child: FutureBuilder<List<Map<String, dynamic>>>(
-        future: _favoritesFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No favorite restaurants saved yet.'));
-          }
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: _favoritesFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(
+              child: Text('No favorite restaurants saved yet.'));
+        }
 
-          currentFavorites = snapshot.data!;
+        currentFavorites = snapshot.data!;
 
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: currentFavorites.length,
-            itemBuilder: (context, index) {
-              var restaurant = currentFavorites[index];
-              String restaurantName =
-                  restaurant['name'] ?? 'Unknown Restaurant';
-              double restaurantRating = restaurant['rating'];
-              int restaurantRatingCount = restaurant['ratingCount'];
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: currentFavorites.length,
+          itemBuilder: (context, index) {
+            var restaurant = currentFavorites[index];
+            String restaurantName = restaurant['name'] ?? 'Unknown Restaurant';
+            double restaurantRating = restaurant['rating'];
+            int restaurantRatingCount = restaurant['ratingCount'];
 
-              String restaurantAddress =
-                  restaurant['address'] ?? 'Unknown Address';
-              String restaurantPriceLevel = buildPriceLevel(
-                  restaurant['priceLevel'] ?? 'Unknown Price Level');
-              String displayRating = restaurantRating.toString();
-              String displayRatingCount = restaurantRatingCount.toString();
+            String restaurantAddress =
+                restaurant['address'] ?? 'Unknown Address';
+            String restaurantPriceLevel = buildPriceLevel(
+                restaurant['priceLevel'] ?? 'Unknown Price Level');
+            String displayRating = restaurantRating.toString();
+            String displayRatingCount = restaurantRatingCount.toString();
 
-              return Dismissible(
-                key: Key(restaurant['name']),
-                background: DeleteWidget(),
-                dismissThresholds: const {DismissDirection.startToEnd: 0.7},
-                confirmDismiss: (direction) async {
-                  if (direction == DismissDirection.endToStart) {
-                    return await showDialog(
-                      context: context,
-                      builder: (BuildContext context) =>
+            return Dismissible(
+              key: Key(restaurant['name']),
+              background: DeleteWidget(),
+              dismissThresholds: const {DismissDirection.startToEnd: 0.7},
+              confirmDismiss: (direction) async {
+                if (direction == DismissDirection.endToStart) {
+                  return await showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
                         DeleteFavoriteConfirmationDialog(
-                        itemName: restaurant['name'],
-                        onDelete: () {
-                          setState(() {});
-                        },
-                        restaurantID: currentFavorites[index]['id'],
-                        loggedinUserID: loggedinUserID!,
-                      ),
-                    );
-                  } else {
-                    return false;
-                  }
-                },
-                child: RestaurantCard(
-                  cardChild: Row(
-                    children: [
-                      Column(
+                      itemName: restaurant['name'],
+                      onDelete: () {
+                        setState(() {});
+                      },
+                      restaurantID: currentFavorites[index]['id'],
+                      loggedinUserID: loggedinUserID!,
+                    ),
+                  );
+                } else {
+                  return false;
+                }
+              },
+              child: RestaurantCard(
+                cardChild: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -119,17 +118,19 @@ class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
                               Text(restaurantPriceLevel),
                             ],
                           ),
-                          Text(restaurantAddress),
+                          Text(
+                            restaurantAddress,
+                          ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              );
-            },
-          );
-        },
-      ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
