@@ -35,7 +35,7 @@ class FeaturesToUnlock extends StatelessWidget {
     },
   ];
 
-  const FeaturesToUnlock({super.key});
+  FeaturesToUnlock({super.key});
 
   @override
   Widget build(BuildContext context) {

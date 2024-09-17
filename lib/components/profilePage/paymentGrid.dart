@@ -6,7 +6,7 @@ class PaymentGrid extends StatelessWidget {
   final List<String> emoji = ["🍩", "☕", "🧋", "🍺"];
   final List<String> prices = ["\$0.99", "\$1.99", "\$2.99", "\$3.99"];
 
-  const PaymentGrid({super.key});
+  PaymentGrid({super.key});
 
   void onGooglePayResult(paymentResult) {
   }
