@@ -38,6 +38,7 @@ class FavoriteStateProvider extends ChangeNotifier {
     required int ratingCount,
     required String address,
     required String priceLevel,
+    required String photoUrl,
   }) async {
     final newState = !isFavorite(restaurantID);
     _favorites[restaurantID] = newState;
@@ -52,6 +53,7 @@ class FavoriteStateProvider extends ChangeNotifier {
       address: address,
       priceLevel: priceLevel,
       savedAsFavorite: newState,
+      photoUrl: photoUrl,
     );
   }
 

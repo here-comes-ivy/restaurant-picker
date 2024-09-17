@@ -77,6 +77,8 @@ class RestaurantFortuneItemBuilder {
                   restaurantRatingCount: restaurantRatingCount,
                   restaurantAddress: restaurantAddress,
                   restaurantPriceLevel: restaurantPriceLevel,
+                  photoUrl: photoUrl,
+
                 ),
               ),
             ],

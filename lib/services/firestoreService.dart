@@ -33,6 +33,7 @@ class FirestoreService  {
     required int? ratingCount,
     required String? address,
     required String? priceLevel,
+    required String? photoUrl,
     required bool savedAsFavorite,
   }) async {
 
@@ -53,6 +54,7 @@ class FirestoreService  {
         'address': address,
         'priceLevel': (priceLevel != '')? priceLevel: 'N/A',
         'savedAsFavorite': savedAsFavorite,
+        'photoUrl': photoUrl,
         'lastUpdated': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
       print('Restaurant ID $restaurantID has been saved to Firestore with savedAsFavorite status set to $savedAsFavorite' );
