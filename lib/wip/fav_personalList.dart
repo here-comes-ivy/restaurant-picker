@@ -24,6 +24,8 @@ List<SavedItem> savedItems = [
 ];
 
 class PersonalFavoriteList extends StatefulWidget {
+  const PersonalFavoriteList({super.key});
+
   @override
   _PersonalFavoriteListState createState() => _PersonalFavoriteListState();
 }
@@ -80,7 +82,7 @@ class _PersonalFavoriteListState extends State<PersonalFavoriteList> {
             key: Key(savedItems[index].title),
             secondaryBackground: DeleteWidget(),
             background: EditWidget(),
-            dismissThresholds: {
+            dismissThresholds: const {
               DismissDirection.endToStart: 0.2,
               DismissDirection.startToEnd: 0.2,
             },
@@ -106,7 +108,7 @@ class _PersonalFavoriteListState extends State<PersonalFavoriteList> {
               cardChild: ExpansionTile(
                 title: Text(
                   savedItems[index].title,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                       fontStyle: FontStyle.italic),
@@ -128,22 +130,22 @@ class _PersonalFavoriteListState extends State<PersonalFavoriteList> {
   List<Widget> _buildExpandableContent(SavedItem item) {
     return item.contents.map((content) {
       return RestaurantCard(
-        customPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        customPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         customMargin: EdgeInsets.zero,
         cardChild: ListTile(
           title: Text(
             content,
-            style: TextStyle(fontSize: 18.0),
+            style: const TextStyle(fontSize: 18.0),
           ),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
-                icon: Icon(Icons.edit),
+                icon: const Icon(Icons.edit),
                 onPressed: () {},
               ),
               IconButton(
-                icon: Icon(Icons.delete),
+                icon: const Icon(Icons.delete),
                 onPressed: () {
                   setState(() {
                     item.contents.remove(content);

@@ -3,7 +3,7 @@ import 'filter_filterBottomSheet.dart';
 
 
 class SearchFilter extends StatelessWidget {
-  SearchFilter({required this.child, required this.widget, this.shape });
+  SearchFilter({super.key, required this.child, required this.widget, this.shape });
 
   Widget widget;
   Widget child;
@@ -29,6 +29,8 @@ class SearchFilter extends StatelessWidget {
 }
 
 class SearchFilterRow extends StatelessWidget {
+  const SearchFilterRow({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -39,28 +41,28 @@ class SearchFilterRow extends StatelessWidget {
             shape: WidgetStateProperty.all(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
-                side: BorderSide(color: Colors.grey),
+                side: const BorderSide(color: Colors.grey),
               ),),
+            widget: FilterBottomSheet(),
             child: Icon(
               Icons.tune,
             ),
-            widget: FilterBottomSheet(),
           ),
           SearchFilter(
+            widget: FilterBottomSheet(),
             child: Text('RestaurantType'),
-            widget: FilterBottomSheet(),
           ),
           SearchFilter(
+            widget: FilterBottomSheet(),
             child: Text('Distance'),
-            widget: FilterBottomSheet(),
           ),
           SearchFilter(
+            widget: FilterBottomSheet(),
             child: Text('OpeningHour'),
-            widget: FilterBottomSheet(),
           ),
           SearchFilter(
-            child: Text('Price Range'),
             widget: FilterBottomSheet(),
+            child: Text('Price Range'),
           ),
         ],
       ),

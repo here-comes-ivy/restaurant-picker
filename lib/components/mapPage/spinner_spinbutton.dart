@@ -5,14 +5,14 @@ class SpinButton extends StatelessWidget {
 
   final Future<List<Map<String, dynamic>>> dataFuture;
 
-  SpinButton({
-    Key? key,
+  const SpinButton({
+    super.key,
     required this.dataFuture,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width * 0.75,
       height: MediaQuery.of(context).size.height * 0.05,
       child: FilledButton.tonal(
@@ -21,7 +21,7 @@ class SpinButton extends StatelessWidget {
           shape: WidgetStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
-              side: BorderSide(color: Colors.grey),
+              side: const BorderSide(color: Colors.grey),
             ),
           ),
           backgroundColor: WidgetStateProperty.all(
@@ -30,7 +30,7 @@ class SpinButton extends StatelessWidget {
         onPressed: () {
           SpinnerBottomSheet.show(context, dataFuture);
         },
-        child: Text(
+        child: const Text(
           'Surprise me!',
           style: TextStyle(
             fontSize: 20.0,

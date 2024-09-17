@@ -5,18 +5,20 @@ import 'auth_gate.dart';
 
 
 class OnboardingPage extends StatelessWidget {
+  const OnboardingPage({super.key});
+
 
   @override
   Widget build(BuildContext context) {
     return OnBoardingSlider(
-      headerBackgroundColor:Color.fromRGBO(237, 58, 39, 1),
+      headerBackgroundColor:const Color.fromRGBO(237, 58, 39, 1),
       finishButtonText: 'Get started!',
-      finishButtonStyle: FinishButtonStyle(
+      finishButtonStyle: const FinishButtonStyle(
         backgroundColor: Colors.black,
       ),
-      skipTextButton: Text('Skip'),
+      skipTextButton: const Text('Skip'),
       indicatorAbove: true,
-      trailing: Text('Login'),
+      trailing: const Text('Login'),
       trailingFunction: ()async{
         Navigator.push(context, MaterialPageRoute(builder: (context) => AuthPage()));
       },
@@ -30,7 +32,7 @@ class OnboardingPage extends StatelessWidget {
           child: Image.asset('assets/slide2.png', height:MediaQuery.of(context).size.height*0.6, width: MediaQuery.of(context).size.width,),
         ),
       ],
-      pageBackgroundColor: Color.fromRGBO(237, 58, 39, 1),
+      pageBackgroundColor: const Color.fromRGBO(237, 58, 39, 1),
       totalPage: 2,
       speed: 1.8,
       onFinish: () {
@@ -39,10 +41,10 @@ class OnboardingPage extends StatelessWidget {
       },
       pageBodies: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 40),
           child: Column(
             children: <Widget>[
-              SizedBox(
+              const SizedBox(
                 height: 480,
               ),
               AnimatedTextKit(
@@ -66,12 +68,12 @@ class OnboardingPage extends StatelessWidget {
           ),
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 40),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              SizedBox(
+              const SizedBox(
                 height: 480,
               ),
               AnimatedTextKit(

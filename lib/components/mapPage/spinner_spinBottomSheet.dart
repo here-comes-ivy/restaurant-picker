@@ -6,9 +6,9 @@ class SpinnerBottomSheet extends StatelessWidget {
   final Future<List<Map<String, dynamic>>> dataFuture;
 
   const SpinnerBottomSheet({
-    Key? key,
+    super.key,
     required this.dataFuture,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class SpinnerBottomSheet extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.9,
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -28,13 +28,13 @@ class SpinnerBottomSheet extends StatelessWidget {
               future: dataFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (snapshot.hasData) {
                   return SpinnerBuilder(data: snapshot.data!);
                 } else {
-                  return Center(child: Text('No data available'));
+                  return const Center(child: Text('No data available'));
                 }
               },
             ),

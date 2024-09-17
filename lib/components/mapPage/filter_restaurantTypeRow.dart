@@ -6,7 +6,7 @@ import 'package:restaurant_picker/utils/restaurantTypeNames.dart';
 import 'package:restaurant_picker/services/getRestaurantData.dart';
 
 class TypeItem extends StatefulWidget {
-  TypeItem({required this.name, required this.img});
+  const TypeItem({super.key, required this.name, required this.img});
   final String name;
   final String img;
 
@@ -31,7 +31,7 @@ class _TypeItemState extends State<TypeItem> {
             child: Container(
               height: 70,
               width: 70,
-              margin: EdgeInsets.only(right: 2.0),
+              margin: const EdgeInsets.only(right: 2.0),
               decoration: BoxDecoration(
                 color: isSelected
                     ? Theme.of(context).colorScheme.surface.withOpacity(0.3)
@@ -46,12 +46,12 @@ class _TypeItemState extends State<TypeItem> {
                       height: 40,
                       child: Image.asset(widget.img),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Text(
                       widget.name,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 10.0),
                     ),
                   ],
@@ -80,6 +80,8 @@ class _TypeItemState extends State<TypeItem> {
 }
 
 class RestaurantTypeFilterRow extends StatefulWidget {
+  const RestaurantTypeFilterRow({super.key});
+
   @override
   _RestaurantTypeFilterRowState createState() =>
       _RestaurantTypeFilterRowState();
@@ -114,7 +116,7 @@ class _RestaurantTypeFilterRowState extends State<RestaurantTypeFilterRow>
 
     _animation = Tween<Offset>(
       begin: Offset.zero,
-      end: Offset(-1.0, 0.0),
+      end: const Offset(-1.0, 0.0),
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.linear,
@@ -142,12 +144,12 @@ class _RestaurantTypeFilterRowState extends State<RestaurantTypeFilterRow>
     return GestureDetector(
       onTapDown: (_) => _controller.stop(),
       onTapUp: (_) => _controller.repeat(reverse: true),
-      child: Container(
+      child: SizedBox(
         height: 80, // Adjust this value as needed
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           controller: _scrollController,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child: Row(
             children: [
               ...displayTypeList.map((type) => TypeItem(

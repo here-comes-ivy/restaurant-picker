@@ -3,7 +3,7 @@ import '../utils/colorSetting.dart';
 
 
 
-var kProfileTitleStyle = TextStyle(
+var kProfileTitleStyle = const TextStyle(
     color: Colors.white,
     fontWeight: FontWeight.w700,
     fontSize: 20.0,

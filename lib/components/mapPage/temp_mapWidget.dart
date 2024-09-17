@@ -7,9 +7,9 @@ import 'package:restaurant_picker/services/locationDataProvider.dart';
 class MapWidget extends StatefulWidget {
   final LatLng initialPosition;
   const MapWidget({
-    Key? key,
+    super.key,
     required this.initialPosition,
-  }) : super(key: key);
+  });
 
   @override
   _MapWidgetState createState() => _MapWidgetState();
@@ -17,7 +17,7 @@ class MapWidget extends StatefulWidget {
 
 class _MapWidgetState extends State<MapWidget> {
   GoogleMapController? _mapController;
-  Set<Circle> circles = Set<Circle>();
+  Set<Circle> circles = <Circle>{};
   LatLng? _currentPosition;
   late LatLng _lastCameraPosition;
   bool _isMapCreated = false;
@@ -56,9 +56,9 @@ class _MapWidgetState extends State<MapWidget> {
   void _updateCircle(LatLng center) {
     final filterProvider = Provider.of<FilterProvider>(context, listen: false);
     Circle circle = Circle(
-      circleId: CircleId("myCircle"),
+      circleId: const CircleId("myCircle"),
       center: center,
-      radius: filterProvider.apiRadius!,
+      radius: filterProvider.apiRadius,
       fillColor: Colors.blue.withOpacity(0.1),
       strokeColor: Colors.blue,
       strokeWidth: 2,

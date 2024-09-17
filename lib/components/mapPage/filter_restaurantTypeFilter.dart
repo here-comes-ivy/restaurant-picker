@@ -84,7 +84,7 @@ class RestaurantTypeMultipleChoiceState
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
                   onPressed: toggleSelectAll,
-                  child: Text(
+                  child: const Text(
                     'Select All',
                     style: TextStyle(
                       decoration: TextDecoration.underline,

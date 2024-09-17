@@ -6,7 +6,7 @@ import 'package:restaurant_picker/services/addressAutoCompletion.dart';
 class AddressAutoCompleteTextField extends StatefulWidget {
   final Function(String)? onAddressSelected;
 
-  AddressAutoCompleteTextField({this.onAddressSelected});
+  const AddressAutoCompleteTextField({super.key, this.onAddressSelected});
 
   @override
   _AddressAutoCompleteTextFieldState createState() => _AddressAutoCompleteTextFieldState();
@@ -14,7 +14,7 @@ class AddressAutoCompleteTextField extends StatefulWidget {
 
 class _AddressAutoCompleteTextFieldState extends State<AddressAutoCompleteTextField> {
   Future<List<String>>? _predictions;
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
 void _onSearchChanged(String searchText) {
     if (searchText.isNotEmpty) {
@@ -37,13 +37,13 @@ void _onSearchChanged(String searchText) {
         TextField(
           
           
-          style:TextStyle(color: Colors.black),
+          style:const TextStyle(color: Colors.black),
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,
-            prefixIcon: Icon(Icons.search),
+            prefixIcon: const Icon(Icons.search),
             suffixIcon: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.my_location,
               ),
               onPressed: () {
@@ -51,8 +51,8 @@ void _onSearchChanged(String searchText) {
               },
             ),
             hintText: 'Search address on Maps',
-            hintStyle: TextStyle(color: Colors.grey),
-            border: OutlineInputBorder(
+            hintStyle: const TextStyle(color: Colors.grey),
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(8.0),
               ),
@@ -67,7 +67,7 @@ void _onSearchChanged(String searchText) {
             future: _predictions,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               } else if (snapshot.hasError) {
                 print('Error: ${snapshot.error}');
               
@@ -99,7 +99,7 @@ void _onSearchChanged(String searchText) {
                   ),
                 );
               } else {
-                return SizedBox.shrink();
+                return const SizedBox.shrink();
                 }
               },
            ),

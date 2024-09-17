@@ -15,6 +15,8 @@ class AuthPage extends StatelessWidget {
 
   final auth = FirebaseAuth.instance;
 
+  const AuthPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);

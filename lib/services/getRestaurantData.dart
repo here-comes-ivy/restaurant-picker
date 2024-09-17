@@ -70,7 +70,7 @@ class NearbyRestaurantData {
         final restaurantData = jsonDecode(responseBody);
 
         if (restaurantData['places'] == null ||
-            !(restaurantData['places'] is List)) {
+            restaurantData['places'] is! List) {
           print('API response does not contain expected "places" list');
           return [];
         }

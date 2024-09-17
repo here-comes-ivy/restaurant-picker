@@ -7,12 +7,14 @@ class CardSlider extends StatelessWidget {
 final List<Widget> imageSliders = List.generate(5, (index) => Container(
   width: 320.0,
   height: 70.0,
-  margin: EdgeInsets.all(5.0),
+  margin: const EdgeInsets.all(5.0),
   child: ClipRRect(
-    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
     child: Image.asset('assets/banners/banner$index.jpg', fit: BoxFit.fill),
   ),
 ));
+
+  CardSlider({super.key});
 
 
   @override
@@ -23,7 +25,7 @@ final List<Widget> imageSliders = List.generate(5, (index) => Container(
       return Container(
         width: MediaQuery.of(context).size.width,
         height: 250.0,
-        margin: EdgeInsets.symmetric(horizontal: 5.0),
+        margin: const EdgeInsets.symmetric(horizontal: 5.0),
         child: CarouselSlider(
           options: CarouselOptions(
             autoPlay: true,

@@ -10,7 +10,7 @@ import 'package:restaurant_picker/utils/smallWidgetBuilder.dart';
 import 'package:restaurant_picker/services/getRestaurantData.dart';
 
 class FilterBottomSheet extends StatelessWidget {
-  FilterBottomSheet({Key? key}) : super(key: key);
+  FilterBottomSheet({super.key});
   final NearbyRestaurantData nearbyRestaurantData = NearbyRestaurantData();
 
   @override
@@ -20,39 +20,39 @@ class FilterBottomSheet extends StatelessWidget {
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.8,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Column(
         children: [
           BottomSheetHandler(),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Expanded(
             child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               children: [
-                RadiusSlider(),
+                const RadiusSlider(),
                 FilterDivider,
                 RatingFilter(),
                 FilterDivider,
-                PriceRangeChoiceChips(),
+                const PriceRangeChoiceChips(),
                 FilterDivider,
-                OpeningHourFilter(),
+                const OpeningHourFilter(),
                 FilterDivider,
-                RestaurantTypeMultipleChoice(),
+                const RestaurantTypeMultipleChoice(),
                 FilterDivider,
-                OptionSwitchList(),
+                const OptionSwitchList(),
                 FilterDivider,
               ],
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 TextButton(
-                  child: Text(
+                  child: const Text(
                     'Clear all',
                     style: TextStyle(
                       decoration: TextDecoration.underline,
@@ -62,7 +62,7 @@ class FilterBottomSheet extends StatelessWidget {
                   onPressed: () {},
                 ),
                 FilledButton(
-                  child: Text(
+                  child: const Text(
                     'Confirm',
                     style: TextStyle(
                       color: Colors.white,
@@ -95,7 +95,7 @@ class FilterBottomSheet extends StatelessWidget {
   }
 }
 
-Widget FilterDivider = Padding(
-  padding: const EdgeInsets.all(6.0),
+Widget FilterDivider = const Padding(
+  padding: EdgeInsets.all(6.0),
   child: Divider(),
 );

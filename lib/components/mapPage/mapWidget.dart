@@ -7,9 +7,9 @@ class MapWidget extends StatefulWidget {
   final LatLng initialPosition;
   
   const MapWidget({
-    Key? key,
+    super.key,
     required this.initialPosition,
-  }) : super(key: key);
+  });
 
   @override
   _MapWidgetState createState() => _MapWidgetState();
@@ -17,7 +17,7 @@ class MapWidget extends StatefulWidget {
 
 class _MapWidgetState extends State<MapWidget> {
   late GoogleMapController _mapController;
-  Set<Circle> circles = Set<Circle>();
+  Set<Circle> circles = <Circle>{};
 
   @override
   void initState() {
@@ -33,7 +33,7 @@ class _MapWidgetState extends State<MapWidget> {
 
   void addCircle(LatLng position, double radius) {
     Circle circle = Circle(
-      circleId: CircleId("myCircle"),
+      circleId: const CircleId("myCircle"),
       center: position,
       radius: radius,
       fillColor: Colors.blue.withOpacity(0.1),

@@ -33,9 +33,9 @@ class _OptionSwitchListState extends State<OptionSwitchList> {
                   deliverySwitch = value!;
                 });
               },
-              title: Text('Delivery Available'),
+              title: const Text('Delivery Available'),
             ),
-            Divider(height: 0),
+            const Divider(height: 0),
             
             SwitchListTile(
               value: reservable,
@@ -44,10 +44,10 @@ class _OptionSwitchListState extends State<OptionSwitchList> {
                   reservable = value!;
                 });
               },
-              title: Text('Reservations available'),
+              title: const Text('Reservations available'),
              
             ),
-            Divider(height: 0),
+            const Divider(height: 0),
             SwitchListTile(
               value: vegetarianSwitch,
               onChanged: (bool? value) {
@@ -55,9 +55,9 @@ class _OptionSwitchListState extends State<OptionSwitchList> {
                   vegetarianSwitch = value!;
                 });
               },
-              title: Text('Vegetarian options available'),
+              title: const Text('Vegetarian options available'),
             ),
-            Divider(height: 0),
+            const Divider(height: 0),
             SwitchListTile(
               value: goodForGroupsSwitch,
               onChanged: (bool? value) {
@@ -65,9 +65,9 @@ class _OptionSwitchListState extends State<OptionSwitchList> {
                   goodForGroupsSwitch = value!;
                 });
               },
-              title: Text('Good for Groups'),
+              title: const Text('Good for Groups'),
             ),
-            Divider(height: 0),
+            const Divider(height: 0),
             SwitchListTile(
               value: allowPetSwich,
               onChanged: (bool? value) {
@@ -75,9 +75,9 @@ class _OptionSwitchListState extends State<OptionSwitchList> {
                   allowPetSwich = value!;
                 });
               },
-              title: Text('Pets allowed'),
+              title: const Text('Pets allowed'),
             ),
-            Divider(height: 0),
+            const Divider(height: 0),
           ],
         
       ),

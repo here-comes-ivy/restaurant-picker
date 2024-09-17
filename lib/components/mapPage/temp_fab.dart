@@ -5,7 +5,7 @@ import 'package:restaurant_picker/services/firestoreService.dart';
 import 'package:rxdart/rxdart.dart';
 
 class FavoriteFAB extends StatefulWidget {
-  FavoriteFAB({
+  const FavoriteFAB({super.key, 
     required this.restaurantID,
     required this.restaurantName,
     required this.restaurantRating,
@@ -48,7 +48,7 @@ class FavoriteFABState extends State<FavoriteFAB> {
     );
 
     _favoriteSubject
-        .debounceTime(Duration(milliseconds: 500))
+        .debounceTime(const Duration(milliseconds: 500))
         .distinct()
         .listen((isFavorite) {
       _updateFavoriteStatus(isFavorite);

@@ -6,10 +6,10 @@ import 'package:restaurant_picker/services/mapFilterProvider.dart';
 class RatingFilter extends StatefulWidget {
   final int starCount;
 
-  RatingFilter({
-    Key? key,
+  const RatingFilter({
+    super.key,
     this.starCount = 5,
-  }) : super(key: key);
+  });
 
   @override
   _RatingFilterState createState() => _RatingFilterState();

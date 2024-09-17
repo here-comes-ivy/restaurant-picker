@@ -6,6 +6,8 @@ class PaymentGrid extends StatelessWidget {
   final List<String> emoji = ["🍩", "☕", "🧋", "🍺"];
   final List<String> prices = ["\$0.99", "\$1.99", "\$2.99", "\$3.99"];
 
+  const PaymentGrid({super.key});
+
   void onGooglePayResult(paymentResult) {
   }
 
@@ -18,8 +20,8 @@ class PaymentGrid extends StatelessWidget {
       padding: const EdgeInsets.all(10.0),
       child: GridView.builder(
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 10.0,
           crossAxisSpacing: 10.0,
@@ -77,7 +79,7 @@ class PaymentGrid extends StatelessWidget {
               child: Center(
                 child: Text(
                   'Buy me a ${emoji[index]}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'Pacifico',
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

@@ -8,6 +8,8 @@ import 'package:restaurant_picker/utils/smallWidgetBuilder.dart';
 import 'editAndDeleteDialog.dart';
 
 class FavoriteRestaurantsItems extends StatefulWidget {
+  const FavoriteRestaurantsItems({super.key});
+
 
   @override
   State<FavoriteRestaurantsItems> createState() =>
@@ -47,10 +49,10 @@ class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
         future: _favoritesFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No favorite restaurants saved yet.'));
+            return const Center(child: Text('No favorite restaurants saved yet.'));
           }
 
           currentFavorites = snapshot.data!;
@@ -75,7 +77,7 @@ class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
               return Dismissible(
                 key: Key(restaurant['name']),
                 background: DeleteWidget(),
-                dismissThresholds: {DismissDirection.startToEnd: 0.7},
+                dismissThresholds: const {DismissDirection.startToEnd: 0.7},
                 confirmDismiss: (direction) async {
                   if (direction == DismissDirection.endToStart) {
                     return await showDialog(
@@ -102,7 +104,7 @@ class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
                         children: [
                           Text(
                             restaurantName,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
                             ),
@@ -110,10 +112,10 @@ class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
                           Row(
                             children: [
                               Text(displayRating),
-                              SizedBox(width: 8),
+                              const SizedBox(width: 8),
                               buildStars(restaurantRating),
                               Text(' ($displayRatingCount)'),
-                              SizedBox(width: 8),
+                              const SizedBox(width: 8),
                               Text(restaurantPriceLevel),
                             ],
                           ),

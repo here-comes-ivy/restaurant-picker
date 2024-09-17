@@ -10,10 +10,10 @@ class SpinnerBuilder extends StatefulWidget {
   final String emptyMessage;
 
   const SpinnerBuilder({
-    Key? key,
+    super.key,
     required this.data,
     this.emptyMessage = 'No restaurants found.',
-  }) : super(key: key);
+  });
 
   @override
   SpinnerBuilderState createState() => SpinnerBuilderState();
@@ -97,7 +97,7 @@ Future<void> _selectRandomRestaurants() async {
           selected: controller.stream,
           visibleItemCount: 1,
           items: fortuneItems,
-          indicators: <FortuneIndicator>[
+          indicators: const <FortuneIndicator>[
             FortuneIndicator(
               alignment: Alignment.topCenter,
               child: RectangleIndicator(
@@ -109,6 +109,7 @@ Future<void> _selectRandomRestaurants() async {
         ),
         const SizedBox(height: 20),
         FilledButton(
+          onPressed: spinAgain,
           child: const Text(
             'Spin Again',
             style: TextStyle(
@@ -117,7 +118,6 @@ Future<void> _selectRandomRestaurants() async {
               fontWeight: FontWeight.w800,
             ),
           ),
-          onPressed: spinAgain,
         ),
       ],
     );

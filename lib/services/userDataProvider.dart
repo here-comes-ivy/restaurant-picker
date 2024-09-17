@@ -20,7 +20,7 @@ class UserProvider with ChangeNotifier {
       loggedinUserName = firebaseUser.displayName ?? "No name"; 
       loggedinUserEmail = firebaseUser.email;
       loggedinUserID = firebaseUser.uid;
-      loggedinUserPhoto = firebaseUser.photoURL?.toString()?? null;
+      loggedinUserPhoto = firebaseUser.photoURL?.toString();
     } else {
       loggedinUser = null;
       loggedinUserName = null;

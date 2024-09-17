@@ -7,6 +7,8 @@ import '../components/mapPage/spinner_spinbutton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FavoritePage extends StatefulWidget {
+  const FavoritePage({super.key});
+
   @override
   State<FavoritePage> createState() => _FavoritePageState();
 }
@@ -23,13 +25,13 @@ class _FavoritePageState extends State<FavoritePage> {
   final String? loggedinUserID = userProvider.loggedinUserID;
 
     if (loggedinUserID == null) {
-      return Center(
+      return const Center(
           child: Text(
               'You need to be logged in to view your favorite restaurants.'));
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Favorites')),
+      appBar: AppBar(title: const Text('Favorites')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -41,23 +43,23 @@ class _FavoritePageState extends State<FavoritePage> {
                   future: dataFuture,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return Center(
+                      return const Center(
                           child: Text('No favorite restaurants found.'));
                     } else {
                       return SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Recently Added',
+                            const Text('Recently Added',
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold)),
                             FavoriteRestaurantsItems(),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
+                            const Padding(
+                              padding: EdgeInsets.all(10.0),
                               child: Divider(),
                             ),
                             // Text('Favorite Lists',

@@ -16,7 +16,7 @@ List<int> convertDaysToNumbers(List<String> days) {
 }
 
 class OpeningHourFilter extends StatefulWidget {
-  const OpeningHourFilter({Key? key}) : super(key: key);
+  const OpeningHourFilter({super.key});
 
   @override
   State<OpeningHourFilter> createState() => _OpeningHourFilterState();
@@ -50,12 +50,12 @@ class _OpeningHourFilterState extends State<OpeningHourFilter> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SizedBox(height: 10.0),
+          const SizedBox(height: 10.0),
           Wrap(
             spacing: 5.0,
             children: [
               ChoiceChip(
-                label: Text('Anytime'),
+                label: const Text('Anytime'),
                 selected: _index == 1,
                 onSelected: (bool selected) {
                   setState(() {
@@ -64,7 +64,7 @@ class _OpeningHourFilterState extends State<OpeningHourFilter> {
                 },
               ),
               ChoiceChip(
-                label: Text('Opening Now'),
+                label: const Text('Opening Now'),
                 selected: _index == 2,
                 onSelected: (bool selected) {
                   setState(() {
@@ -73,7 +73,7 @@ class _OpeningHourFilterState extends State<OpeningHourFilter> {
                 },
               ),
               ChoiceChip(
-                label: Text('Customize'),
+                label: const Text('Customize'),
                 selected: _index == 3,
                 onSelected: (bool selected) {
                   setState(() {
@@ -84,7 +84,7 @@ class _OpeningHourFilterState extends State<OpeningHourFilter> {
             ],
           ),
           if (_index == 3) ...[
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Column(
               children: [
                 Wrap(
@@ -94,7 +94,7 @@ class _OpeningHourFilterState extends State<OpeningHourFilter> {
                       String text = days[index];
                       return FilterChip(
                         showCheckmark: false,
-                        shape: CircleBorder(),
+                        shape: const CircleBorder(),
                         label: Text(text),
                         selected: _selectedDays.contains(convertedDays[index]),
                         onSelected: (bool selected) {
@@ -116,7 +116,7 @@ class _OpeningHourFilterState extends State<OpeningHourFilter> {
                   children: [
                     DropdownButton<int>(
                       value: selectedHour,
-                      hint: Text('Select hour'),
+                      hint: const Text('Select hour'),
                       onChanged: (int? newValue) {
                         setState(() {
                           selectedHour = newValue!;
@@ -130,10 +130,10 @@ class _OpeningHourFilterState extends State<OpeningHourFilter> {
                         );
                       }).toList(),
                     ),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     DropdownButton<int>(
                       value: selectedMinute,
-                      hint: Text('Select minute'),
+                      hint: const Text('Select minute'),
                       onChanged: (int? newValue) {
                         setState(() {
                           selectedMinute = newValue!;

@@ -6,7 +6,7 @@ import 'package:rxdart/rxdart.dart';
 
 
 class FavoriteFAB extends StatefulWidget {
-  FavoriteFAB({
+  const FavoriteFAB({super.key, 
     required this.restaurantID,
     required this.restaurantName,
     required this.restaurantRating,
@@ -42,7 +42,7 @@ class FavoriteFABState extends State<FavoriteFAB> {
     );
     // 設置防抖動
     _favoriteSubject
-        .debounceTime(Duration(milliseconds: 100))
+        .debounceTime(const Duration(milliseconds: 100))
         .distinct()
         .listen((isFavorite) {
       _updateFavoriteStatus(isFavorite);
@@ -72,7 +72,7 @@ class FavoriteFABState extends State<FavoriteFAB> {
           print("Stream data: ${snapshot.data}");
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return FloatingActionButton(
+          return const FloatingActionButton(
             onPressed: null,
             child: CircularProgressIndicator(),
           );

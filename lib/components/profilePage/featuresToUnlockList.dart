@@ -35,13 +35,15 @@ class FeaturesToUnlock extends StatelessWidget {
     },
   ];
 
+  const FeaturesToUnlock({super.key});
+
   @override
   Widget build(BuildContext context) {
 
 
     return ListView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: unlockFeatureList.length,
       itemBuilder: (BuildContext context, int index) {
 
@@ -54,20 +56,20 @@ class FeaturesToUnlock extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                Icon(Icons.lock, size: 24),
-                SizedBox(width: 8),
+                const Icon(Icons.lock, size: 24),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         featureTitle,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
                         featureDescription,
                         overflow: TextOverflow.ellipsis,
@@ -78,12 +80,12 @@ class FeaturesToUnlock extends StatelessWidget {
                 ),
                 FilledButton(
                   style: ButtonStyle(
-                    minimumSize: WidgetStateProperty.all(Size(40, 15)),
-                    padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 6))
+                    minimumSize: WidgetStateProperty.all(const Size(40, 15)),
+                    padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 6))
                     
                   ),
                   onPressed: () {},
-                  child: Text('\$$displayPrice',style: TextStyle(fontWeight:FontWeight.bold),),
+                  child: Text('\$$displayPrice',style: const TextStyle(fontWeight:FontWeight.bold),),
                 ),
               ],
             ),

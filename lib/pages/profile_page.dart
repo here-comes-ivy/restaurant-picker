@@ -11,7 +11,7 @@ import '../services/userDataProvider.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -50,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
               FireStoreUser.clearUser();
@@ -64,7 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: SafeArea(
         child: _isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : CustomScrollView(
                 slivers: <Widget>[
                   SliverToBoxAdapter(
@@ -77,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: ProfileTitle(text: 'Recommended'),
                   ),
                   SliverToBoxAdapter(
-                    child: Container(
+                    child: SizedBox(
                       height: 100,
                       child: AspectRatio(
                         aspectRatio: 16 / 9,
@@ -105,7 +105,7 @@ class _ProfilePageState extends State<ProfilePage> {
 }
 
 class ProfileTitle extends StatelessWidget {
-  ProfileTitle({required this.text});
+  const ProfileTitle({super.key, required this.text});
   final String text;
 
   @override

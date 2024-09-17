@@ -16,18 +16,18 @@ class ProfileUserData extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding:
-          EdgeInsets.only(top: 10.0, left: 30.0, right: 30.0, bottom: 30.0),
+          const EdgeInsets.only(top: 10.0, left: 30.0, right: 30.0, bottom: 30.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           CircleAvatar(
+            backgroundColor: Colors.white,
+            radius: 30.0,
             child: (userPhoto !=  'No Photo')
                 ? Image.network(userPhoto)
                 : Icon(Icons.account_circle),
-            backgroundColor: Colors.white,
-            radius: 30.0,
           ),
-          SizedBox(
+          const SizedBox(
             width: 20.0,
           ),
           Column(
@@ -35,7 +35,7 @@ class ProfileUserData extends StatelessWidget {
             children: [
               Text(
                 userName,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
                 ),

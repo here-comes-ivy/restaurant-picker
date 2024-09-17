@@ -12,7 +12,7 @@ import 'package:restaurant_picker/services/getRestaurantData.dart';
 
 
 class MapPage extends StatefulWidget {
-  const MapPage({Key? key}) : super(key: key);
+  const MapPage({super.key});
 
   @override
   _MapPageState createState() => _MapPageState();
@@ -22,7 +22,7 @@ class _MapPageState extends State<MapPage> {
     final NearbyRestaurantData nearbyRestaurantData = NearbyRestaurantData();
 
 
-  final LatLng defaultLocation = LatLng(25.0340637447189, 121.56452691031619);
+  final LatLng defaultLocation = const LatLng(25.0340637447189, 121.56452691031619);
   String? googApikey;
   bool isMapReady = false;
 
@@ -46,7 +46,7 @@ class _MapPageState extends State<MapPage> {
     return Consumer<LocationProvider>(
       builder: (context, locationProvider, child) {
         if (locationProvider.isLoading) {
-          return Scaffold(body: Center(child: CircularProgressIndicator()));
+          return const Scaffold(body: Center(child: CircularProgressIndicator()));
         } else {
           LatLng mapCenter =
               locationProvider.currentLocation ?? defaultLocation;
@@ -55,19 +55,19 @@ class _MapPageState extends State<MapPage> {
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.all(12.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
                           height: 70,
                           child: IconButton(
-                            color: Color.fromRGBO(255, 181, 160, 1),
-                            icon: Icon(Icons.tune),
+                            color: const Color.fromRGBO(255, 181, 160, 1),
+                            icon: const Icon(Icons.tune),
                             onPressed: () => FilterBottomSheet.show(context),
                           ),
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         Expanded(child: RestaurantTypeFilterRow()),
                       ],
                     ),

@@ -38,8 +38,8 @@ class _RadiusSliderState extends State<RadiusSlider> {
               activeTrackColor: Colors.deepOrangeAccent,
               thumbColor: Colors.deepOrangeAccent,
               overlayColor: Colors.deepOrangeAccent.withOpacity(0.4),
-              thumbShape: RoundSliderThumbShape(enabledThumbRadius: 15.0),
-              overlayShape: RoundSliderOverlayShape(overlayRadius: 30.0),
+              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 15.0),
+              overlayShape: const RoundSliderOverlayShape(overlayRadius: 30.0),
             ),
             child: Slider(
               value: displayRadiusInKM,

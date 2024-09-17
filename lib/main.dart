@@ -24,7 +24,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => FavoriteStateProvider()),
         ChangeNotifierProvider(create: (context) => RestaurantProvider()),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
       ),
-      home: LandingPage(),
+      home: const LandingPage(),
     );
   }
 }
