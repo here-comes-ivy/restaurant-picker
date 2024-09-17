@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'filter_filterBottomSheet.dart';
 import 'package:restaurant_picker/services/addressAutoCompletion.dart';
-
+import 'package:restaurant_picker/services/locationDataProvider.dart';
+import 'package:provider/provider.dart';
 
 class AddressAutoCompleteTextField extends StatefulWidget {
   final Function(String)? onAddressSelected;
@@ -9,18 +10,23 @@ class AddressAutoCompleteTextField extends StatefulWidget {
   const AddressAutoCompleteTextField({super.key, this.onAddressSelected});
 
   @override
-  _AddressAutoCompleteTextFieldState createState() => _AddressAutoCompleteTextFieldState();
+  _AddressAutoCompleteTextFieldState createState() =>
+      _AddressAutoCompleteTextFieldState();
 }
 
-class _AddressAutoCompleteTextFieldState extends State<AddressAutoCompleteTextField> {
+class _AddressAutoCompleteTextFieldState
+    extends State<AddressAutoCompleteTextField> {
   Future<List<String>>? _predictions;
   final TextEditingController _controller = TextEditingController();
 
-void _onSearchChanged(String searchText) {
+  void _onSearchChanged(String searchText) {
     if (searchText.isNotEmpty) {
       setState(() {
-        _predictions = AddressAutoCompletion().getPlacesAutocomplete(input: searchText)
-          .then((suggestions) => suggestions.map((suggestion) => suggestion['name'] as String).toList());
+        _predictions = AddressAutoCompletion()
+            .getPlacesAutocomplete(input: searchText)
+            .then((suggestions) => suggestions
+                .map((suggestion) => suggestion['name'] as String)
+                .toList());
       });
     } else {
       setState(() {
@@ -29,15 +35,35 @@ void _onSearchChanged(String searchText) {
     }
   }
 
+  void _onSuggestionSelected(String suggestion) {
+    setState(() {
+      _controller.text = suggestion;
+      _predictions = null;
+    });
+
+    final locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    
+    // Get the placeId for the selected suggestion
+    AddressAutoCompletion().getPlacesAutocomplete(input: suggestion).then((suggestions) {
+      if (suggestions.isNotEmpty) {
+        String placeId = suggestions.firstWhere((s) => s['name'] == suggestion, orElse: () => {'placeId': ''})['placeId'];
+        if (placeId.isNotEmpty) {
+          locationProvider.getLocationFromPlaceId(placeId);
+        }
+      }
+    });
+
+    if (widget.onAddressSelected != null) {
+      widget.onAddressSelected!(suggestion);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         TextField(
-          
-          
-          style:const TextStyle(color: Colors.black),
+          style: const TextStyle(color: Colors.black),
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,
@@ -70,7 +96,7 @@ void _onSearchChanged(String searchText) {
                 return const CircularProgressIndicator();
               } else if (snapshot.hasError) {
                 print('Error: ${snapshot.error}');
-              
+
                 return Container();
               } else if (snapshot.hasData) {
                 final predictions = snapshot.data!;
@@ -83,27 +109,20 @@ void _onSearchChanged(String searchText) {
                       return ListTile(
                         title: Text(
                           predictions[index],
-                          style: TextStyle(color: Theme.of(context).colorScheme.surface),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.surface),
                         ),
-                        onTap: () {
-                          setState(() {
-                            _controller.text = predictions[index];
-                            _predictions = null;
-                          });
-                          if (widget.onAddressSelected != null) {
-                            widget.onAddressSelected!(_controller.text);
-                          }
-                        },
+                        onTap: () => _onSuggestionSelected(predictions[index]),
                       );
                     },
                   ),
                 );
               } else {
                 return const SizedBox.shrink();
-                }
-              },
-           ),
-         ],
-       );
-     }
-   }
+              }
+            },
+          ),
+      ],
+    );
+  }
+}

@@ -5,10 +5,12 @@ import 'package:restaurant_picker/services/mapFilterProvider.dart';
 
 class MapWidget extends StatefulWidget {
   final LatLng initialPosition;
+  final LatLng? searchedLocation;
   
   const MapWidget({
     super.key,
     required this.initialPosition,
+    this.searchedLocation,
   });
 
   @override
@@ -18,13 +20,30 @@ class MapWidget extends StatefulWidget {
 class _MapWidgetState extends State<MapWidget> {
   late GoogleMapController _mapController;
   Set<Circle> circles = <Circle>{};
+  Set<Marker> markers = {};
 
   @override
   void initState() {
     super.initState();
     addCircle(widget.initialPosition, Provider.of<FilterProvider>(context, listen: false).apiRadius??3000);
+      if (widget.searchedLocation != null) {
+      addMarker(widget.searchedLocation!);
+    }
   }
 
+  void addMarker(LatLng position) {
+    Marker marker = Marker(
+      markerId: const MarkerId("searchedLocation"),
+      position: position,
+    );
+
+    setState(() {
+      markers.clear();
+      markers.add(marker);
+      _mapController.animateCamera(CameraUpdate.newLatLng(position));
+    });
+  }
+  
   @override
   void dispose() {
     _mapController.dispose();

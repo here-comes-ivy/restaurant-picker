@@ -39,6 +39,7 @@ class FavoriteFABState extends State<FavoriteFAB> {
     firestoreService = FirestoreService();
     _setupFavoriteStream();
     _favoriteNotifier = ValueNotifier<bool>(false);
+    
   }
 
   void _setupFavoriteStream() {

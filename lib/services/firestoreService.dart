@@ -58,6 +58,7 @@ class FirestoreService  {
         'lastUpdated': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
       print('Restaurant ID $restaurantID has been saved to Firestore with savedAsFavorite status set to $savedAsFavorite' );
+      print(photoUrl);
     } catch (e) {
       print('Failed to save restaurant ID: $e');
     }
@@ -107,7 +108,7 @@ Future<List<Map<String, dynamic>>> fetchFavoriteRestaurants(BuildContext context
 
 return querySnapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data();
-        data['id'] = doc.id; // Add the document ID to the data
+        data['id'] = doc.id; 
         return data;
       }).toList();
       
