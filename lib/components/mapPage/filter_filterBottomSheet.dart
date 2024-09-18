@@ -7,7 +7,7 @@ import 'filter_ratingFilter.dart';
 import 'filter_openingHour.dart';
 import 'spinner_spinBottomSheet.dart';
 import 'package:restaurant_picker/utils/smallWidgetBuilder.dart';
-import 'package:restaurant_picker/services/getRestaurantData.dart';
+import 'package:restaurant_picker/services/getRestaurantData_test.dart';
 
 class FilterBottomSheet extends StatelessWidget {
   FilterBottomSheet({super.key});
@@ -15,8 +15,14 @@ class FilterBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final filterProvider = Provider.of<FilterProvider>(context, listen: false);
+    final locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    LatLng location = locationProvider.searchedLocation;
+    double radius = filterProvider.apiRadius;
+    List<String> restaurantType = filterProvider.apiRestaurantType;
+    
     final Future<List<Map<String, dynamic>>> dataFuture =
-        nearbyRestaurantData.fetchData();
+        nearbyRestaurantData.fetchData(location:location, radius:radius,restaurantType:restaurantType);
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.8,
