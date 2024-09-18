@@ -44,17 +44,18 @@ class LocationProvider extends ChangeNotifier {
 
     Future<void> getLocationFromPlaceId(String placeId) async {
     final String apiKey = dotenv.env['googApikey']!;
-    final String url = 'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&fields=geometry&key=$apiKey';
+    final String url = 'https://places.googleapis.com/v1/places/$placeId?fields=location&key=$apiKey';
 
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        final location = data['result']['geometry']['location'];
-        searchedLocation = LatLng(location['lat'], location['lng']);
+        searchedLocation = LatLng(data['lat'], data['lng']);
         notifyListeners();
+        print('Seached location data: $data');
+        print('Seached location Lat Lng: $searchedLocation');
       } else {
-        throw Exception('Failed to load place details');
+        throw Exception('Failed to load place location details');
       }
     } catch (e) {
       print('Error getting place details: $e');
