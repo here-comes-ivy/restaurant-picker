@@ -5,10 +5,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
-
 class LocationProvider extends ChangeNotifier {
-  LatLng? searchedLocation = LatLng(25.0340637447189, 121.56452691031619); //default location: Taipei 101
+  LatLng? searchedLocation = LatLng(
+      25.0340637447189, 121.56452691031619); //default location: Taipei 101
   bool isLoading = true;
   LatLng? currentLocation;
 
@@ -18,46 +17,56 @@ class LocationProvider extends ChangeNotifier {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          // Permissions are denied, handle this case
           isLoading = false;
           notifyListeners();
           return;
         }
       }
       Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.low
-      );
+          desiredAccuracy: LocationAccuracy.low);
       currentLocation = LatLng(position.latitude, position.longitude);
 
-      searchedLocation = currentLocation;
-
       isLoading = false;
-      print('Searching current location: Latitude: ${position.latitude}, Longitude: ${position.longitude}');
+      print(
+          'Searching current location: Latitude: ${position.latitude}, Longitude: ${position.longitude}');
       notifyListeners();
-    } catch (e) { 
+    } catch (e) {
       isLoading = false;
       print('Error getting location: $e');
       notifyListeners();
     }
   }
 
-    Future<void> getLocationFromPlaceId(String placeId) async {
+  Future<void> getLocationFromPlaceId(String placeId) async {
     final String apiKey = dotenv.env['googApikey']!;
-    final String url = 'https://places.googleapis.com/v1/places/$placeId?fields=location&key=$apiKey';
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'X-Goog-Api-Key': apiKey,
+      'X-Goog-FieldMask': 'location'
+    };
+
+    var url = Uri.parse(
+        'https://places.googleapis.com/v1/places/$placeId');
 
     try {
-      final response = await http.get(Uri.parse(url));
+      var response = await http.get(url, headers: headers);
+
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        searchedLocation = LatLng(data['lat'], data['lng']);
-        notifyListeners();
-        print('Seached location changed to place location: $data');
+        Map<String, dynamic> data = json.decode(response.body);
+
+        searchedLocation = LatLng(data['location']['latitude'], data['location']['longitude']);
         print('Seached Lat Lng changed to : $searchedLocation');
+        notifyListeners();
       } else {
-        throw Exception('Failed to load place location details');
+        // If the server did not return a 200 OK response, throw an exception.
+        throw Exception(
+            'Failed to load place details: ${response.reasonPhrase}');
       }
     } catch (e) {
+      // Handle any errors that occurred during the request
       print('Error getting place details: $e');
+      rethrow;
     }
   }
 }

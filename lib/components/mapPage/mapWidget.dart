@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_picker/services/mapFilterProvider.dart';
+import 'package:restaurant_picker/services/locationDataProvider.dart';
+import 'package:provider/provider.dart';
 
 class MapWidget extends StatefulWidget {
   final LatLng initialPosition;
@@ -26,12 +28,14 @@ class _MapWidgetState extends State<MapWidget> {
   void initState() {
     super.initState();
     addCircle(widget.initialPosition, Provider.of<FilterProvider>(context, listen: false).apiRadius??3000);
-      if (widget.searchedLocation != null) {
-      addMarker(widget.searchedLocation!);
+    if (widget.searchedLocation != null) {
+      addMarker();
     }
   }
 
-  void addMarker(LatLng position) {
+  void addMarker() {
+    LocationProvider locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    LatLng position = locationProvider.searchedLocation!;
     Marker marker = Marker(
       markerId: const MarkerId("searchedLocation"),
       position: position,

@@ -43,7 +43,6 @@ class _AddressAutoCompleteTextFieldState
 
     final locationProvider = Provider.of<LocationProvider>(context, listen: false);
     
-    // Get the placeId for the selected suggestion
     AddressAutoCompletion().getPlacesAutocomplete(input: suggestion).then((suggestions) {
       if (suggestions.isNotEmpty) {
         String placeId = suggestions.firstWhere((s) => s['name'] == suggestion, orElse: () => {'placeId': ''})['placeId'];
