@@ -58,10 +58,7 @@ class _FavoritePageState extends State<FavoritePage> {
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold)),
                             FavoriteRestaurantsItems(),
-                            const Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: Divider(),
-                            ),
+                            
                             // Text('Favorite Lists',
                             //     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                             // PersonalFavoriteList(),

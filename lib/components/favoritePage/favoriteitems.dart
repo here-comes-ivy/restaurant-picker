@@ -59,9 +59,9 @@ class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
 
         currentFavorites = snapshot.data!;
 
-        return SingleChildScrollView(
+        return ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.7),
           child: ListView.builder(
-            shrinkWrap: true,
             itemCount: currentFavorites.length,
             itemBuilder: (context, index) {
               var restaurant = currentFavorites[index];
