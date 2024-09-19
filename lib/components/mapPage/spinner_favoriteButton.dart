@@ -30,7 +30,7 @@ class FavoriteFAB extends StatefulWidget {
 
 class FavoriteFABState extends State<FavoriteFAB> {
   late FirestoreService firestoreService;
-  final _favoriteSubject = BehaviorSubject<bool>();
+  bool _isFavorite = false;
 
   @override
   void initState() {
@@ -40,24 +40,23 @@ class FavoriteFABState extends State<FavoriteFAB> {
   }
 
   void _setupFavoriteStream() {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    String? loggedinUserID = userProvider.loggedinUserID;
-
     firestoreService
-        .fetchFavoriteStatus(
-      loggedinUserID: loggedinUserID,
+        .fetchFavoriteStatus(context,
       restaurantID: widget.restaurantID,
     )
         .listen((isFavorite) {
-      _favoriteSubject.add(isFavorite);
+      setState(() {
+        _isFavorite = isFavorite;
+      });
     });
   }
 
   Future<void> _toggleFavoriteStatus() async {
-    final currentStatus = _favoriteSubject.valueOrNull ?? false;
-    final newStatus = !currentStatus;
+    final newStatus = !_isFavorite;
 
-    _favoriteSubject.add(newStatus);
+    setState(() {
+      _isFavorite = newStatus;
+    });
 
     try {
       await firestoreService.updateFavoriteList(
@@ -72,34 +71,41 @@ class FavoriteFABState extends State<FavoriteFAB> {
         photoUrl: widget.photoUrl,
       );
     } catch (e) {
-      // If update fails, revert the UI
-      _favoriteSubject.add(currentStatus);
+      setState(() {
+        _isFavorite = !newStatus;
+      });
       print('Failed to update favorite status: $e');
-      // Optionally show an error message to the user
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to update favorite status')),
       );
     }
-    
   }
 
   @override
   Widget build(BuildContext context) {
+
     return StreamBuilder<bool>(
-      stream: _favoriteSubject.stream,
+      stream: firestoreService.fetchFavoriteStatus(
+        context, restaurantID: widget.restaurantID,
+      ),
       builder: (context, snapshot) {
-        final isFavorited = snapshot.data ?? false;
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+
+        final isFavorite = snapshot.data ?? false;
+
         return FloatingActionButton(
           shape: const CircleBorder(),
           mini: true,
           elevation: 20,
-          backgroundColor: isFavorited
+          backgroundColor: isFavorite
               ? Theme.of(context).colorScheme.primaryContainer
               : Theme.of(context).colorScheme.secondaryContainer,
-          onPressed: _toggleFavoriteStatus,
+          onPressed: () => _toggleFavoriteStatus(),
           child: Icon(
-            isFavorited ? Icons.favorite : Icons.favorite_border,
-            color: isFavorited
+            isFavorite ? Icons.favorite : Icons.favorite_border,
+            color: isFavorite
                 ? Theme.of(context).colorScheme.onPrimaryContainer
                 : Theme.of(context).colorScheme.onSecondaryContainer,
           ),
@@ -108,9 +114,4 @@ class FavoriteFABState extends State<FavoriteFAB> {
     );
   }
 
-  @override
-  void dispose() {
-    _favoriteSubject.close();
-    super.dispose();
-  }
 }

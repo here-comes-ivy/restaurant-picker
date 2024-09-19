@@ -119,10 +119,12 @@ return querySnapshot.docs.map((doc) {
 }
 
 
-  Stream<bool> fetchFavoriteStatus({
-    required String? loggedinUserID,
+  Stream<bool> fetchFavoriteStatus(BuildContext context,{
     required String? restaurantID,
   }) {
+  final userProvider = Provider.of<UserProvider>(context, listen: false);
+  final String? loggedinUserID = userProvider.loggedinUserID;
+
     return firestore
         .collection('users')
         .doc(loggedinUserID)

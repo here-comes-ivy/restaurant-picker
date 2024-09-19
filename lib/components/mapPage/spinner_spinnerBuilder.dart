@@ -61,13 +61,7 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
     }
   }
 
-  @override
-  void dispose() {
-     _disposed = true;
-    controller.close();
-    super.dispose();
-    
-  }
+
 
 static List<Map<String, dynamic>> _getRandomRestaurants(List<Map<String, dynamic>> allRestaurants) {
   final shuffled = List<Map<String, dynamic>>.from(allRestaurants)..shuffle();
@@ -92,7 +86,7 @@ Future<void> _selectRandomRestaurants() async {
     spinCount++;
     if (spinCount >= maxSpinBeforeRefresh) {
       spinCount = 0;
-      _selectRandomRestaurants();
+       _fetchLatestData();
     } else {
       displayedRestaurants.shuffle();
     }
@@ -105,6 +99,14 @@ Future<void> _selectRandomRestaurants() async {
     lastSelectedIndex = newIndex;
     controller.add(newIndex);
     setState(() {});
+  }
+
+    @override
+  void dispose() {
+     _disposed = true;
+    controller.close();
+    super.dispose();
+    
   }
 
   @override
