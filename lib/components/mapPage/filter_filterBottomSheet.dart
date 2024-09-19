@@ -82,8 +82,11 @@ class FilterBottomSheet extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
+                    print('Selected filters: radius: $radius & restaurantType: $restaurantType');
                     Navigator.pop(context);
                     SpinnerBottomSheet.show(context, dataFuture);
+                    
+
                   },
                 ),
               ],

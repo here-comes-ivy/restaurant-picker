@@ -122,7 +122,6 @@ class _RestaurantTypeFilterRowState extends State<RestaurantTypeFilterRow>
       curve: Curves.linear,
     ));
 
-    // Add listener to manually scroll the SingleChildScrollView
     _animation.addListener(() {
       if (_scrollController.hasClients) {
         final maxScroll = _scrollController.position.maxScrollExtent;
@@ -145,7 +144,7 @@ class _RestaurantTypeFilterRowState extends State<RestaurantTypeFilterRow>
       onTapDown: (_) => _controller.stop(),
       onTapUp: (_) => _controller.repeat(reverse: true),
       child: SizedBox(
-        height: 80, // Adjust this value as needed
+        height: 80, 
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           controller: _scrollController,

@@ -14,7 +14,7 @@ class RestaurantFortuneItemBuilder {
     int restaurantRatingCount = restaurant['ratingCount'] ?? 0;
     String restaurantAddress = restaurant['address'] ?? 'Unknown Address';
     String restaurantPriceLevel = buildPriceLevel(restaurant['priceLevel'] ?? 'Unknown Price Level');
-    String photoUrl = restaurant['photo'] ?? '';
+    String photoUrl = restaurant['photoUrl'] ?? '';
 
     return FortuneItem(
       child: LayoutBuilder(

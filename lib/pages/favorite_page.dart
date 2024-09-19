@@ -19,7 +19,7 @@ class _FavoritePageState extends State<FavoritePage> {
 
   @override
   Widget build(BuildContext context) {
-    final Future<List<Map<String, dynamic>>>dataFuture =
+    final Future<List<Map<String, dynamic>>>savedRestaurantdataFuture =
         firestoreService.fetchFavoriteRestaurants(context);
   final userProvider = Provider.of<UserProvider>(context, listen: false);
   final String? loggedinUserID = userProvider.loggedinUserID;
@@ -40,7 +40,7 @@ class _FavoritePageState extends State<FavoritePage> {
             children: [
               Expanded(
                 child: FutureBuilder<List<Map<String, dynamic>>>(
-                  future: dataFuture,
+                  future: savedRestaurantdataFuture,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
@@ -66,7 +66,7 @@ class _FavoritePageState extends State<FavoritePage> {
                   },
                 ),
               ),
-              Center(child: SpinButton(dataFuture: dataFuture)),
+              Center(child: SpinButton(dataFuture: savedRestaurantdataFuture)),
             ],
           ),
         ),
