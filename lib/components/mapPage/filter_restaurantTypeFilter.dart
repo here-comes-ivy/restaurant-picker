@@ -70,12 +70,12 @@ class RestaurantTypeMultipleChoiceState
       isPremiumFeature: false,
       title: 'Restaurant Type',
       cardChild: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch, // 添加這行
+        crossAxisAlignment: CrossAxisAlignment.stretch, 
         children: [
-          Align( // 使用 Align 包裹 Row
+          Align(
             alignment: Alignment.centerRight,
             child: Row(
-              mainAxisSize: MainAxisSize.min, // 設置為 min
+              mainAxisSize: MainAxisSize.min, 
               children: [
                 TextButton(
                   style: TextButton.styleFrom(

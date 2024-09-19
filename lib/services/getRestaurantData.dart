@@ -20,26 +20,21 @@ class NearbyRestaurantData {
 
   NearbyRestaurantData._internal();
 
-    Future<List<Map<String, dynamic>>> fetchData({
-    required LatLng location,
-    required double radius,
-    required List<String> restaurantType,
-  }) async {
+  Future<List<Map<String, dynamic>>> fetchData() async {
+    LatLng location = locationProvider.searchedLocation!;
     double lat = location.latitude;
     double lng = location.longitude;
+    double radius = filterProvider.apiRadius;
+    List restaurantType = filterProvider.apiRestaurantType;
 
-
-    double? radius = filterProvider.apiRadius;
-    String? priceLevel = filterProvider.apiPriceLevel;
-    List restaurantType = filterProvider.apiRestaurantType?? ['restaurant'];
-
+    //String? priceLevel = filterProvider.apiPriceLevel;
 
     var headers = {
       'Content-Type': 'application/json',
       'X-Goog-Api-Key': googApikey,
       'X-Goog-FieldMask':
           'places.id,places.displayName,places.rating,places.userRatingCount,places.shortFormattedAddress,places.photos,places.priceLevel'
-      //可能會用到的欄位: 
+      //可能會用到的欄位:
       //Advanced Filter: places.priceLevel,places.types,places.regularOpeningHours,places.businessStatus,
 
       //Preference filter (boolean): places.delivery,places.allowsDogs,places.servesVegetarianFood,places.reservable,places.goodForGroups
@@ -55,9 +50,7 @@ class NearbyRestaurantData {
       "maxResultCount": 20,
       "locationRestriction": {
         "circle": {
-          "center": {
-        "latitude": lat,
-        "longitude": lng},
+          "center": {"latitude": lat, "longitude": lng},
           "radius": radius
         }
       }
@@ -79,20 +72,20 @@ class NearbyRestaurantData {
           return [];
         }
 
-        print('Fetching data with criteria: Radius:$radius, Restaurant type:$restaurantType');
+        print(
+            'Fetching data with criteria: Radius:$radius, Restaurant type:$restaurantType');
         return (restaurantData['places'] as List<dynamic>)
             .map<Map<String, dynamic>>((place) {
-
-          String getPhotoUrl(dynamic place, {int maxWidth = 400, int maxHeight = 400}) {
+          String getPhotoUrl(dynamic place,
+              {int maxWidth = 400, int maxHeight = 400}) {
             if (place['photos'].isNotEmpty) {
               String photoName = place['photos'][0]['name'] as String? ?? '';
               if (photoName.isNotEmpty) {
                 return 'https://places.googleapis.com/v1/$photoName/media?maxHeightPx=$maxHeight&maxWidthPx=$maxWidth&key=$googApikey';
               }
             }
-            return 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; 
+            return 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
           }
-
 
           return {
             'id': place['id'] as String? ?? '',

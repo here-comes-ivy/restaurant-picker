@@ -9,7 +9,6 @@ import 'services/mapFilterProvider.dart';
 import 'wip/temp_favoriteStateProvider.dart';
 import 'services/restaurantDataProvider.dart';
 import 'pages/onboarding_page.dart';
-
 import 'pages/landing_page.dart';
 
 void main() async {

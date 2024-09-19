@@ -22,13 +22,11 @@ class FilterBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final filterProvider = Provider.of<FilterProvider>(context, listen: false);
-    final locationProvider = Provider.of<LocationProvider>(context, listen: false);
-    LatLng location = locationProvider.searchedLocation!;
     double radius = filterProvider.apiRadius;
     List<String> restaurantType = filterProvider.apiRestaurantType;
     
     final Future<List<Map<String, dynamic>>> dataFuture =
-        nearbyRestaurantData.fetchData(location:location, radius:radius,restaurantType:restaurantType);
+        nearbyRestaurantData.fetchData();
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.8,

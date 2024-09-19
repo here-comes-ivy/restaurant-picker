@@ -4,6 +4,11 @@ import 'dart:async';
 import 'dart:math';
 import 'spinner_spinnerCard.dart';
 import 'package:flutter/foundation.dart';
+import 'package:restaurant_picker/services/mapFilterProvider.dart';
+import 'package:restaurant_picker/services/getRestaurantData.dart';
+
+import 'package:provider/provider.dart';
+
 
 class SpinnerBuilder extends StatefulWidget {
   final List<Map<String, dynamic>> data;
@@ -28,12 +33,32 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
   int? lastSelectedIndex;
   bool _disposed = false;
 
+  late FilterProvider filterProvider;
+  late NearbyRestaurantData nearbyRestaurantData;
+
   @override
   void initState() {
     super.initState();
     controller = StreamController<int>.broadcast();
+    filterProvider = Provider.of<FilterProvider>(context, listen: false);
+    nearbyRestaurantData = NearbyRestaurantData();
     allRestaurants = widget.data;
-    _selectRandomRestaurants();
+    _fetchLatestData();
+  }
+
+    Future<void> _fetchLatestData() async {
+    try {
+      allRestaurants = await nearbyRestaurantData.fetchData();
+      await _selectRandomRestaurants();
+    } catch (e) {
+      print('Error fetching data: $e');
+      if (!_disposed) {
+        setState(() {
+          allRestaurants = [];
+          displayedRestaurants = [];
+        });
+      }
+    }
   }
 
   @override
