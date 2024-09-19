@@ -5,24 +5,55 @@
 Hey there, food enthusiasts and fellow developers! Welcome to the Restaurant Picker App, my capstone project for the AIoT Bootcamp at the Taishan Vocational Training Center. This Flutter-based mobile application is designed to solve the age-old question: "Where should we eat?" By combining location-based services, user preferences, and a touch of randomness, this app aims to make dining decisions both easy and exciting.
 
 ## What's this app all about? 🤔
-Ever been stuck in that "I don't know, where do you want to eat?" loop with your friends? Well, you're not alone! The Restaurant Picker App is here to save you from those endless debates and get you to your next favorite meal faster. As a food lover and a tech enthusiast, I wanted to combine my passions to create something truly useful addresses real-world challenges.
+Ever been stuck in that "I don't know, where do you want to eat?" loop with your friends? Well, you're not alone! The Restaurant Picker App is here to save you from those endless debates and get you to your next favorite meal faster. As a food lover and a tech enthusiast, I wanted to combine my passions to create something truly useful that addresses real-world challenges.
+
 ## Key Features
 
 ### 🎲 Random Restaurant Selection
 - **Location-Based Suggestions:** Utilizes the user's geographical location to randomly select and display nearby restaurants on Google Maps.
-- **Customizable Filters:** Allows users to set preferences like cuisine type and price range for more tailored suggestions.
+- **Customizable Filters:** Allows users to set preferences like cuisine type and search radius for more tailored suggestions.
+
+**Preview Video:**  
+![Random Restaurant Selection Video](https://example.com/random-selection-preview.gif)
+
+---
 
 ### ❤️ Favorites Management
 - **Personalized Lists:** Users can create and manage a list of their favorite restaurants.
 - **Smart Random Selection:** Offers the option to randomly choose from the user's saved favorites, adding an element of surprise even within familiar choices.
 
+**Preview Video:**  
+![Favorites Management Video](https://example.com/favorites-management-preview.gif)
+
+---
+
 ### 🤖 AI-Powered Chatbot
 - **Intelligent Recommendations:** Integrated an AI chatbot that provides personalized restaurant suggestions and answers user queries.
 - **Gemini API Integration:** Leverages the Gemini API to offer smart, context-aware recommendations.
 
-### 👤 User Profile System
-- **Custom Profiles:** Users can create and manage their profiles, including favorite cuisines and dietary preferences.
-- **Firebase Backend:** Utilizes Firebase for secure and efficient user data management and authentication.
+**Preview Video:**  
+![AI-Powered Chatbot Video](https://example.com/ai-chatbot-preview.gif)
+
+---
+
+### ✨ What's More
+- **User Profile System:** Utilizes Firebase for secure and efficient user data management and authentication.
+- **App Monetization Strategies:** Integrates premium subscriptions, proactive restaurant ads, and a "Support Us" tips feature, moving beyond traditional methods like Google Play ads to enhance user experience and drive sustainable growth.
+
+**Preview Video:**  
+![User Profile System Video](https://example.com/user-profile-preview.gif)
+
+---
+
+## Screenshots
+
+Here are some screenshots from the app:
+
+| Home Page | Restaurant Details | AI Chatbot | Profile Page |
+| --------- | ------------------ | ---------- | ------------ |
+| ![Home Page](https://example.com/homepage.png) | ![Restaurant Details](https://example.com/restaurant-details.png) | ![AI Chatbot](https://example.com/ai-chatbot.png) | ![Profile Page](https://example.com/profile-page.png) |
+
+---
 
 ## Technical Implementation
 
@@ -56,4 +87,3 @@ This project has been an incredible journey. I've learned so much, from wrestlin
 Thank you for checking out my project. I hope it inspires you to try new restaurants and enjoy great meals! 🌮✨
 
 Happy eating, and may your food choices always be delicious! 🍕🍣🍔
-

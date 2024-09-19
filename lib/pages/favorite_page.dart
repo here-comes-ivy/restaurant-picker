@@ -59,9 +59,6 @@ class _FavoritePageState extends State<FavoritePage> {
                                     fontSize: 18, fontWeight: FontWeight.bold)),
                             FavoriteRestaurantsItems(),
                             
-                            // Text('Favorite Lists',
-                            //     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                            // PersonalFavoriteList(),
                           ],
                         ),
                       );
