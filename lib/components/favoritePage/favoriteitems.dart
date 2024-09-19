@@ -11,7 +11,8 @@ class FavoriteRestaurantsItems extends StatefulWidget {
   const FavoriteRestaurantsItems({super.key});
 
   @override
-  State<FavoriteRestaurantsItems> createState() => _FavoriteRestaurantsItemsState();
+  State<FavoriteRestaurantsItems> createState() =>
+      _FavoriteRestaurantsItemsState();
 }
 
 class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
@@ -35,7 +36,8 @@ class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
     await firestoreService.updateFavoriteStatus(context,
         restaurantID: restaurantID, savedAsFavorite: false);
     setState(() {
-      currentFavorites.removeWhere((restaurant) => restaurant['id'] == restaurantID);
+      currentFavorites
+          .removeWhere((restaurant) => restaurant['id'] == restaurantID);
     });
   }
 
@@ -51,80 +53,117 @@ class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
           return const Center(child: CircularProgressIndicator());
         }
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text('No favorite restaurants saved yet.'));
+          return const Center(
+              child: Text('No favorite restaurants saved yet.'));
         }
 
         currentFavorites = snapshot.data!;
 
-        return ListView.builder(
-          shrinkWrap: true,
-          itemCount: currentFavorites.length,
-          itemBuilder: (context, index) {
-            var restaurant = currentFavorites[index];
-            String restaurantID = restaurant['id'] ?? 'unknown';
-            String restaurantName = restaurant['name'] ?? 'Unknown Restaurant';
-            double restaurantRating = restaurant['rating'];
-            int restaurantRatingCount = restaurant['ratingCount'];
-
-            String restaurantAddress = restaurant['address'] ?? 'Unknown Address';
-            String restaurantPriceLevel = buildPriceLevel(restaurant['priceLevel'] ?? 'Unknown Price Level');
-            String displayRating = restaurantRating.toString();
-            String displayRatingCount = restaurantRatingCount.toString();
-
-            return Dismissible(
-              key: ValueKey(restaurantID),
-              background: DeleteWidget(),
-              dismissThresholds: const {DismissDirection.startToEnd: 0.7},
-              confirmDismiss: (direction) async {
-                if (direction == DismissDirection.endToStart) {
-                  return await showDialog(
-                    context: context,
-                    builder: (BuildContext context) => DeleteFavoriteConfirmationDialog(
-                      itemName: restaurantName,
-                      onDelete: () {
-                        removeRestaurant(restaurantID);
-                      },
-                      restaurantID: restaurantID,
-                      loggedinUserID: loggedinUserID!,
-                    ),
-                  );
-                } else {
-                  return false;
-                }
-              },
-              child: RestaurantCard(
-                cardChild: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            restaurantName,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
+        return SingleChildScrollView(
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: currentFavorites.length,
+            itemBuilder: (context, index) {
+              var restaurant = currentFavorites[index];
+              String restaurantID = restaurant['id'] ?? 'unknown';
+              String restaurantName = restaurant['name'] ?? 'Unknown Restaurant';
+              double restaurantRating = restaurant['rating'];
+              int restaurantRatingCount = restaurant['ratingCount'];
+          
+              String restaurantAddress =
+                  restaurant['address'] ?? 'Unknown Address';
+              String restaurantPriceLevel = buildPriceLevel(
+                  restaurant['priceLevel'] ?? 'Unknown Price Level');
+              String displayRating = restaurantRating.toString();
+              String displayRatingCount = restaurantRatingCount.toString();
+              String photoUrl = restaurant['photoUrl'] ?? '';
+          
+              return Dismissible(
+                key: ValueKey(restaurantID),
+                background: DeleteWidget(),
+                dismissThresholds: const {DismissDirection.startToEnd: 0.7},
+                confirmDismiss: (direction) async {
+                  if (direction == DismissDirection.endToStart) {
+                    return await showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          DeleteFavoriteConfirmationDialog(
+                        itemName: restaurantName,
+                        onDelete: () {
+                          removeRestaurant(restaurantID);
+                        },
+                        restaurantID: restaurantID,
+                        loggedinUserID: loggedinUserID!,
+                      ),
+                    );
+                  } else {
+                    return false;
+                  }
+                },
+                child: RestaurantCard(
+                  cardChild: Stack(
+                    children: [
+                      if (photoUrl.isNotEmpty)
+                        Positioned.fill(
+                          child: Opacity(
+                            opacity: 0.7,
+                            child: Image.network(
+                              photoUrl,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Container(color: Colors.grey),
                             ),
                           ),
-                          Row(
-                            children: [
-                              Text(displayRating),
-                              const SizedBox(width: 8),
-                              buildStars(restaurantRating),
-                              Text(' ($displayRatingCount)'),
-                              const SizedBox(width: 8),
-                              Text(restaurantPriceLevel),
-                            ],
+                        ),
+                      Positioned.fill(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.transparent,
+                                Colors.black.withOpacity(0.7),
+                              ],
+                            ),
                           ),
-                          Text(restaurantAddress),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  restaurantName,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Text(displayRating),
+                                    const SizedBox(width: 8),
+                                    buildStars(restaurantRating),
+                                    Text(' ($displayRatingCount)'),
+                                    const SizedBox(width: 8),
+                                    Text(restaurantPriceLevel),
+                                  ],
+                                ),
+                                Text(restaurantAddress),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         );
       },
     );

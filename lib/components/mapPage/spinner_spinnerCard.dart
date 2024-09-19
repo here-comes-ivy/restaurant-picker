@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'package:restaurant_picker/utils/smallWidgetBuilder.dart';
-import 'temp_fab.dart';
+import 'spinner_favoriteButton.dart';
 
 class RestaurantFortuneItemBuilder {
   static FortuneItem buildFortuneItem(

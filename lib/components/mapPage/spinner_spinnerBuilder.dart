@@ -12,7 +12,7 @@ class SpinnerBuilder extends StatefulWidget {
   const SpinnerBuilder({
     super.key,
     required this.data,
-    this.emptyMessage = 'No restaurants found.',
+    this.emptyMessage = 'No restaurants available.',
   });
 
   @override
@@ -62,6 +62,8 @@ Future<void> _selectRandomRestaurants() async {
 
 
   void spinAgain() {
+    if (displayedRestaurants.isEmpty) return;
+
     spinCount++;
     if (spinCount >= maxSpinBeforeRefresh) {
       spinCount = 0;
@@ -90,6 +92,10 @@ Future<void> _selectRandomRestaurants() async {
         .map((restaurant) =>
             RestaurantFortuneItemBuilder.buildFortuneItem(restaurant, context))
         .toList();
+
+   if (fortuneItems.isEmpty) {
+      fortuneItems = [FortuneItem(child: Text(widget.emptyMessage))];
+    }
 
     return Column(
       children: [
