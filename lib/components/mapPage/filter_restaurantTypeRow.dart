@@ -26,7 +26,7 @@ class _TypeItemState extends State<TypeItem> {
 
 
     final Future<List<Map<String, dynamic>>> dataFuture =
-        nearbyRestaurantData.fetchData();
+        nearbyRestaurantData.fetchData(context);
 
     return Consumer<FilterProvider>(
       builder: (context, filterProvider, child) {

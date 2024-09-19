@@ -24,7 +24,6 @@ class LocationProvider extends ChangeNotifier {
           return;
         }
       }
-
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.low
       );
@@ -52,8 +51,8 @@ class LocationProvider extends ChangeNotifier {
         final data = json.decode(response.body);
         searchedLocation = LatLng(data['lat'], data['lng']);
         notifyListeners();
-        print('Seached location data: $data');
-        print('Seached location Lat Lng: $searchedLocation');
+        print('Seached location changed to place location: $data');
+        print('Seached Lat Lng changed to : $searchedLocation');
       } else {
         throw Exception('Failed to load place location details');
       }

@@ -70,7 +70,6 @@ class FavoriteFABState extends State<FavoriteFAB> {
     return StreamBuilder<bool>(
       stream: favoriteStream,
       builder: (context, snapshot) {
-          print("Stream data: ${snapshot.data}");
 
         if (snapshot.connectionState == ConnectionState.waiting) {
           return FloatingActionButton(
@@ -89,6 +88,10 @@ class FavoriteFABState extends State<FavoriteFAB> {
               : Theme.of(context).colorScheme.secondaryContainer,
           onPressed: () async {
             await _updateFavoriteStatus(!isFavorited);
+            
+            setState(){
+              isFavorited = !isFavorited;
+            };
             print('isFavorited: $isFavorited');
 
           },

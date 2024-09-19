@@ -43,20 +43,20 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    final locationProvider =
-        Provider.of<LocationProvider>(context, listen: false);
-    late LatLng location = locationProvider.searchedLocation ?? defaultLocation;
-
-    late final Future<List<Map<String, dynamic>>> dataFuture =
-        nearbyRestaurantData.fetchData();
-
+    
+  
     return Consumer<LocationProvider>(
       builder: (context, locationProvider, child) {
+        print('${locationProvider.searchedLocation}');
         if (locationProvider.isLoading) {
           return const Scaffold(
               body: Center(child: CircularProgressIndicator()));
         } else {
-          LatLng mapCenter = location;
+
+          LatLng mapCenter = locationProvider.searchedLocation!;
+          late final Future<List<Map<String, dynamic>>> dataFuture =
+        nearbyRestaurantData.fetchData(context);
+
           return Scaffold(
             body: SafeArea(
               child: Column(

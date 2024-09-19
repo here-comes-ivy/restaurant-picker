@@ -5,10 +5,9 @@ import 'locationDataProvider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'mapFilterProvider.dart';
+import 'package:provider/provider.dart';
 
 class NearbyRestaurantData {
-  LocationProvider locationProvider = LocationProvider();
-  FilterProvider filterProvider = FilterProvider();
 
   String googApikey = dotenv.env['googApikey']!;
 
@@ -20,7 +19,10 @@ class NearbyRestaurantData {
 
   NearbyRestaurantData._internal();
 
-  Future<List<Map<String, dynamic>>> fetchData() async {
+  Future<List<Map<String, dynamic>>> fetchData(BuildContext context) async {
+    LocationProvider locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    FilterProvider filterProvider = Provider.of<FilterProvider>(context, listen: false);
+
     LatLng location = locationProvider.searchedLocation!;
     double lat = location.latitude;
     double lng = location.longitude;
@@ -73,7 +75,7 @@ class NearbyRestaurantData {
         }
 
         print(
-            'Fetching data with criteria: Radius:$radius, Restaurant type:$restaurantType');
+            'Fetching data with criteria: Location: $location, Radius:$radius, Restaurant type:$restaurantType');
         return (restaurantData['places'] as List<dynamic>)
             .map<Map<String, dynamic>>((place) {
           String getPhotoUrl(dynamic place,

@@ -58,7 +58,7 @@ class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
         }
 
         currentFavorites = snapshot.data!;
-
+        print('currentFavorites: $currentFavorites');
         return ConstrainedBox(
           constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.7),
           child: ListView.builder(

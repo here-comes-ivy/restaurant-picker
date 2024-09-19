@@ -26,7 +26,7 @@ class FilterBottomSheet extends StatelessWidget {
     List<String> restaurantType = filterProvider.apiRestaurantType;
     
     final Future<List<Map<String, dynamic>>> dataFuture =
-        nearbyRestaurantData.fetchData();
+        nearbyRestaurantData.fetchData(context);
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.8,

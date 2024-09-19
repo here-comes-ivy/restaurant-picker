@@ -6,7 +6,6 @@ import 'spinner_spinnerCard.dart';
 import 'package:flutter/foundation.dart';
 import 'package:restaurant_picker/services/mapFilterProvider.dart';
 import 'package:restaurant_picker/services/getRestaurantData.dart';
-
 import 'package:provider/provider.dart';
 
 
@@ -48,7 +47,7 @@ class SpinnerBuilderState extends State<SpinnerBuilder> {
 
     Future<void> _fetchLatestData() async {
     try {
-      allRestaurants = await nearbyRestaurantData.fetchData();
+      allRestaurants = await nearbyRestaurantData.fetchData(context);
       await _selectRandomRestaurants();
     } catch (e) {
       print('Error fetching data: $e');
