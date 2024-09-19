@@ -8,6 +8,12 @@ import 'filter_openingHour.dart';
 import 'spinner_spinBottomSheet.dart';
 import 'package:restaurant_picker/utils/smallWidgetBuilder.dart';
 import 'package:restaurant_picker/services/getRestaurantData_test.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_picker/services/locationDataProvider.dart';
+import 'package:restaurant_picker/services/mapFilterProvider.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+
 
 class FilterBottomSheet extends StatelessWidget {
   FilterBottomSheet({super.key});
@@ -17,7 +23,7 @@ class FilterBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final filterProvider = Provider.of<FilterProvider>(context, listen: false);
     final locationProvider = Provider.of<LocationProvider>(context, listen: false);
-    LatLng location = locationProvider.searchedLocation;
+    LatLng location = locationProvider.searchedLocation!;
     double radius = filterProvider.apiRadius;
     List<String> restaurantType = filterProvider.apiRestaurantType;
     

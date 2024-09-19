@@ -11,8 +11,7 @@ class FavoriteRestaurantsItems extends StatefulWidget {
   const FavoriteRestaurantsItems({super.key});
 
   @override
-  State<FavoriteRestaurantsItems> createState() =>
-      _FavoriteRestaurantsItemsState();
+  State<FavoriteRestaurantsItems> createState() => _FavoriteRestaurantsItemsState();
 }
 
 class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
@@ -35,7 +34,9 @@ class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
   Future<void> removeRestaurant(String restaurantID) async {
     await firestoreService.updateFavoriteStatus(context,
         restaurantID: restaurantID, savedAsFavorite: false);
-    setState(() {});
+    setState(() {
+      currentFavorites.removeWhere((restaurant) => restaurant['id'] == restaurantID);
+    });
   }
 
   @override
@@ -50,8 +51,7 @@ class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
           return const Center(child: CircularProgressIndicator());
         }
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(
-              child: Text('No favorite restaurants saved yet.'));
+          return const Center(child: Text('No favorite restaurants saved yet.'));
         }
 
         currentFavorites = snapshot.data!;
@@ -61,32 +61,30 @@ class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
           itemCount: currentFavorites.length,
           itemBuilder: (context, index) {
             var restaurant = currentFavorites[index];
+            String restaurantID = restaurant['id'] ?? 'unknown';
             String restaurantName = restaurant['name'] ?? 'Unknown Restaurant';
             double restaurantRating = restaurant['rating'];
             int restaurantRatingCount = restaurant['ratingCount'];
 
-            String restaurantAddress =
-                restaurant['address'] ?? 'Unknown Address';
-            String restaurantPriceLevel = buildPriceLevel(
-                restaurant['priceLevel'] ?? 'Unknown Price Level');
+            String restaurantAddress = restaurant['address'] ?? 'Unknown Address';
+            String restaurantPriceLevel = buildPriceLevel(restaurant['priceLevel'] ?? 'Unknown Price Level');
             String displayRating = restaurantRating.toString();
             String displayRatingCount = restaurantRatingCount.toString();
 
             return Dismissible(
-              key: Key(restaurant['name']),
+              key: ValueKey(restaurantID),
               background: DeleteWidget(),
               dismissThresholds: const {DismissDirection.startToEnd: 0.7},
               confirmDismiss: (direction) async {
                 if (direction == DismissDirection.endToStart) {
                   return await showDialog(
                     context: context,
-                    builder: (BuildContext context) =>
-                        DeleteFavoriteConfirmationDialog(
-                      itemName: restaurant['name'],
+                    builder: (BuildContext context) => DeleteFavoriteConfirmationDialog(
+                      itemName: restaurantName,
                       onDelete: () {
-                        setState(() {});
+                        removeRestaurant(restaurantID);
                       },
-                      restaurantID: currentFavorites[index]['id'],
+                      restaurantID: restaurantID,
                       loggedinUserID: loggedinUserID!,
                     ),
                   );
@@ -118,9 +116,7 @@ class _FavoriteRestaurantsItemsState extends State<FavoriteRestaurantsItems> {
                               Text(restaurantPriceLevel),
                             ],
                           ),
-                          Text(
-                            restaurantAddress,
-                          ),
+                          Text(restaurantAddress),
                         ],
                       ),
                     ),
