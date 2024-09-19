@@ -7,7 +7,7 @@ import 'filter_ratingFilter.dart';
 import 'filter_openingHour.dart';
 import 'spinner_spinBottomSheet.dart';
 import 'package:restaurant_picker/utils/smallWidgetBuilder.dart';
-import 'package:restaurant_picker/services/getRestaurantData_test.dart';
+import 'package:restaurant_picker/services/getRestaurantData.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_picker/services/locationDataProvider.dart';
 import 'package:restaurant_picker/services/mapFilterProvider.dart';

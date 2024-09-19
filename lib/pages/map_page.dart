@@ -9,6 +9,10 @@ import '../components/mapPage/addressTextField.dart';
 import '../components/mapPage/filter_restaurantTypeRow.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:restaurant_picker/services/getRestaurantData.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_picker/services/locationDataProvider.dart';
+import 'package:restaurant_picker/services/mapFilterProvider.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
 class MapPage extends StatefulWidget {
@@ -19,7 +23,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-    final NearbyRestaurantData nearbyRestaurantData = NearbyRestaurantData();
+  final NearbyRestaurantData nearbyRestaurantData = NearbyRestaurantData();
 
 
   final LatLng defaultLocation = const LatLng(25.0340637447189, 121.56452691031619);
@@ -40,16 +44,21 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-        final Future<List<Map<String, dynamic>>> dataFuture =
-        nearbyRestaurantData.fetchData();
+    final filterProvider = Provider.of<FilterProvider>(context, listen: false);
+    final locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    late LatLng location = locationProvider.searchedLocation ?? defaultLocation;
+    double radius = filterProvider.apiRadius;
+    List<String> restaurantType = filterProvider.apiRestaurantType;
+    
+    final Future<List<Map<String, dynamic>>> dataFuture =
+        nearbyRestaurantData.fetchData(location:location, radius:radius,restaurantType:restaurantType);
 
     return Consumer<LocationProvider>(
       builder: (context, locationProvider, child) {
         if (locationProvider.isLoading) {
           return const Scaffold(body: Center(child: CircularProgressIndicator()));
         } else {
-          LatLng mapCenter =
-              locationProvider.currentLocation ?? defaultLocation;
+          LatLng mapCenter = location;
           return Scaffold(
             body: SafeArea(
               child: Column(

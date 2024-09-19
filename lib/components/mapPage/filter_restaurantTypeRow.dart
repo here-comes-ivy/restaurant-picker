@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_picker/services/mapFilterProvider.dart';
 import 'spinner_spinBottomSheet.dart';
 import 'package:restaurant_picker/utils/restaurantTypeNames.dart';
 import 'package:restaurant_picker/services/getRestaurantData.dart';
+import 'package:restaurant_picker/services/locationDataProvider.dart';
+import 'package:restaurant_picker/services/mapFilterProvider.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class TypeItem extends StatefulWidget {
   const TypeItem({super.key, required this.name, required this.img});
@@ -20,8 +22,16 @@ class _TypeItemState extends State<TypeItem> {
 
   @override
   Widget build(BuildContext context) {
+    final filterProvider = Provider.of<FilterProvider>(context, listen: false);
+    final locationProvider =
+    Provider.of<LocationProvider>(context, listen: false);
+    LatLng location = locationProvider.searchedLocation!;
+    double radius = filterProvider.apiRadius;
+    List<String> restaurantType = filterProvider.apiRestaurantType;
+
     final Future<List<Map<String, dynamic>>> dataFuture =
-        nearbyRestaurantData.fetchData();
+        nearbyRestaurantData.fetchData(
+            location: location, radius: radius, restaurantType: restaurantType);
 
     return Consumer<FilterProvider>(
       builder: (context, filterProvider, child) {
@@ -144,7 +154,7 @@ class _RestaurantTypeFilterRowState extends State<RestaurantTypeFilterRow>
       onTapDown: (_) => _controller.stop(),
       onTapUp: (_) => _controller.repeat(reverse: true),
       child: SizedBox(
-        height: 80, 
+        height: 80,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           controller: _scrollController,

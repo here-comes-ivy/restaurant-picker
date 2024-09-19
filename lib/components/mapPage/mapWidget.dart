@@ -73,7 +73,7 @@ class _MapWidgetState extends State<MapWidget> {
       myLocationButtonEnabled: true,
       initialCameraPosition: CameraPosition(
         target: widget.initialPosition,
-        zoom: 15,
+        zoom: 12,
       ),
       onMapCreated: (GoogleMapController controller) {
         _mapController = controller;

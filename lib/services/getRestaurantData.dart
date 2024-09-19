@@ -19,15 +19,19 @@ class NearbyRestaurantData {
   }
 
   NearbyRestaurantData._internal();
-  Future<List<Map<String, dynamic>>> fetchData() async {
 
-    await locationProvider.getCurrentLocation();
-    LatLng location = locationProvider.currentLocation!;
+    Future<List<Map<String, dynamic>>> fetchData({
+    required LatLng location,
+    required double radius,
+    required List<String> restaurantType,
+  }) async {
     double lat = location.latitude;
     double lng = location.longitude;
+
+
     double? radius = filterProvider.apiRadius;
     String? priceLevel = filterProvider.apiPriceLevel;
-    List? restaurantType = filterProvider.apiRestaurantType?? ['restaurant'];
+    List restaurantType = filterProvider.apiRestaurantType?? ['restaurant'];
 
 
     var headers = {
@@ -98,7 +102,7 @@ class NearbyRestaurantData {
             'rating': (place['rating'] as num?)?.toDouble() ?? 0.0,
             'ratingCount': place['userRatingCount'] as int? ?? 0,
             'priceLevel': place['priceLevel'] as String? ?? 'N/A',
-            'photo': getPhotoUrl(place),
+            'photoUrl': getPhotoUrl(place),
 
             // 'types': (place['types'] as List<dynamic>?)?.cast<String>() ?? [],
             // 'openingHours': place['regularOpeningHours'] as Map<String, dynamic>? ?? {},
