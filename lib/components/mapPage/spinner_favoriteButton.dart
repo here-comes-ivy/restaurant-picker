@@ -1,9 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:restaurant_picker/services/firestoreService.dart';
 
 class FavoriteFAB extends StatefulWidget {
   FavoriteFAB({
-    Key? key,
     required this.restaurantID,
     required this.restaurantName,
     required this.restaurantRating,
@@ -11,8 +11,7 @@ class FavoriteFAB extends StatefulWidget {
     required this.restaurantAddress,
     required this.restaurantPriceLevel,
     required this.photoUrl,
-  }) : super(key: key);
-
+  });
   final String restaurantID;
   final String restaurantName;
   final double restaurantRating;
@@ -38,38 +37,30 @@ class FavoriteFABState extends State<FavoriteFAB> {
   }
 
   Future<void> _loadInitialFavoriteStatus() async {
-  try {
-    setState(() {
-      _isLoading = true;
-    });
-    
-    Stream<bool> statusStream = firestoreService.fetchFavoriteStatus(
-      context,
-      restaurantID: widget.restaurantID,
-    );
-    
-    await for (bool status in statusStream) {
+    try {
+      bool status = await firestoreService.fetchFavoriteStatus(
+        context,
+        restaurantID: widget.restaurantID,
+      ).first;
       if (mounted) {
         setState(() {
           _isFavorited = status;
           _isLoading = false;
         });
       }
-      break; // We only need the first value from the stream
-    }
-  } catch (e) {
-    print('Error loading initial favorite status for ${widget.restaurantID}: $e');
-    if (mounted) {
-      setState(() {
-        _isLoading = false;
-      });
+    } catch (e) {
+      print('Error loading initial favorite status: $e');
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
-}
 
   void _toggleFavoriteStatus() {
     if (!mounted) return;
-    
+
     // 立即更新 UI
     setState(() {
       _isFavorited = !_isFavorited;
@@ -110,7 +101,6 @@ class FavoriteFABState extends State<FavoriteFAB> {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      key: ValueKey(widget.restaurantID),
       shape: const CircleBorder(),
       mini: true,
       elevation: 20,
