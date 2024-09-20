@@ -22,7 +22,7 @@ class MapWidget extends StatefulWidget {
 }
 
 class _MapWidgetState extends State<MapWidget> {
-  late GoogleMapController _mapController;
+  GoogleMapController? _mapController;
   LatLng? mapCenter;
   Set<Marker> markers = {};
   Set<Circle> circles = {};
@@ -35,25 +35,48 @@ class _MapWidgetState extends State<MapWidget> {
     });
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _initializeMapData();
+  }
+
   Future<void> _initializeMapData() async {
     final locationProvider = Provider.of<LocationProvider>(context, listen: false);
     final filterProvider = Provider.of<FilterProvider>(context, listen: false);
     LatLng center = locationProvider.getSearchLocation();
     double radius = filterProvider.apiRadius ?? 1000;
 
-    setState(() {
-      mapCenter = center;
-      circles.clear();
-      circles.add(Circle(
-        circleId: const CircleId("myCircle"),
-        center: center,
-        radius: radius,
-        fillColor: Colors.blue.withOpacity(0.1),
-        strokeColor: Colors.blue,
-        strokeWidth: 2,
-      ));
-      updateMarker();
-    });
+    if (mounted) {
+      setState(() {
+        mapCenter = center;
+        circles.clear();
+        circles.add(Circle(
+          circleId: const CircleId("myCircle"),
+          center: center,
+          radius: radius,
+          fillColor: Colors.blue.withOpacity(0.1),
+          strokeColor: Colors.blue,
+          strokeWidth: 2,
+        ));
+        _updateMarker();
+      });
+    }
+
+    if (_mapController != null) {
+      _updateMapPosition();
+    }
+  }
+
+  void _updateMarker() {
+    LocationProvider locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    LatLng position = locationProvider.getSearchLocation();
+    
+    markers.clear();
+    markers.add(Marker(
+      markerId: const MarkerId("searchedLocation"),
+      position: position,
+    ));
   }
 
   @override
@@ -61,7 +84,6 @@ class _MapWidgetState extends State<MapWidget> {
     return Consumer<LocationProvider>(
       builder: (context, locationProvider, child) {
         if (mapCenter == null) {
-          // Return a loading indicator or an empty container
           return const Center(child: CircularProgressIndicator());
         }
         return GoogleMap(
@@ -72,7 +94,9 @@ class _MapWidgetState extends State<MapWidget> {
             zoom: 14,
           ),
           onMapCreated: (GoogleMapController controller) {
+            setState(() {
             _mapController = controller;
+          });
             _updateMapPosition();
           },
           circles: circles,
@@ -82,30 +106,19 @@ class _MapWidgetState extends State<MapWidget> {
     );
   }
 
-  void updateMarker() {
-    LocationProvider locationProvider = Provider.of<LocationProvider>(context, listen: false);
-    LatLng position = locationProvider.getSearchLocation();
-    
-    setState(() {
-      markers.clear();
-      if (locationProvider.searchedLocation != null) {
-        markers.add(Marker(
-          markerId: const MarkerId("searchedLocation"),
-          position: position,
-        ));
-      }
-    });
-  }
+void _updateMapPosition() {
+  if (_mapController == null) return;
+  
+  LocationProvider locationProvider = Provider.of<LocationProvider>(context, listen: false);
+  LatLng position = locationProvider.getSearchLocation();
+  _mapController!.animateCamera(CameraUpdate.newLatLng(position));
+  print('Updating map position to: ${position.latitude}, ${position.longitude}');
 
-  void _updateMapPosition() {
-    LocationProvider locationProvider = Provider.of<LocationProvider>(context, listen: false);
-    LatLng position = locationProvider.getSearchLocation();
-    _mapController.animateCamera(CameraUpdate.newLatLng(position));
-  }
+}
   
   @override
   void dispose() {
-    _mapController.dispose();
+    _mapController?.dispose();
     super.dispose();
   }
 }
