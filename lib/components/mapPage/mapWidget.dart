@@ -4,14 +4,16 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_picker/services/mapFilterProvider.dart';
 import 'package:restaurant_picker/services/locationDataProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_picker/services/locationDataProvider.dart';
+
 
 class MapWidget extends StatefulWidget {
-  final LatLng initialPosition;
+
   final LatLng? searchedLocation;
   
   const MapWidget({
     super.key,
-    required this.initialPosition,
+
     this.searchedLocation,
   });
 
@@ -21,13 +23,40 @@ class MapWidget extends StatefulWidget {
 
 class _MapWidgetState extends State<MapWidget> {
   late GoogleMapController _mapController;
-  Set<Circle> circles = <Circle>{};
+  LatLng? mapCenter;
   Set<Marker> markers = {};
+  Set<Circle> circles = {};
 
   @override
-  void initState() {
-    super.initState();
-    addCircle(widget.initialPosition, Provider.of<FilterProvider>(context, listen: false).apiRadius??3000);
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _initializeMapData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return GoogleMap(
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
+            initialCameraPosition: CameraPosition(
+              target: mapCenter!,
+              zoom: 14,
+            ),
+            onMapCreated: (GoogleMapController controller) {
+              _mapController = controller;
+            },
+            circles: circles,
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    );
+  }
+
+  Future<void> _initializeMapData() async {
+    final locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    mapCenter = locationProvider.currentLocation;
+    final filterProvider = Provider.of<FilterProvider>(context, listen: false);
+    addCircle(mapCenter!, filterProvider.apiRadius ?? 1000);
     if (widget.searchedLocation != null) {
       addMarker();
     }
@@ -68,22 +97,5 @@ class _MapWidgetState extends State<MapWidget> {
       circles.clear();  
       circles.add(circle); 
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GoogleMap(
-      myLocationEnabled: true,
-      myLocationButtonEnabled: true,
-      initialCameraPosition: CameraPosition(
-        target: widget.initialPosition,
-        zoom: 14,
-      ),
-      onMapCreated: (GoogleMapController controller) {
-        _mapController = controller;
-      },
-    
-      circles: circles,  
-    );
   }
 }

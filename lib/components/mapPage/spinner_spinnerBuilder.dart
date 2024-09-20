@@ -121,6 +121,7 @@ Future<void> _selectRandomRestaurants() async {
 
    if (fortuneItems.isEmpty) {
       fortuneItems = [FortuneItem(child: Text(widget.emptyMessage))];
+      return Center(child: CircularProgressIndicator());
     }
 
     return Column(

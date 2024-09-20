@@ -24,94 +24,93 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   final NearbyRestaurantData nearbyRestaurantData = NearbyRestaurantData();
-
-  bool isMapReady = false;
+  late Future<void> _mapInitFuture;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<LocationProvider>().getCurrentLocation();
-    });
+    _mapInitFuture = _initializeMap();
+  }
+
+  Future<void> _initializeMap() async {
+    final locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    await locationProvider.getCurrentLocation();
   }
 
   @override
   Widget build(BuildContext context) {
-  
-    return Consumer<LocationProvider>(
-      builder: (context, locationProvider, child) {
-        print('Current location: ${locationProvider.currentLocation}');
-        print('Current location: ${locationProvider.searchedLocation}');
-        if (locationProvider.isLoading) {
-          return const Scaffold(
-              body: Center(child: CircularProgressIndicator()));
-        } else {
+    return Scaffold(
+      body: SafeArea(
+        child: FutureBuilder(
+          future: _mapInitFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return _buildMapContent(context);
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
+      ),
+    );
+  }
 
-          LatLng mapCenter = locationProvider.currentLocation!;
-          late final Future<List<Map<String, dynamic>>> dataFuture =
+  Widget _buildMapContent(BuildContext context) {
+    late final Future<List<Map<String, dynamic>>> dataFuture =
         nearbyRestaurantData.fetchData(context);
 
-          return Scaffold(
-            body: SafeArea(
-              child: Column(
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 70,
+                child: IconButton(
+                  color: const Color.fromRGBO(255, 181, 160, 1),
+                  icon: const Icon(Icons.tune),
+                  onPressed: () => FilterBottomSheet.show(context),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(child: RestaurantTypeFilterRow()),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Stack(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 70,
-                          child: IconButton(
-                            color: const Color.fromRGBO(255, 181, 160, 1),
-                            icon: const Icon(Icons.tune),
-                            onPressed: () => FilterBottomSheet.show(context),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(child: RestaurantTypeFilterRow()),
-                      ],
-                    ),
-                  ),
                   Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Stack(
-                          children: [
-                            Expanded(
-                              child: MapWidget(
-                                initialPosition: mapCenter,
-                              ),
-                            ),
-                            Positioned(
-                              top: 20,
-                              left: 20,
-                              right: 20,
-                              child: AddressAutoCompleteTextField(),
-                            ),
-                            Positioned(
-                              bottom: 40,
-                              left: 0,
-                              right: 0,
-                              child: Center(
-                                  child: SpinButton(dataFuture: dataFuture)),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    child: MapWidget(),
+                  ),
+                  Positioned(
+                    top: 20,
+                    left: 20,
+                    right: 20,
+                    child: AddressAutoCompleteTextField(),
+                  ),
+                  Positioned(
+                    bottom: 40,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                        child: SpinButton(dataFuture: dataFuture)),
                   ),
                 ],
               ),
             ),
-          );
-        }
-      },
+          ),
+        ),
+      ],
     );
   }
 }
