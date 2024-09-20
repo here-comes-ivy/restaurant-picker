@@ -11,14 +11,15 @@ class LocationProvider extends ChangeNotifier {
   LatLng? searchedLocation;
 
 
+  LatLng getSearchLocation() {
+    return searchedLocation ?? currentLocation ?? LatLng(25.0340637447189, 121.56452691031619);
+  }
+
   void setSearchedLocation(LatLng? location) {
     searchedLocation = location;
     notifyListeners();
   }
 
-  LatLng getSearchLocation() {
-    return searchedLocation ?? currentLocation ?? LatLng(25.0340637447189, 121.56452691031619);
-  }
 
   Future<void> getCurrentLocation() async {
     try {

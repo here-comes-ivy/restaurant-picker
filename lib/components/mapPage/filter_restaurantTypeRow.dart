@@ -25,45 +25,65 @@ class _TypeItemState extends State<TypeItem> {
 
 
 
-    final Future<List<Map<String, dynamic>>> dataFuture =
+  final Future<List<Map<String, dynamic>>> dataFuture =
         nearbyRestaurantData.fetchData(context);
 
-    return Consumer<FilterProvider>(
-      builder: (context, filterProvider, child) {
-        return Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: GestureDetector(
-            child: Container(
-              height: 70,
-              width: 70,
-              margin: const EdgeInsets.only(right: 2.0),
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? Theme.of(context).colorScheme.surface.withOpacity(0.3)
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 40,
+     return Consumer<FilterProvider>(
+    builder: (context, filterProvider, child) {
+      return Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: GestureDetector(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            height: isSelected ? 75 : 70,
+            width: isSelected ? 75 : 70,
+            margin: const EdgeInsets.only(right: 2.0),
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? Theme.of(context).colorScheme.primary.withOpacity(0.8)
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(8.0),
+              boxShadow: isSelected
+                  ? [BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 1,
+                      blurRadius: 3,
+                      offset: Offset(0, 2),
+                    )]
+                  : [],
+              border: isSelected
+                  ? Border.all(color: Theme.of(context).colorScheme.secondary, width: 2)
+                  : null,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 40,
+                    child: ColorFiltered(
+                      colorFilter: ColorFilter.mode(
+                        isSelected ? Colors.white : Colors.transparent,
+                        BlendMode.srcATop,
+                      ),
                       child: Image.asset(widget.img),
                     ),
-                    const SizedBox(
-                      height: 5,
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    widget.name,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10.0,
+                      color: isSelected ? Colors.white : Color.fromRGBO(255, 181, 160, 1),
                     ),
-                    Text(
-                      widget.name,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 10.0),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            onTap: () {
+          ),
+          onTap: () {
               List<String> updatedList =
                   List<String>.from(filterProvider.apiRestaurantType);
               if (isSelected) {
