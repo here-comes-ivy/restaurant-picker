@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:restaurant_picker/services/userDataProvider.dart';
 import 'package:restaurant_picker/services/firestoreService.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -40,7 +38,6 @@ class FavoriteFABState extends State<FavoriteFAB> {
       context,
       restaurantID: widget.restaurantID,
     );
-    // 設置防抖動
     _favoriteSubject
         .debounceTime(Duration(milliseconds: 100))
         .distinct()
@@ -61,6 +58,9 @@ class FavoriteFABState extends State<FavoriteFAB> {
         savedAsFavorite: isFavorite,
         photoUrl: widget.photoUrl,
       );
+
+      setState(() {});
+
     } catch (e) {
       print('Failed to update favorite status: $e');
     }
@@ -86,13 +86,10 @@ class FavoriteFABState extends State<FavoriteFAB> {
           backgroundColor: isFavorited
               ? Theme.of(context).colorScheme.primaryContainer
               : Theme.of(context).colorScheme.secondaryContainer,
-          onPressed: () async {
-            await _updateFavoriteStatus(!isFavorited);
-            
-            setState(){
-              isFavorited = !isFavorited;
-            };
-            print('isFavorited: $isFavorited');
+          onPressed: ()  {
+            _favoriteSubject.add(!isFavorited);
+            print('isFavorited: ${!isFavorited}');
+            isFavorited = !isFavorited;
 
           },
           child: Icon(
