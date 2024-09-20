@@ -6,10 +6,19 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class LocationProvider extends ChangeNotifier {
-  LatLng searchedLocation = LatLng(
-      25.0340637447189, 121.56452691031619); //default location: Taipei 101
   bool isLoading = true;
   LatLng? currentLocation;
+  LatLng? searchedLocation;
+
+
+  void setSearchedLocation(LatLng? location) {
+    searchedLocation = location;
+    notifyListeners();
+  }
+
+  LatLng getSearchLocation() {
+    return searchedLocation ?? currentLocation ?? LatLng(25.0340637447189, 121.56452691031619);
+  }
 
   Future<void> getCurrentLocation() async {
     try {
@@ -69,4 +78,6 @@ class LocationProvider extends ChangeNotifier {
       rethrow;
     }
   }
+
+
 }

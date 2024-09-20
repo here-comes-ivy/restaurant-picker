@@ -3,6 +3,9 @@ import 'filter_filterBottomSheet.dart';
 import 'package:restaurant_picker/services/addressAutoCompletion.dart';
 import 'package:restaurant_picker/services/locationDataProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+
 
 class AddressAutoCompleteTextField extends StatefulWidget {
   final Function(String)? onAddressSelected;
@@ -55,6 +58,18 @@ class _AddressAutoCompleteTextFieldState
     if (widget.onAddressSelected != null) {
       widget.onAddressSelected!(suggestion);
     }
+  }
+
+  void _onPlaceSelected(Map<String, dynamic> place) async {
+    final locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    String placeId = place['placeId'] as String;
+    await locationProvider.getLocationFromPlaceId(placeId);
+    locationProvider.setSearchedLocation(locationProvider.searchedLocation);
+  }
+
+  void _onTextCleared() {
+    final locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    locationProvider.setSearchedLocation(null);
   }
 
   @override

@@ -23,7 +23,7 @@ class NearbyRestaurantData {
     LocationProvider locationProvider = Provider.of<LocationProvider>(context, listen: false);
     FilterProvider filterProvider = Provider.of<FilterProvider>(context, listen: false);
 
-    LatLng location = locationProvider.searchedLocation!;
+    LatLng location = locationProvider.getSearchLocation();
     double lat = location.latitude;
     double lng = location.longitude;
     double radius = filterProvider.apiRadius;
