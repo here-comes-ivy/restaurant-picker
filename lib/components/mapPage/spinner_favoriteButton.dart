@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_picker/services/firestoreService.dart';
-import 'package:rxdart/rxdart.dart';
-
 
 class FavoriteFAB extends StatefulWidget {
   FavoriteFAB({
+    Key? key,
     required this.restaurantID,
     required this.restaurantName,
     required this.restaurantRating,
@@ -12,7 +11,8 @@ class FavoriteFAB extends StatefulWidget {
     required this.restaurantAddress,
     required this.restaurantPriceLevel,
     required this.photoUrl,
-  });
+  }) : super(key: key);
+
   final String restaurantID;
   final String restaurantName;
   final double restaurantRating;
@@ -20,32 +20,66 @@ class FavoriteFAB extends StatefulWidget {
   final String restaurantAddress;
   final String restaurantPriceLevel;
   final String photoUrl;
+
   @override
   FavoriteFABState createState() => FavoriteFABState();
 }
+
 class FavoriteFABState extends State<FavoriteFAB> {
   late FirestoreService firestoreService;
-  late Stream<bool> favoriteStream;
-  final _favoriteSubject = BehaviorSubject<bool>();
+  bool _isFavorited = false;
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
     firestoreService = FirestoreService();
-    _setupFavoriteStream();
+    _loadInitialFavoriteStatus();
   }
-  void _setupFavoriteStream() {
-    favoriteStream = firestoreService.fetchFavoriteStatus(
+
+  Future<void> _loadInitialFavoriteStatus() async {
+  try {
+    setState(() {
+      _isLoading = true;
+    });
+    
+    Stream<bool> statusStream = firestoreService.fetchFavoriteStatus(
       context,
       restaurantID: widget.restaurantID,
     );
-    _favoriteSubject
-        .debounceTime(Duration(milliseconds: 100))
-        .distinct()
-        .listen((isFavorite) {
-      _updateFavoriteStatus(isFavorite);
-    });
+    
+    await for (bool status in statusStream) {
+      if (mounted) {
+        setState(() {
+          _isFavorited = status;
+          _isLoading = false;
+        });
+      }
+      break; // We only need the first value from the stream
+    }
+  } catch (e) {
+    print('Error loading initial favorite status for ${widget.restaurantID}: $e');
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
-  Future<void> _updateFavoriteStatus(bool isFavorite) async {
+}
+
+  void _toggleFavoriteStatus() {
+    if (!mounted) return;
+    
+    // 立即更新 UI
+    setState(() {
+      _isFavorited = !_isFavorited;
+    });
+
+    // 在背景更新 Firestore
+    _updateFirestore();
+  }
+
+  Future<void> _updateFirestore() async {
     try {
       await firestoreService.updateFavoriteList(
         context,
@@ -55,58 +89,43 @@ class FavoriteFABState extends State<FavoriteFAB> {
         ratingCount: widget.restaurantRatingCount,
         address: widget.restaurantAddress,
         priceLevel: widget.restaurantPriceLevel,
-        savedAsFavorite: isFavorite,
+        savedAsFavorite: _isFavorited,
         photoUrl: widget.photoUrl,
       );
-
-      setState(() {});
-
+      print('Firestore updated successfully');
     } catch (e) {
-      print('Failed to update favorite status: $e');
+      print('Failed to update Firestore: $e');
+      // 如果更新失敗，恢復 UI 狀態
+      if (mounted) {
+        setState(() {
+          _isFavorited = !_isFavorited;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to update favorite status')),
+        );
+      }
     }
   }
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<bool>(
-      stream: favoriteStream,
-      builder: (context, snapshot) {
-
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return FloatingActionButton(
-            onPressed: null,
-            child: CircularProgressIndicator(),
-          );
-        }
-        bool isFavorited = snapshot.data ?? false;
-
-        return FloatingActionButton(
-          shape: const CircleBorder(),
-          mini: true,
-          elevation: 20,
-          backgroundColor: isFavorited
-              ? Theme.of(context).colorScheme.primaryContainer
-              : Theme.of(context).colorScheme.secondaryContainer,
-          onPressed: ()  {
-            _favoriteSubject.add(!isFavorited);
-            print('isFavorited: ${!isFavorited}');
-            isFavorited = !isFavorited;
-
-          },
-          child: Icon(
-            isFavorited ? Icons.favorite : Icons.favorite_border,
-            color: isFavorited
-                ? Theme.of(context).colorScheme.onPrimaryContainer
-                : Theme.of(context).colorScheme.onSecondaryContainer,
-          ),
-        );
-      },
+    return FloatingActionButton(
+      key: ValueKey(widget.restaurantID),
+      shape: const CircleBorder(),
+      mini: true,
+      elevation: 20,
+      backgroundColor: _isFavorited
+          ? Theme.of(context).colorScheme.primaryContainer
+          : Theme.of(context).colorScheme.secondaryContainer,
+      onPressed: _isLoading ? null : _toggleFavoriteStatus,
+      child: _isLoading
+          ? CircularProgressIndicator()
+          : Icon(
+              _isFavorited ? Icons.favorite : Icons.favorite_border,
+              color: _isFavorited
+                  ? Theme.of(context).colorScheme.onPrimaryContainer
+                  : Theme.of(context).colorScheme.onSecondaryContainer,
+            ),
     );
-  }
-
-  
-  @override
-  void dispose() {
-    _favoriteSubject.close();
-    super.dispose();
   }
 }

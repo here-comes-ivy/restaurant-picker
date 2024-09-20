@@ -9,6 +9,16 @@ Ever been stuck in that "I don't know, where do you want to eat?" loop with your
 
 ## Key Features
 
+### 👤 User Profile System
+- **Engaging onboarding slides:** Delivering a thoughtfully designed introduction to build trust, boost user engagement, and convey the app’s brand image and vibe.
+- **Account Setup and Storage:** Utilizes Firebase for secure and efficient user data management and authentication.
+
+
+**Preview Video:**  
+![User Profile System Video](https://example.com/user-profile-preview.gif)
+
+---
+
 ### 🎲 Random Restaurant Selection
 - **Location-Based Suggestions:** Utilizes the user's geographical location to randomly select and display nearby restaurants on Google Maps.
 - **Customizable Filters:** Allows users to set preferences like cuisine type and search radius for more tailored suggestions.
@@ -37,11 +47,10 @@ Ever been stuck in that "I don't know, where do you want to eat?" loop with your
 ---
 
 ### ✨ What's More
-- **User Profile System:** Utilizes Firebase for secure and efficient user data management and authentication.
 - **App Monetization Strategies:** Integrates premium subscriptions, proactive restaurant ads, and a "Support Us" tips feature, moving beyond traditional methods like Google Play ads to enhance user experience and drive sustainable growth.
 
 **Preview Video:**  
-![User Profile System Video](https://example.com/user-profile-preview.gif)
+![More features Video](https://example.com/user-profile-preview.gif)
 
 ---
 
