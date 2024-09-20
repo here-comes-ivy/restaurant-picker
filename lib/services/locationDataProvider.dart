@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class LocationProvider extends ChangeNotifier {
-  LatLng? searchedLocation = LatLng(
+  LatLng searchedLocation = LatLng(
       25.0340637447189, 121.56452691031619); //default location: Taipei 101
   bool isLoading = true;
   LatLng? currentLocation;

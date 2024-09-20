@@ -14,6 +14,7 @@ import 'package:restaurant_picker/services/locationDataProvider.dart';
 import 'package:restaurant_picker/services/mapFilterProvider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
 
@@ -24,18 +25,11 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   final NearbyRestaurantData nearbyRestaurantData = NearbyRestaurantData();
 
-  final LatLng defaultLocation =
-      const LatLng(25.0340637447189, 121.56452691031619);
-  String? googApikey;
   bool isMapReady = false;
 
   @override
   void initState() {
     super.initState();
-    googApikey = dotenv.env['googApikey'];
-    if (googApikey == null) {
-      print('Warning: Google API key is not set');
-    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<LocationProvider>().getCurrentLocation();
     });
@@ -43,17 +37,17 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    
   
     return Consumer<LocationProvider>(
       builder: (context, locationProvider, child) {
-        print('${locationProvider.searchedLocation}');
+        print('Current location: ${locationProvider.currentLocation}');
+        print('Current location: ${locationProvider.searchedLocation}');
         if (locationProvider.isLoading) {
           return const Scaffold(
               body: Center(child: CircularProgressIndicator()));
         } else {
 
-          LatLng mapCenter = locationProvider.searchedLocation!;
+          LatLng mapCenter = locationProvider.currentLocation!;
           late final Future<List<Map<String, dynamic>>> dataFuture =
         nearbyRestaurantData.fetchData(context);
 
