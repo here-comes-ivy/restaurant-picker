@@ -14,60 +14,36 @@ Ever been stuck in that "I don't know, where do you want to eat?" loop with your
 - **Account Setup and Storage:** Utilizes Firebase for secure and efficient user data management and authentication.
 
 
-**Preview Video:**  
-![User Profile System Video](https://example.com/user-profile-preview.gif)
-
----
-
 ### 🎲 Random Restaurant Selection
 - **Location-Based Suggestions:** Utilizes the user's geographical location to randomly select and display nearby restaurants on Google Maps.
 - **Customizable Filters:** Allows users to set preferences like cuisine type and search radius for more tailored suggestions.
 
-**Preview Video:**  
-![Random Restaurant Selection Video](https://www.canva.com/design/DAGRjvKbVo8/3U_LzVwpbp_wwn47eiGbew/watch)
-![Filtered Restaurant Selection Video](https://www.canva.com/design/DAGRjombZgY/as7WfpIm5YnMaO2PLQELhw/watch?utm_content=DAGRjombZgY&utm_campaign=designshare&utm_medium=link&utm_source=editor)
+**Preview Video:**  <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGRjvKbVo8&#x2F;3U_LzVwpbp_wwn47eiGbew&#x2F;watch?utm_content=DAGRjvKbVo8&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Random Search Demo</a> |  <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGRjombZgY&#x2F;er1l3KUC38orPesham4aAQ&#x2F;watch?utm_content=DAGRjombZgY&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Filtered Search Demo</a> |  <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGRjx0xTv8&#x2F;KyUYkLFWAL7-KDKUkMyp_g&#x2F;watch?utm_content=DAGRjx0xTv8&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Selected Location Search </a>
 
----
 
 ### ❤️ Favorites Management
 - **Personalized Lists:** Users can create and manage a list of their favorite restaurants.
 - **Smart Random Selection:** Offers the option to randomly choose from the user's saved favorites, adding an element of surprise even within familiar choices.
 
-**Preview Video:**  
-![Favorites Management Video](https://example.com/favorites-management-preview.gif)
+**Preview Video:**  <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGRjq0nVeU&#x2F;UufLyBlK-3mdTDDFl8PFOw&#x2F;watch?utm_content=DAGRjq0nVeU&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Favorite Page Demo</a>
 
----
 
 ### 🤖 AI-Powered Chatbot
 - **Intelligent Recommendations:** Integrated an AI chatbot that provides personalized restaurant suggestions and answers user queries.
 - **Gemini API Integration:** Leverages the Gemini API to offer smart, context-aware recommendations.
 
-**Preview Video:**  
-![AI-Powered Chatbot Video](https://example.com/ai-chatbot-preview.gif)
-
----
+**Preview Video:** <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGRj5MWk6s&#x2F;DZQgMMWDXqzHN0gk4jzlvw&#x2F;watch?utm_content=DAGRj5MWk6s&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">AI Chatbot Demo</a>
 
 ### ✨ What's More
 - **App Monetization Strategies:** Integrates premium subscriptions, proactive restaurant ads, and a "Support Us" tips feature, moving beyond traditional methods like Google Play ads to enhance user experience and drive sustainable growth.
 
-**Preview Video:**  
-![More features Video](https://example.com/user-profile-preview.gif)
-
----
 
 ## Screenshots
 
 Here are some screenshots from the app:
 
-![Home Page](https://ibb.co/W31hS3W)
+![AIOT Capstone Project Presentation](https://github.com/user-attachments/assets/39a4f8b0-70ac-4775-9d9c-ebe632881314)
 
-
-
-| Home Page | Restaurant Details | AI Chatbot | Profile Page |
-| --------- | ------------------ | ---------- | ------------ |
-| ![Home Page](https://example.com/homepage.png) | ![Restaurant Details](https://example.com/restaurant-details.png) | ![AI Chatbot](https://example.com/ai-chatbot.png) | ![Profile Page](https://example.com/profile-page.png) |
-
----
 
 ## Technical Implementation
 
