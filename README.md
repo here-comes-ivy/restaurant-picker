@@ -25,6 +25,7 @@ Ever been stuck in that "I don't know, where do you want to eat?" loop with your
 
 **Preview Video:**  
 ![Random Restaurant Selection Video](https://www.canva.com/design/DAGRjvKbVo8/3U_LzVwpbp_wwn47eiGbew/watch)
+![Filtered Restaurant Selection Video](https://www.canva.com/design/DAGRjombZgY/as7WfpIm5YnMaO2PLQELhw/watch?utm_content=DAGRjombZgY&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 
 ---
 
