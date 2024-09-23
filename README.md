@@ -24,7 +24,7 @@ Ever been stuck in that "I don't know, where do you want to eat?" loop with your
 - **Customizable Filters:** Allows users to set preferences like cuisine type and search radius for more tailored suggestions.
 
 **Preview Video:**  
-![Random Restaurant Selection Video](https://example.com/random-selection-preview.gif)
+![Random Restaurant Selection Video](https://www.canva.com/design/DAGRjvKbVo8/3U_LzVwpbp_wwn47eiGbew/watch)
 
 ---
 
@@ -57,6 +57,10 @@ Ever been stuck in that "I don't know, where do you want to eat?" loop with your
 ## Screenshots
 
 Here are some screenshots from the app:
+
+![Home Page](https://ibb.co/W31hS3W)
+
+
 
 | Home Page | Restaurant Details | AI Chatbot | Profile Page |
 | --------- | ------------------ | ---------- | ------------ |
