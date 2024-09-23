@@ -9,30 +9,29 @@ Ever been stuck in that "I don't know, where do you want to eat?" loop with your
 
 ## Key Features
 
-### 👤 User Profile System
-- **Engaging onboarding slides:** Delivering a thoughtfully designed introduction to build trust, boost user engagement, and convey the app’s brand image and vibe.
-- **Account Setup and Storage:** Utilizes Firebase for secure and efficient user data management and authentication.
-
-
 ### 🎲 Random Restaurant Selection
 - **Location-Based Suggestions:** Utilizes the user's geographical location to randomly select and display nearby restaurants on Google Maps.
 - **Customizable Filters:** Allows users to set preferences like cuisine type and search radius for more tailored suggestions.
 
-**Preview Video:**  <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGRjvKbVo8&#x2F;3U_LzVwpbp_wwn47eiGbew&#x2F;watch?utm_content=DAGRjvKbVo8&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Random Search Demo</a> |  <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGRjombZgY&#x2F;er1l3KUC38orPesham4aAQ&#x2F;watch?utm_content=DAGRjombZgY&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Filtered Search Demo</a> |  <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGRjx0xTv8&#x2F;KyUYkLFWAL7-KDKUkMyp_g&#x2F;watch?utm_content=DAGRjx0xTv8&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Selected Location Search </a>
+    **Preview Video:**  <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGRjvKbVo8&#x2F;3U_LzVwpbp_wwn47eiGbew&#x2F;watch?utm_content=DAGRjvKbVo8&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Random Search Demo</a> |  <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGRjombZgY&#x2F;er1l3KUC38orPesham4aAQ&#x2F;watch?utm_content=DAGRjombZgY&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Filtered Search Demo</a> |  <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGRjx0xTv8&#x2F;KyUYkLFWAL7-KDKUkMyp_g&#x2F;watch?utm_content=DAGRjx0xTv8&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Selected Location Search </a>
 
 
 ### ❤️ Favorites Management
 - **Personalized Lists:** Users can create and manage a list of their favorite restaurants.
 - **Smart Random Selection:** Offers the option to randomly choose from the user's saved favorites, adding an element of surprise even within familiar choices.
 
-**Preview Video:**  <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGRjq0nVeU&#x2F;UufLyBlK-3mdTDDFl8PFOw&#x2F;watch?utm_content=DAGRjq0nVeU&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Favorite Page Demo</a>
+    **Preview Video:**  <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGRjq0nVeU&#x2F;UufLyBlK-3mdTDDFl8PFOw&#x2F;watch?utm_content=DAGRjq0nVeU&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Favorite Page Demo</a>
 
 
 ### 🤖 AI-Powered Chatbot
 - **Intelligent Recommendations:** Integrated an AI chatbot that provides personalized restaurant suggestions and answers user queries.
 - **Gemini API Integration:** Leverages the Gemini API to offer smart, context-aware recommendations.
 
-**Preview Video:** <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGRj5MWk6s&#x2F;DZQgMMWDXqzHN0gk4jzlvw&#x2F;watch?utm_content=DAGRj5MWk6s&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">AI Chatbot Demo</a>
+    **Preview Video:** <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGRj5MWk6s&#x2F;DZQgMMWDXqzHN0gk4jzlvw&#x2F;watch?utm_content=DAGRj5MWk6s&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">AI Chatbot Demo</a>
+
+### 👤 User Profile System
+- **Engaging onboarding slides:** Delivering a thoughtfully designed introduction to build trust, boost user engagement, and convey the app’s brand image and vibe.
+- **Account Setup and Storage:** Utilizes Firebase for secure and efficient user data management and authentication.
 
 ### ✨ What's More
 - **App Monetization Strategies:** Integrates premium subscriptions, proactive restaurant ads, and a "Support Us" tips feature, moving beyond traditional methods like Google Play ads to enhance user experience and drive sustainable growth.
