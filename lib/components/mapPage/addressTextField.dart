@@ -3,7 +3,6 @@ import 'filter_filterBottomSheet.dart';
 import 'package:restaurant_picker/services/addressAutoCompletion.dart';
 import 'package:restaurant_picker/services/locationDataProvider.dart';
 import 'package:provider/provider.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
 

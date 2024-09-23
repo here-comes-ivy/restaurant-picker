@@ -3,9 +3,7 @@ import 'package:provider/provider.dart';
 import 'spinner_spinBottomSheet.dart';
 import 'package:restaurant_picker/utils/restaurantTypeNames.dart';
 import 'package:restaurant_picker/services/getRestaurantData.dart';
-import 'package:restaurant_picker/services/locationDataProvider.dart';
 import 'package:restaurant_picker/services/mapFilterProvider.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class TypeItem extends StatefulWidget {
   const TypeItem({super.key, required this.name, required this.img});

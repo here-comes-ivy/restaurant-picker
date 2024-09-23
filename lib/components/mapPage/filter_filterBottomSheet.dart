@@ -9,9 +9,7 @@ import 'spinner_spinBottomSheet.dart';
 import 'package:restaurant_picker/utils/smallWidgetBuilder.dart';
 import 'package:restaurant_picker/services/getRestaurantData.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_picker/services/locationDataProvider.dart';
 import 'package:restaurant_picker/services/mapFilterProvider.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
 

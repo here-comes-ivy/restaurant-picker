@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:restaurant_picker/services/firestoreService.dart';
 import 'package:restaurant_picker/services/userDataProvider.dart';
 import 'package:provider/provider.dart';

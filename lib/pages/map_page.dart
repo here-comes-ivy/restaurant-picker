@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import '../services/locationDataProvider.dart';
 import '../components/mapPage/spinner_spinbutton.dart';
@@ -7,12 +6,7 @@ import '../components/mapPage/mapWidget.dart';
 import '../components/mapPage/filter_filterBottomSheet.dart';
 import '../components/mapPage/addressTextField.dart';
 import '../components/mapPage/filter_restaurantTypeRow.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:restaurant_picker/services/getRestaurantData.dart';
-import 'package:provider/provider.dart';
-import 'package:restaurant_picker/services/locationDataProvider.dart';
-import 'package:restaurant_picker/services/mapFilterProvider.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
 class MapPage extends StatefulWidget {

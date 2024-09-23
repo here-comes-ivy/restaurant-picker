@@ -3,8 +3,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_picker/services/mapFilterProvider.dart';
 import 'package:restaurant_picker/services/locationDataProvider.dart';
-import 'package:provider/provider.dart';
-import 'package:restaurant_picker/services/locationDataProvider.dart';
 
 
 class MapWidget extends StatefulWidget {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'map_page.dart';
-//import 'chat_page.dart';
-import 'chat_test_page.dart';
+import 'chat_page.dart';
 import 'profile_page.dart';
 import 'favorite_page.dart';
 

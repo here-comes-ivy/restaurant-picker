@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_picker/utils/cardStyles.dart';
-
 import 'package:restaurant_picker/services/mapFilterProvider.dart';
 
 class PriceRangeChoiceChips extends StatefulWidget {
