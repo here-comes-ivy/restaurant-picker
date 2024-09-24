@@ -48,9 +48,8 @@ Here are some screenshots from the app:
 
 - **Primary Framework:** Flutter
 - **APIs and Services:**
-  - Google Maps API: For visual representation of restaurant locations
-  - Google Places API: To fetch detailed restaurant data
   - Firebase: User authentication and data storage
+  - Google Places API: Provides restaurant data, map visualizations, and predictive place search for a seamless dining discovery experience.
   - Gemini API: Powering the AI chatbot functionality
 
 ## Development Journey
