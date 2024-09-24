@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
       ),
-      home: const LandingPage(),
+      home: const OnboardingPage(),
     );
   }
 }

@@ -4,14 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_picker/services/mapFilterProvider.dart';
 import 'package:restaurant_picker/services/locationDataProvider.dart';
 
-
 class MapWidget extends StatefulWidget {
-
   final LatLng? searchedLocation;
-  
+
   const MapWidget({
     super.key,
-
     this.searchedLocation,
   });
 
@@ -40,7 +37,8 @@ class _MapWidgetState extends State<MapWidget> {
   }
 
   Future<void> _initializeMapData() async {
-    final locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    final locationProvider =
+        Provider.of<LocationProvider>(context, listen: false);
     final filterProvider = Provider.of<FilterProvider>(context, listen: false);
     LatLng center = locationProvider.getSearchLocation();
     double radius = filterProvider.apiRadius ?? 1000;
@@ -67,9 +65,10 @@ class _MapWidgetState extends State<MapWidget> {
   }
 
   void _updateMarker() {
-    LocationProvider locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    LocationProvider locationProvider =
+        Provider.of<LocationProvider>(context, listen: false);
     LatLng position = locationProvider.getSearchLocation();
-    
+
     markers.clear();
     markers.add(Marker(
       markerId: const MarkerId("searchedLocation"),
@@ -77,24 +76,49 @@ class _MapWidgetState extends State<MapWidget> {
     ));
   }
 
+  void _updateMapPosition() {
+    if (_mapController == null) return;
+
+    LocationProvider locationProvider =
+        Provider.of<LocationProvider>(context, listen: false);
+    LatLng position = locationProvider.getSearchLocation();
+    _mapController!.animateCamera(CameraUpdate.newLatLng(position));
+    print(
+        'Updating map position to: ${position.latitude}, ${position.longitude}');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<LocationProvider>(
       builder: (context, locationProvider, child) {
+        LatLng currentCenter = locationProvider.getSearchLocation();
+        if (locationProvider.hasLocationChanged(currentCenter)) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _initializeMapData();
+          });
+        }
+
+        if (mapCenter != currentCenter) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _initializeMapData();
+          });
+        }
+
         if (mapCenter == null) {
           return const Center(child: CircularProgressIndicator());
         }
+
         return GoogleMap(
           myLocationEnabled: true,
           myLocationButtonEnabled: true,
           initialCameraPosition: CameraPosition(
-            target: mapCenter!,
+            target: currentCenter,
             zoom: 14,
           ),
           onMapCreated: (GoogleMapController controller) {
             setState(() {
-            _mapController = controller;
-          });
+              _mapController = controller;
+            });
             _updateMapPosition();
           },
           circles: circles,
@@ -104,16 +128,6 @@ class _MapWidgetState extends State<MapWidget> {
     );
   }
 
-void _updateMapPosition() {
-  if (_mapController == null) return;
-  
-  LocationProvider locationProvider = Provider.of<LocationProvider>(context, listen: false);
-  LatLng position = locationProvider.getSearchLocation();
-  _mapController!.animateCamera(CameraUpdate.newLatLng(position));
-  print('Updating map position to: ${position.latitude}, ${position.longitude}');
-
-}
-  
   @override
   void dispose() {
     _mapController?.dispose();

@@ -20,6 +20,11 @@ class LocationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+ bool hasLocationChanged(LatLng newLocation) {
+    LatLng currentLocation = getSearchLocation();
+    return currentLocation.latitude != newLocation.latitude ||
+           currentLocation.longitude != newLocation.longitude;
+  }
 
   Future<void> getCurrentLocation() async {
     try {
