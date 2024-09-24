@@ -2,7 +2,8 @@
 
 ## Hey there! 👋
 
-Hey there, food enthusiasts and fellow developers! Welcome to the Restaurant Picker App, my capstone project for the AIoT Bootcamp at the Taishan Vocational Training Center. This Flutter-based mobile application is designed to solve the age-old question: "Where should we eat?" By combining location-based services, user preferences, and a touch of randomness, this app aims to make dining decisions both easy and exciting.
+Hey there, food enthusiasts and fellow developers! Welcome to the Restaurant Picker App, my capstone project for the AIoT Bootcamp at the Taishan Vocational Training Center. This Flutter-based mobile application is designed to solve the age-old question: "Where should we eat?" By combining location-based services, user preferences, and a touch of randomness, this app aims to make dining decisions both easy and exciting. For more details about the project, feel free to check it out 👉 [here](https://www.canva.com/design/DAGRoIs0y-4/dtWx7Lh3SGkeHWWE83_77g/edit?utm_content=DAGRoIs0y-4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton).
+
 
 ## What's this app all about? 🤔
 Ever been stuck in that "I don't know, where do you want to eat?" loop with your friends? Well, you're not alone! The Restaurant Picker App is here to save you from those endless debates and get you to your next favorite meal faster. As a food lover and a tech enthusiast, I wanted to combine my passions to create something truly useful that addresses real-world challenges.
