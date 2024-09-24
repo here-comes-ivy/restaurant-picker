@@ -46,6 +46,8 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<key>googApikey</key>
+		<string>${googApikey}</string>
 	<true/>
 </dict>
 </plist>
