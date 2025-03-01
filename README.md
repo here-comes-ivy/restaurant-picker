@@ -1,4 +1,4 @@
-# 🍽️ Restaurant Picker App - My Awesome Capstone Project!
+# 🍽️ Restaurant Picker App
 
 ## Hey there! 👋
 
